@@ -1,0 +1,465 @@
+        /**
+    * Description: Grid theme for Siteshop based on less, lessphp and semantic.gs.
+    */
+
+ /** --------------------------------------------------------------
+    * Reset. http://meyerweb.com/eric/tools/css/reset/ v2.0 | 20110126
+    *
+    */
+    html,body,div,span,applet,object,iframe,h1,h2,h3,h4,h5,h6,p,blockquote,pre,
+    a,abbr,acronym,address,big,cite,code,del,dfn,em,img,ins,kbd,q,s,samp,
+    small,strike,strong,sub,sup,tt,var,b,u,i,center,dl,dt,dd,ol,ul,li,fieldset,form,label,legend,
+    table,caption,tbody,tfoot,thead,tr,th,td,article,aside,canvas,details,embed,
+    figure,figcaption,footer,header,hgroup,menu,nav,output,ruby,section,summary,
+    time,mark,audio,video{margin:0;padding:0;border:0;font-size:100.01%;font:inherit;vertical-align:baseline;}
+    body{line-height:1;}
+    ol,ul{list-style: none;}
+    blockquote,q{quotes:none;}
+    blockquote:before,blockquote:after,q:before,q:after{content:'';content:none;}
+    table{border-collapse:collapse;border-spacing:0;}
+
+    /** --------------------------------------------------------------
+    * HTML5 elements.
+    *
+    */
+    article,aside,details,figcaption,figure,footer,header,hgroup,nav,section{display:block;}
+    audio,canvas,video{display:inline-block;*display:inline;*zoom:1;}
+    audio:not([controls]){display:none;}
+    [hidden]{display:none;}
+
+    /** --------------------------------------------------------------
+    * semantic.gs
+    */
+@import url(semantic.gs/stylesheets/less/grid.less);
+
+
+    /** --------------------------------------------------------------
+    * Settings
+    */
+    @bgcolor1: #eee;
+    //@bgcolor1: purple;
+    @bgcolor2: #fff;
+    //@bgcolor2: pink;
+    @bgtest: hsla(0,0%,90%,0.5);
+    @color: #333;
+    //@font: 1em Verdana, Arial, Helvetica, sans-serif;
+
+    /* Wrap elements to site width in grid layout*/
+    .wrap() {width:@total-width;margin:0 auto;.clearfix();}
+.alwaysShowScrollbar() {overflow:-moz-scrollbars-vertical;overflow-y:scroll;}
+
+    //@magic-number:22px;
+
+
+
+/** --------------------------------------------------------------
+ * Typography.
+ *
+ * http://www.sitepoint.com/eight-definitive-font-stacks/
+ * Times new roman: font-family: Cambria, "Hoefler Text", Utopia, "Liberation Serif", "Nimbus Roman No9 L Regular", Times, "Times New Roman", serif;
+ * Georgia: font-family: Constantia, "Lucida Bright", Lucidabright, "Lucida Serif", Lucida, "DejaVu Serif", "Bitstream Vera Serif", "Liberation Serif", Georgia, serif;
+ * Garamond: font-family: "Palatino Linotype", Palatino, Palladio, "URW Palladio L", "Book Antiqua", Baskerville, "Bookman Old Style", "Bitstream Charter", "Nimbus Roman No9 L", Garamond, "Apple Garamond", "ITC Garamond Narrow", "New Century Schoolbook", "Century Schoolbook", "Century Schoolbook L", Georgia, serif;
+ * Helvetica/Arial: font-family: Frutiger, "Frutiger Linotype", Univers, Calibri, "Gill Sans", "Gill Sans MT", "Myriad Pro", Myriad, "DejaVu Sans Condensed", "Liberation Sans", "Nimbus Sans L", Tahoma, Geneva, "Helvetica Neue", Helvetica, Arial, sans-serif;
+ * Verdana: font-family: Corbel, "Lucida Grande", "Lucida Sans Unicode", "Lucida Sans", "DejaVu Sans", "Bitstream Vera Sans", "Liberation Sans", Verdana, "Verdana Ref", sans-serif;
+ * Trebuchet: font-family: "Segoe UI", Candara, "Bitstream Vera Sans", "DejaVu Sans", "Bitstream Vera Sans", "Trebuchet MS", Verdana, "Verdana Ref", sans-serif;
+ * Impact font-family: Impact, Haettenschweiler, "Franklin Gothic Bold", Charcoal, "Helvetica Inserat", "Bitstream Vera Sans Bold", "Arial Black", sans-serif;
+ * monospace: font-family: Consolas, "Andale Mono WT", "Andale Mono", "Lucida Console", "Lucida Sans Typewriter", "DejaVu Sans Mono", "Bitstream Vera Sans Mono", "Liberation Mono", "Nimbus Mono L", Monaco, "Courier New", Courier, monospace;
+ * smallstack: font:100%/1.4  'Helvetica Neue',Arial,Helvetica,sans-serif;
+ *
+ * cambria: Cambria, Georgia, Times, 'Times New Roman', serif
+ *
+ * 100%/1.375 makes magic 22px;
+ * 100%/1.5 makes magic 24px;
+ */
+/* Base font. The font-size percentage is of 16px. */
+//@font-family-cambria    = Cambria, Georgia, Times, 'Times New Roman', serif;
+//@font-family-monospace  = "Courier New", Courier, monospace;
+//@font-family-helvetica  = Frutiger, "Frutiger Linotype", Univers, Calibri, "Gill Sans", "Gill Sans MT", "Myriad Pro", Myriad, "DejaVu Sans Condensed", "Liberation Sans", "Nimbus Sans L", Tahoma, Geneva, "Helvetica Neue", Helvetica, Arial, sans-serif;
+    @font-family-cambria    = Cambria, Georgia, Times, 'Times New Roman', serif;
+    @font-family-helvetica  = Frutiger, "Frutiger Linotype", Univers, Calibri, "Gill Sans", "Gill Sans MT", "Myriad Pro", Myriad, "DejaVu Sans Condensed", "Liberation Sans", "Nimbus Sans L", Tahoma, Geneva, "Helvetica Neue", Helvetica, Arial, sans-serif;
+    @font-family-monospace  = "Consolas", "Bitstream Vera Sans Mono", "Courier New", Courier, monospace;
+@magic-number: 22px; /* 16px - 100%/1.375 */
+@link-color: #600;
+
+body{color:#222;font:100.01%/1.375 @font-family-helvetica;}
+
+
+/* Headings */
+/* 2.75em * 16px = 44 => line-height: 1*/
+/* 2.375em * 16px = 38 => line-height: 44/38 = 1.1579*/
+/* 2.25em * 16px = 36 => line-height: 44/36 = 1.2222*/
+/* 2em * 16px = 32 => line-height: 44/32 = 1.375*/
+/* 1.875em * 16px = 30 => line-height: 44/30 = 1.4667*/
+/* 1.75em * 16px = 28 => line-height: 44/28 = 1.5714*/
+/* 1.375em * 16px = 22 => line-height: 22 = 1*/
+/* 1.25em * 16px = 20 => line-height: 22/20 = 1.1*/
+
+.headings-general() {font-weight:normal;color:#111;margin-bottom:@magic-number;font-family:@font-family-cambria}
+h1{.headings-general();font-size:2.375em;line-height:1.1579;border-bottom:1px solid #ccc;margin-bottom:@magic-number - 1px;}
+h2{.headings-general();font-size:1.875em;line-height:1.4667;}
+h3{.headings-general();font-size:1.375em;line-height:1;}
+h4{.headings-general();font-size:1.25em;line-height:1.1;}
+h5{.headings-general();font-size:1em;font-weight:bold;}
+h6{.headings-general();font-size:1em;font-weight:bold;margin-bottom:0;}
+h1 img,h2 img,h3 img,h4 img,h5 img,h6 img{margin:0;}
+
+@link-color: #600;
+
+/* Text elements */
+p{margin-bottom:1.375em;}
+a{color:@link-color;text-decoration:underline;
+  &:focus,&:hover{color:lighten(@link-color, 10%);text-decoration:none;}
+}
+blockquote{margin-left:1em;margin-bottom:1.375em;}
+strong,dfn{font-weight:bold;}
+em,dfn{font-style:italic;}
+pre{margin-bottom:1.375em;white-space:pre;}
+pre,code,tt,.code{font:1em/1.375 @font-family-monospace;}
+
+/* Lists */
+li ul,li ol{margin:0;}
+ul,ol{margin:0.6875em 1.5em 1.375em 0;padding-left:1.5em;}
+ul{list-style-type:disc;}
+ol{list-style-type:decimal;}
+dl{margin:0 0 1.375em 0;}
+dl dt{font-weight:bold;}
+dd{margin-left:1.5em;}
+
+/* Tables. Because of the need for padding on TH and TD, the vertical rhythm
+  on table cells has to be 33px, instead of the standard 22px or 44px
+  of other elements. */
+table{margin-bottom:1.375em;width:100%;}
+caption{text-align:left;font-style:italic;}
+thead{border-bottom:2px solid #222;}
+th{vertical-align:bottom;font-weight:bold;text-align:left;}
+th,td{padding:5px 10px 5px 5px;}
+th.groups, td.groups {padding:5px 130px 5px 5px;;}
+tbody tr:nth-child(even) td, tbody tr.even td {}
+tbody tr{border-bottom:1px solid #eee;
+  &:hover{color:red;}
+}
+tfoot{font-style:italic;}
+
+    /** --------------------------------------------------------------
+    * Forms
+    */
+    input,textarea{font:inherit;}
+    input[readonly]{color:#666;}
+    label{font-size:smaller;}
+    .validation-failed{border:2px solid red;}
+    .validation-message{color:red;font-size:smaller;}
+    .form-action-link{font-size:smaller;}
+textarea{width:100%;height:8em;}
+
+.content-edit{
+input[type=text]{width:30em;}
+textarea{width:40em;height:15em;}
+}
+
+.admin-edit{
+input[type=text]{width:40em;}
+input[type=password]{width:40em;}
+
+}
+
+
+    /** --------------------------------------------------------------
+    * HTML & Body
+    */
+    html{background-color:@bgcolor1;}
+    body{margin:0;padding:0;color:@color;background-color:@bgcolor2;font:@font;
+    //  &:hover{background:#fff url(grid_12_60_20.png) repeat-y center top;}
+    } 
+
+
+    /** --------------------------------------------------------------
+    * The header area.
+    *
+    */
+    .tablecell() {display:table-cell;vertical-align:middle;text-align:center;}
+    #outer-wrap-header{height:@magic-number*4;margin-top:@magic-number/8;margin-bottom:@magic-number/2;}
+    #inner-wrap-header{.wrap();}
+    #header{.column(12);}
+
+
+    /** --------------------------------------------------------------
+    * Login menu
+    */
+    #login-menu{float:right;font-size:0.95em;
+      img.gravatar{vertical-align:middle;}
+      a{text-decoration:none;}
+      a:hover{text-decoration:underline;}
+    }
+
+
+    /** --------------------------------------------------------------
+    * Banner
+    */
+    #banner {display:table;margin-bottom:@magic-number/2;
+      #site-logo{.tablecell();}
+      #site-title{.tablecell();font-size:3em;padding-left:0.2em;text-shadow:#ccc 2px -2px 2px;
+        a{text-decoration:none;}
+      }
+      #site-slogan{.tablecell();font-size:1.5em;padding-left:20px;}
+    }
+
+
+
+/** --------------------------------------------------------------
+ * Navbar
+ */
+#outer-wrap-navbar{}
+#inner-wrap-navbar{.wrap;height:@magic-number*1;margin-bottom:@magic-number;}
+#navbar{
+  ul.menu{list-style-type:none;padding:2px 8px;margin:0;
+    li{padding:0;margin:0;display:inline;
+      a{padding:6px 8px;text-decoration:none;border:2px solid transparent;
+        &:hover{background:#ddd;border:2px solid #999;}
+        &.selected{background:#ccc;border:2px solid #999;}
+      }
+    }
+  }
+}
+
+/** --------------------------------------------------------------
+ * My Navbar
+ */
+
+#my-navbar{
+
+  ul.menu{list-style-type:none; padding:2px 8px; margin:0; 
+    li{padding:0;margin:0;display:inline;
+      a{padding:6px 8px;text-decoration:none;border:2px solid;
+        &:hover{background:#ddd;border:2px solid #333;}
+        &.selected{background:#ccc;border:2px solid #333;}
+      }
+    }
+  }
+}
+
+/**------------------------------------------------------------------
+* Ucp-Navbar
+*/
+
+#ucp-navbar {
+  margin-bottom: @magicNumber;
+    ul.menu{list-style-type:none; padding:2px 8px; margin:0; 
+        li{padding:0;margin:0;display:inline;
+            a{padding:6px 8px;text-decoration:none;border:2px solid;
+                &:hover{background:#ddd;border:12px solid #333;}
+                &.selected{background:#ccc;border:12px solid #333;}
+            }
+        }
+    }
+}
+
+ul.nb-plain{
+  list-style-type: none;
+  padding: 0;
+  margin: 0;
+  
+  li {
+    padding: 0 1em 0 0;
+    margin: 0;
+    display: inline;
+
+    &:last-child {
+      padding-right: 0;
+    }
+
+    &.selected a, 
+    &.current-menu-item a {
+      color: @anchorColor;
+      text-decoration: underline;
+    }    
+  }
+  
+  a {
+    text-decoration: none;
+    text-transform: uppercase;
+    color: @colorBody;
+  
+    &:hover {
+      color: @anchorColorHover;
+      text-decoration: underline;
+    }
+  }
+}
+
+ul.nb-tab{
+  list-style-type: none;
+  padding: 0;
+  margin: 0;
+  border-bottom: 1px solid @colorBorderTabBottom;
+  
+  li {
+    padding: 0;
+    margin: 0 0.3em;
+    display: inline-block;
+    background-color: @anchorTabBgColor;
+    border-top: 1px solid @colorBorderTabElement;
+    border-left: 1px solid @colorBorderTabElement;
+    border-right: 1px solid @colorBorderTabElement;
+    .border-radius();
+
+    &:first-child {
+      margin-left: 0.5em;
+    }
+
+    &:last-child {
+      margin-right: 0;
+    }
+
+    &:hover {
+      background-color: @anchorTabBgColorHover;
+      border-color: @colorBorderTabElementHover;
+    }
+
+    &.selected, 
+    &.current-menu-item {
+      background-color: @anchorTabBgColorSelected;
+      border-color: @colorBorderTabElementSelected;
+    
+      a {
+        color: @colorBody;
+        padding-bottom: 2px;
+        background-color: @anchorTabBgColorSelected;
+      }
+    }
+  }
+  
+  a {
+    text-decoration: none;
+    color: @colorBodyLighter;
+    padding: 0 1em;
+  
+    &:hover {
+      color: @anchorColorHover;
+    }
+
+    &:active {
+      color: @anchorColorActive;
+      background-color: @anchorTabBgColorActive;
+    }
+  }
+}
+
+
+
+    /** --------------------------------------------------------------
+    * The flash area.
+    *
+    */
+    #outer-wrap-flash{}
+    #inner-wrap-flash{.wrap();height:@magic-number*3;margin-bottom:@magic-number;}
+    #flash{.column(12);height:100%;}
+
+
+    /** --------------------------------------------------------------
+    * The featured area.
+    *
+    */
+    #outer-wrap-featured{}
+    #inner-wrap-featured{.wrap;height:@magic-number*5;margin-bottom:@magic-number;}
+    #featured{}
+
+    #featured-first,
+    #featured-middle,
+    #featured-last{.column(4);height:100%;}
+
+
+    /** --------------------------------------------------------------
+    * The main content area.
+    *
+    */
+    #outer-wrap-main{}
+    #inner-wrap-main{.wrap;margin-bottom:@magic-number;}
+    #main{}
+
+    #primary{.column(8);}
+    #sidebar{.column(4);
+        .box{border-top:4px double #ccc;padding-top:@magic-number/2;margin-bottom:@magic-number*2.5-4px;
+        h4{}
+        }
+    }
+
+    /** --------------------------------------------------------------
+    * The triptych area.
+    *
+    */
+    #outer-wrap-triptych{}
+    #inner-wrap-triptych{.wrap();height:@magic-number*5;margin-bottom:@magic-number;}
+    #triptych{height:inherit;}
+
+    #triptych-first,
+    #triptych-middle,
+    #triptych-last{.column(4);height:100%;}
+
+
+    /** --------------------------------------------------------------
+    * The footer column area.
+    *
+    */
+    //#outer-wrap-footer-column{background-color:@bgtest;border-top:1px solid #bbb;}
+    #inner-wrap-footer-column{.wrap();height:@magic-number*5;padding-bottom:@magic-number;}
+    #footer{height:inherit;}
+
+    #footer-column-one,
+    #footer-column-two,
+    #footer-column-three,
+    #footer-column-four{.column(3);font-size:0.9em;margin-top:1em;height:100%;
+    background-color:lighten(@bgtest,10%)
+;}
+
+
+    /** --------------------------------------------------------------
+    * The footer area.
+    *
+    */
+    #outer-wrap-footer{background-color:@bgtest;}
+    #inner-wrap-footer{.wrap();}
+    #footer{.column(12);font-size:0.80em;color:#666;padding-bottom:@magic-number;}
+
+
+    /** --------------------------------------------------------------
+    * Links
+    */
+    .hover(){text-decoration:none;color:#5C0A0A;}
+    a{color:inherit;
+      &:link{}
+      &:visited{}
+      &:hover{.hover()}
+      &:focus{.hover()}
+      &:active{}
+    }
+
+
+    /** --------------------------------------------------------------
+    * User feedback message wrappers.
+    */
+    .error, .alert, .warning, .notice, .success, .info {
+    padding: 0.8em; margin-bottom: 1em; border: 2px solid #ddd; }
+
+    .error, .alert { background: #fbe3e4; color: #8a1f11; border-color: #fbc2c4; }
+    .notice, .warning { background: #fff6bf; color: #514721; border-color: #ffd324; }
+    .success       { background: #e6efc2; color: #264409; border-color: #c6d880; }
+    .info          { background: #d5edf8; color: #205791; border-color: #92cae4; }
+    .error a, .alert a { color: #8a1f11; }
+    .notice a, .warning a { color: #514721; }
+    .success a         { color: #264409; }
+    .info a            { color: #205791; }
+
+
+    /** --------------------------------------------------------------
+    * Misc
+    */
+    .smaller-text{font-size:smaller;}
+    .silent{color:#999;}  
+
+.well{background-color:#f6f6f6;border:1px solid #ccc;margin-bottom:1em;padding:1em;}
+.layout{display: inline-block;
+  width: 200px;
+  height: 1.75em;}
+
+
+
