@@ -4,9 +4,9 @@ sudo nano /etc/apache2/sites-available/000-default.conf
 
 Search for “DocumentRoot /var/www/html” and add the following lines directly below:
 
-<Directory "/var/www/html">
-    AllowOverride All
-</Directory>
+	<Directory "/var/www/html">
+    	AllowOverride All
+	</Directory>
 
 Save and exit the nano editor via CTRL-X, “y” and ENTER.
 
