@@ -103,21 +103,15 @@ class CCAdminControlPanel extends CObject implements IController {
         $rooms = $this->temperatures->ListAll();
         $this->nrOfRooms = count($rooms);
         $this->roomsInfo = $rooms;
-//var_dump($this->roomsInfo);
 
         $this->various = $this->temperatures->ListVarious();
         $this->nrOfActiveRooms = $this->various[0]['nrofrooms'];
         $this->getActiveRooms();
-//var_dump($this->various);
-//var_dump($this->nrOfActiveRooms);
-//var_dump($this->theActiveRooms);
 
         $this->fromDate = $this->various[0]['fromdate'] ? $this->various[0]['fromdate'] : "";
         $this->toDate = $this->various[0]['todate'] ? $this->various[0]['todate'] : "";
 
         $this->todaysDate = $this->textfiles->getTodaysdate();
-
-        //var_dump($this->groupnames);
     }
 
 /***************************************************************************************
@@ -131,76 +125,6 @@ class CCAdminControlPanel extends CObject implements IController {
             }
         }
         return $this->theActiveRooms;
-    }
-
-/*************************************************************************************
-* Form to create new user
-*/
-
-    public function CreateUser() {
-        $if = new CInterceptionFilter();
-        $if->AdminOrForbidden();
-
-        $form = new CForm(array(), array(
-            'acronym' => array(
-                'type' => 'text',
-                'autofocus' => true,
-                'required' => true,
-                'validation' => array('not_empty'),
-            ),
-            'password1' => array(
-                'type' => 'password',
-                'label' => t('Password:'),
-                'required' => true,
-                'autofocus' => true,
-                'required' => true,
-                'validation' => array('not_empty'),
-            ),
-            'password2' => array(
-                'type' => 'password',
-                'label' => t('Password again:'),
-                'required' => true,
-                'validation' => array('not_empty', 'match' => 'password1'),
-            ),
-            'name' => array(
-                'type' => 'text',
-                'required' => true,
-                'validation' => array('not_empty'),
-            ),
-            'email' => array(
-                'type' => 'text',
-                'required' => true,
-                'validation' => array('not_empty'),
-            ),
-            'create' => array(
-                'type' => 'submit',
-                'space' => true,
-                'value' => t('DoCreate'),
-                'callback' => function($f) {
-
-                    return CBehovsboboxen::Instance()->user->Create($f->Value('acronym'), $f->Value('password1'), $f->Value('name'), $f->Value('email'));
-                }
-            ),
-                )
-        );
-
-        $status = $form->Check();
-        if ($status === false) {
-            $this->AddMessage('notice', t('The CreateUserForm could not be processed.'));
-            $this->RedirectToController('createuser');
-        } else if ($status === true) {
-            $this->RedirectTo('acp');
-        }
-
-        $this->views->SetTitle(t('Create user'))
-                ->AddClassToRegion('primary', 'acp')
-                ->AddIncludeToRegion('primary', __DIR__ . '/edit.tpl.php', array(
-                    'form2' => $form->GetHTML(array('class' => 'admin-edit')),
-                    'form' => null,
-                    'form3' => null,
-                    'header1' => t('Create a new user here:'),
-                    'header2' => null,
-        ));
     }
 
     /*****************************************************************************
@@ -220,7 +144,6 @@ class CCAdminControlPanel extends CObject implements IController {
                 'value' => $thisuser['id'],
                 'label' => t('Member id:'),
                 'readonly' => true,
-                //'required' => true,
                 'validation' => array('not_empty'),
             ),
             'acronym' => array(
@@ -228,24 +151,21 @@ class CCAdminControlPanel extends CObject implements IController {
                 'value' => $thisuser['acronym'],
                 'label' => t('Acronym'),
                 'autofocus' => true,
-                //'required' => true,
-                'readonly' => true,
+                'required' => true,
                 'validation' => array('not_empty'),
             ),
             'name' => array(
                 'type' => 'text',
                 'value' => $thisuser['name'],
                 'label' => t('Name'),
-                //'required' => true,
-                'readonly' => true,
+                'required' => true,
                 'validation' => array('not_empty'),
             ),
             'email' => array(
                 'type' => 'text',
                 'value' => $thisuser['email'],
                 'label' => t('New email:'),
-                //'required' => true,
-                'readonly' => true,
+                'required' => true,
                 'validation' => array('not_empty'),
             ),
             'doUpdateNames' => array(
@@ -283,22 +203,19 @@ class CCAdminControlPanel extends CObject implements IController {
                 'value' => $thisuser['password'],
                 'label' => t('Current password:'),
                 'readonly' => true,
-                'required' => true,
                 'autofocus'   => true,
                 'validation' => array('not_empty'),
             ),
             'password2' => array(
                 'type' => 'password',
                 'label' => t('New password:'),
-                //'required' => true,
-                'readonly' => true,
+                'required' => true,
                 'validation' => array('not_empty'),
             ),
             'password3' => array(
                 'type' => 'password',
                 'label' => t('New password again:'),
-                //'required' => true,
-                'readonly' => true,
+                'required' => true,
                 'validation' => array('not_empty', 'match' => 'password2'),
             ),
             'acronym' => array(
@@ -317,7 +234,6 @@ class CCAdminControlPanel extends CObject implements IController {
                 'space' => true,
                 'value' => t('Change password'),
                 'callback' => function($f) {
-//$f->AddOutput("<pre>What we post: " . print_r($_POST, true) . "</pre>");
                     return CBehovsboboxen::Instance()->user->ChangePasswordAdminVerify($f->Value('acronym'), $f->Value('password2'), $f->Value('password3'), $f->Value('id'));
                 }
             ),
