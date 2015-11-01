@@ -5,9 +5,11 @@ BehovsBoBoxen är ett styrsystem för smarta hem baserad på Raspberry Pi.
 (Svensk text längre ner.)
 
 You have already downloaded and installed Raspian from
+
 	https://www.raspberrypi.org/downloads/noobs/
 
 Now, download the latest version from our repository using git client
+
 	git clone https://github.com/Electrotest/behovsboboxen
 
 Run the installation script and follow the given instructions
@@ -36,7 +38,7 @@ Behovsboboxen (and Lydia) is licensed according to MIT-license.
 Use of external libraries
 -----------------------------------
 
-The following external modules are included in Lydia.
+The following external modules are included in Behovsboboxen.
 
 ### lessphp
 lessphp by leaf to compile LESS.
@@ -51,9 +53,11 @@ BehovsBoBoxen är ett styrsystem för smarta hem baserad på Raspberry Pi.
 =======================================================================
 
 Ni har laddat ner och installerat Raspian från 
+
 	https://www.raspberrypi.org/downloads/noobs/
 
 Ladda nu ner den senaste versionen från vår katalog (repository) med git klienten
+
 	git clone https://github.com/Electrotest/behovsboboxen
 
 Kör installationsskriptet och följ de givna instruktionerna
