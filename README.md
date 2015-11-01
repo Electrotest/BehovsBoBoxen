@@ -1,32 +1,68 @@
-To use mod_rewrite from within .htaccess files (which is a very common use case), edit the default VirtualHost with
+Behovsboboxen - a controlsystem for smart homes based on Raspberry Pi.
+======================================================================
+BehovsBoBoxen är ett styrsystem för smarta hem baserad på Raspberry Pi. 
 
-	sudo nano /etc/apache2/sites-available/000-default.conf
+(Svensk text längre ner.)
 
-Search for “DocumentRoot /var/www/html” and add the following lines directly below:
+You have already downloaded and installed Raspian from
+	https://www.raspberrypi.org/downloads/noobs/
 
-	<Directory "/var/www/html">
-    	AllowOverride All
-	</Directory>
+Now, download the latest version from our repository using git client
+	git clone https://github.com/Electrotest/behovsboboxen
 
-Save and exit the nano editor via CTRL-X, “y” and ENTER.
+Run the installation script and follow the given instructions
 
-Restart the server again:
+	cd behovsboboxen
 
-	sudo service apache2 restart
+	chmod 777 installbbb.sh
 
-Voila! To check if mod_rewrite is installed correctly, check your phpinfo() output. It should have this in it:
-Loaded modules: ... mod_rewrite ...
-
-file permissions 	
-	666 read/write for all
-	755 rwx for owner, rx for group, rx for all
-	777 read, write, execute for all
-
-Find out which extensions are loaded in apache2: 
-
-	sudo apache2ctl -M | sort
+	sudo sh /home/pi/behovsboboxen/installbbb.sh
 
 
-	httpd -M 
+The interface of Behovsboboxen is based on Lydia, which is a PHP-based, MVC-inspired CMF
+----------------------------------------------------------------------------------------
 
-will tell you which modules are built-in or shared
+You find Lydia here: https://github.com/mosbth/lydia
+
+The modified and accustomed version is made by Gunvor Nilsson.
+
+
+License
+-------
+
+Behovsboboxen (and Lydia) is licensed according to MIT-license. 
+
+
+Use of external libraries
+-----------------------------------
+
+The following external modules are included in Lydia.
+
+### lessphp
+lessphp by leaf to compile LESS.
+* Website: http://leafo.net/lessphp
+* Version: 0.3.8 (2012-08-18)
+* License: Dual license, MIT LICENSE and GPL VERSION 3
+* Lydia path: `themes/bb/lessphp`
+* Used by: `themes/bb/style.php`
+
+
+BehovsBoBoxen är ett styrsystem för smarta hem baserad på Raspberry Pi.
+=======================================================================
+
+Ni har laddat ner och installerat Raspian från 
+	https://www.raspberrypi.org/downloads/noobs/
+
+Ladda nu ner den senaste versionen från vår katalog (repository) med git klienten
+	git clone https://github.com/Electrotest/behovsboboxen
+
+Kör installationsskriptet och följ de givna instruktionerna
+
+	cd behovsboboxen
+
+	chmod 777 installbbb.sh
+
+	sudo sh /home/pi/behovsboboxen/installbbb.sh
+
+
+
