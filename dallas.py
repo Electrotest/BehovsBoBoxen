@@ -133,7 +133,7 @@ def main():
                 if actualTemp[3] > setpoint3: GPIO.output(19,True)
 
                 #get setpoint 
-		fileroom4 = open("/var/www/html/application/textfile/room4.txt", "r")
+		fileroom4 = open("/home/pi/BehovsBoBoxen/html/application/textfile/room4.txt", "r")
 		setpoint4=float(fileroom4.read().split(',')[actualhour])
 		fileroom4.close()
 		#end get setpoint 
