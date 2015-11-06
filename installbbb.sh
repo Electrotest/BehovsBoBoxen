@@ -28,10 +28,10 @@ sudo chmod 666 /home/pi/BehovsBoBoxen/html -R
 #Ändrar behörighet för mapp med filer till hemsidor
 
 sudo chmod 777 /home/pi/BehovsBoBoxen/html/application/data -R
-#Full behörighet för datafilen
+#Full behörighet för datakatalogen
 
 sudo chmod 777 /home/pi/BehovsBoBoxen/html/application/textfile -R
-#Full behörighet för textfilesfilen
+#Full behörighet för textfilekatalogen
 
 sudo cp /home/pi/BehovsBoBoxen/rc.local /etc/rc.local
 # kopierar filen som startar boxen vid reboot
@@ -52,5 +52,3 @@ sudo chown -R www-data /var/www/html
 sudo rm /var/www/html/index.html
 
 echo "dtoverlay=w1-gpio,gpiopin=4" | sudo tee -a /boot/config.txt
-
-sudo reboot

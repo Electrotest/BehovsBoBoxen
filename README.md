@@ -21,7 +21,7 @@ Run the installation script and follow the given instructions
 	sudo sh /home/pi/BehovsBoBoxen/installbbb.sh
 
 
-The interface of Behovsboboxen is based on Lydia, which is a PHP-based, MVC-inspired CMF
+The interface of BehovsBoBoxen is based on Lydia, a MVC-inspired CMF with PHP
 ----------------------------------------------------------------------------------------
 
 You find Lydia here: https://github.com/mosbth/lydia
@@ -32,7 +32,7 @@ The modified and accustomed version is made by Gunvor Nilsson.
 License
 -------
 
-Behovsboboxen (and Lydia) is licensed according to MIT-license. 
+BehovsBoBoxen (and Lydia) is licensed according to MIT-license. 
 
 
 Use of external libraries
@@ -67,6 +67,3 @@ Kör installationsskriptet och följ de givna instruktionerna
 	chmod 777 installbbb.sh
 
 	sudo sh /home/pi/BehovsBoBoxen/installbbb.sh
-
-
-
