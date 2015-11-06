@@ -49,6 +49,4 @@ sudo -u www-data cp -R /home/pi/BehovsBoBoxen/www /var/
 sudo chown -R www-data /var/www/html
 # Sätter ownership till www-data på alla filer i /var/www/html
 
-sudo rm /var/www/html/index.html
-
 echo "dtoverlay=w1-gpio,gpiopin=4" | sudo tee -a /boot/config.txt
