@@ -44,7 +44,7 @@ sudo a2ensite BehovsBoBoxen.conf
 sudo a2dissite 000-default.conf
 sudo service apache2 restart
 
-sudo -u www-data cp -R /home/pi/BehovsBoBoxen/www /var/
+sudo -u www-data cp -R /home/pi/BehovsBoBoxen/html /var/www/
 #kopierar filerna för hemsidan
 sudo chown -R www-data /var/www/html
 # Sätter ownership till www-data på alla filer i /var/www/html
