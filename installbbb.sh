@@ -2,6 +2,7 @@
 
 sudo apt-get update -y
 #Hämtar uppdateringar av Raspian
+# sudo: Gives temporary root privileges.
 
 sudo apt-get upgrade -y
 #Installerar uppdateringar av Raspian
@@ -46,7 +47,12 @@ sudo service apache2 restart
 
 sudo -u www-data cp -R /home/pi/BehovsBoBoxen/html /var/www/
 #kopierar filerna för hemsidan
+# sudo cp -r -u -x -v [source directory] [destination directory]
+# -u: Used with cp this switch causes cp to only copy files that have changed or don't already exist at the destination.
+
 sudo chown -R www-data /var/www/html
 # Sätter ownership till www-data på alla filer i /var/www/html
 
 echo "dtoverlay=w1-gpio,gpiopin=4" | sudo tee -a /boot/config.txt
+
+sudo reboot
