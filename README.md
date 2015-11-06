@@ -45,7 +45,7 @@ lessphp by leaf to compile LESS.
 * Website: http://leafo.net/lessphp
 * Version: 0.3.8 (2012-08-18)
 * License: Dual license, MIT LICENSE and GPL VERSION 3
-* Lydia path: `themes/bb/lessphp`
+* BehovsBoBoxen path: `themes/bb/lessphp`
 * Used by: `themes/bb/style.php`
 
 
