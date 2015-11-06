@@ -14,7 +14,7 @@ Now, download the latest version from our repository using git client
 
 Run the installation script and follow the given instructions
 
-	cd behovsboboxen
+	cd BehovsBoBoxen
 
 	chmod 777 installbbb.sh
 
@@ -62,7 +62,7 @@ Ladda nu ner den senaste versionen från vår katalog (repository) med git klien
 
 Kör installationsskriptet och följ de givna instruktionerna
 
-	cd behovsboboxen
+	cd BehovsBoBoxen
 
 	chmod 777 installbbb.sh
 
