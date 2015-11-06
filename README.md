@@ -10,7 +10,7 @@ You have already downloaded and installed Raspian from
 
 Now, download the latest version from our repository using git client
 
-	git clone https://github.com/Electrotest/behovsboboxen
+	git clone https://github.com/Electrotest/BehovsBoBoxen
 
 Run the installation script and follow the given instructions
 
@@ -18,7 +18,7 @@ Run the installation script and follow the given instructions
 
 	chmod 777 installbbb.sh
 
-	sudo sh /home/pi/behovsboboxen/installbbb.sh
+	sudo sh /home/pi/BehovsBoBoxen/installbbb.sh
 
 
 The interface of Behovsboboxen is based on Lydia, which is a PHP-based, MVC-inspired CMF
@@ -38,7 +38,7 @@ Behovsboboxen (and Lydia) is licensed according to MIT-license.
 Use of external libraries
 -----------------------------------
 
-The following external modules are included in Behovsboboxen.
+The following external modules are included in BehovsBoBoxen.
 
 ### lessphp
 lessphp by leaf to compile LESS.
@@ -58,7 +58,7 @@ Ni har laddat ner och installerat Raspian från
 
 Ladda nu ner den senaste versionen från vår katalog (repository) med git klienten
 
-	git clone https://github.com/Electrotest/behovsboboxen
+	git clone https://github.com/Electrotest/BehovsBoBoxen
 
 Kör installationsskriptet och följ de givna instruktionerna
 
@@ -66,7 +66,7 @@ Kör installationsskriptet och följ de givna instruktionerna
 
 	chmod 777 installbbb.sh
 
-	sudo sh /home/pi/behovsboboxen/installbbb.sh
+	sudo sh /home/pi/BehovsBoBoxen/installbbb.sh
 
 
 
