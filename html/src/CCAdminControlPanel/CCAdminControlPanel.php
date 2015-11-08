@@ -70,9 +70,53 @@ class CCAdminControlPanel extends CObject implements IController {
     }
 
 
+/*****************************************************************************************************
+*create some usable variables for the page
+*/
+
+    public function Lists() {
+        $list = $this->user->ListAllUsers();
+        $this->nrOfUsers = count($list);
+
+        $rooms = $this->temperatures->ListAll();
+        $this->nrOfRooms = count($rooms);
+        $this->roomsInfo = $rooms;
+
+        $this->various = $this->temperatures->ListVarious();
+        $this->nrOfActiveRooms = $this->various[0]['nrofrooms'];
+        $this->getActiveRooms();
+
+        $this->makeSetvalueTextfiles();
+
+        $this->fromDate = $this->various[0]['fromdate'] ? $this->various[0]['fromdate'] : "";
+        $this->toDate = $this->various[0]['todate'] ? $this->various[0]['todate'] : "";
+
+        $this->todaysDate = $this->textfiles->getTodaysdate();
+    }
 
 /*****************************************************************************************************
-* Show admin information.
+*
+*/
+
+    public function makeSetvalueTextfiles(){
+        $textRoom = array();
+
+        for ($i = 0; $i < 16; $i++) {
+            $theRoom = $this->roomsInfo[$i];
+            $allRooms[$i] = $theRoom;
+            $textRoom[$i] = array(); // Varje döpt rum får egen 24 timmars lista med temperaturer
+
+            for ($q = 0; $q < 24; $q++) {
+                $textRoom[$i][$q] = $allRooms[$i]['home'] . ",";   // Vi skriver en kommaseparerad lista med temperaturerna, en för varje rum
+                }
+        $nr = (string)$i;
+        $roomtextfile = 'room' . $nr . '.txt';
+        $this->textfiles->writeText($roomtextfile, $textRoom[$i]);
+        }
+    }
+
+/*****************************************************************************************************
+* The temperature-admin page.
 */
     public function Temperatures() {
         $if = new CInterceptionFilter();
@@ -90,28 +134,6 @@ class CCAdminControlPanel extends CObject implements IController {
                     'away' => t('Away'),
                     'loadcontrol' => t('Loadcontrol'),
         ));
-    }
-
-/*****************************************************************************************************
-*create some usable variables for the page
-*/
-
-    public function Lists() {
-        $list = $this->user->ListAllUsers();
-        $this->nrOfUsers = count($list);
-
-        $rooms = $this->temperatures->ListAll();
-        $this->nrOfRooms = count($rooms);
-        $this->roomsInfo = $rooms;
-
-        $this->various = $this->temperatures->ListVarious();
-        $this->nrOfActiveRooms = $this->various[0]['nrofrooms'];
-        $this->getActiveRooms();
-
-        $this->fromDate = $this->various[0]['fromdate'] ? $this->various[0]['fromdate'] : "";
-        $this->toDate = $this->various[0]['todate'] ? $this->various[0]['todate'] : "";
-
-        $this->todaysDate = $this->textfiles->getTodaysdate();
     }
 
 /***************************************************************************************
