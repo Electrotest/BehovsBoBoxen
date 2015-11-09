@@ -25,7 +25,7 @@ sudo a2enmod rewrite
 sudo service apache2 restart
 #Startar om apache2
 
-sudo chmod 666 /home/pi/BehovsBoBoxen/html -R
+sudo chmod 777 /home/pi/BehovsBoBoxen/html -R
 #Ändrar behörighet för mapp med filer till hemsidor
 
 sudo chmod 777 /home/pi/BehovsBoBoxen/html/application/data -R
@@ -37,7 +37,7 @@ sudo chmod 777 /home/pi/BehovsBoBoxen/html/application/textfile -R
 sudo cp /home/pi/BehovsBoBoxen/rc.local /etc/rc.local
 # kopierar filen som startar boxen vid reboot
 
-cp /home/pi/BehovsBoBoxen/dallas.py /home/pi/dallas.py
+#cp /home/pi/BehovsBoBoxen/dallas.py /home/pi/dallas.py
 #kopierar själva huvudfilen
 
 sudo cp /home/pi/BehovsBoBoxen/config/apache2/BehovsBoBoxen.conf /etc/apache2/sites-available
