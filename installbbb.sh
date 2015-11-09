@@ -25,12 +25,15 @@ sudo a2enmod rewrite
 sudo service apache2 restart
 #Startar om apache2
 
-sudo chmod 777 /home/pi/BehovsBoBoxen/html -R
+sudo chmod 0666 /var/www/html -R
+#sudo chmod 777 /home/pi/BehovsBoBoxen/html -R
 #Ändrar behörighet för mapp med filer till hemsidor
 
-sudo chmod 777 /home/pi/BehovsBoBoxen/html/application/data -R
+sudo chmod 0777 /var/www/html/application/data -R
+#sudo chmod 777 /home/pi/BehovsBoBoxen/html/application/data -R
 #Full behörighet för datakatalogen
 
+sudo chmod 0777 /var/www/html/application/textfile -R
 sudo chmod 777 /home/pi/BehovsBoBoxen/html/application/textfile -R
 #Full behörighet för textfilekatalogen
 
@@ -45,7 +48,8 @@ sudo a2ensite BehovsBoBoxen.conf
 sudo a2dissite 000-default.conf
 sudo service apache2 restart
 
-sudo -u www-data cp -R /home/pi/BehovsBoBoxen/html /var/www/
+sudo www-data cp -R /home/pi/BehovsBoBoxen/html /var/
+#sudo -u www-data cp -R /home/pi/BehovsBoBoxen/html /var/
 #kopierar filerna för hemsidan
 # sudo cp -r -u -x -v [source directory] [destination directory]
 # -u: Used with cp this switch causes cp to only copy files that have changed or don't already exist at the destination.
@@ -54,5 +58,7 @@ sudo chown -R www-data /var/www/html
 # Sätter ownership till www-data på alla filer i /var/www/html
 
 echo "dtoverlay=w1-gpio,gpiopin=4" | sudo tee -a /boot/config.txt
+
+sudo rm /var/www/html/index.html
 
 sudo reboot
