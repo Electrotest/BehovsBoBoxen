@@ -25,7 +25,7 @@ sudo a2enmod rewrite
 sudo service apache2 restart
 #Startar om apache2
 
-sudo chmod 0755 /var/www/html -R
+sudo chmod 0775 /var/www/html -R
 #Ändrar behörighet för mapp med filer till hemsidor
 
 sudo chmod 0777 /var/www/html/application/data -R
@@ -53,6 +53,11 @@ sudo www-data cp -R /home/pi/BehovsBoBoxen/html /var/
 
 sudo chown -R www-data /var/www/html
 # Sätter ownership till www-data på alla filer i /var/www/html
+
+sudo usermod -a -G www-data pi
+sudo usermod -a -G pi www-data
+#lägger till användaren "pi" till gruppen "www-data" samt användaren "www-data" till gruppen "pi".
+#Tack till https://github.com/maglub
 
 echo "dtoverlay=w1-gpio,gpiopin=4" | sudo tee -a /boot/config.txt
 
