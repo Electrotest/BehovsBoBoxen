@@ -25,16 +25,13 @@ sudo a2enmod rewrite
 sudo service apache2 restart
 #Startar om apache2
 
-sudo chmod 0666 /var/www/html -R
-#sudo chmod 777 /home/pi/BehovsBoBoxen/html -R
+sudo chmod 0755 /var/www/html -R
 #Ändrar behörighet för mapp med filer till hemsidor
 
 sudo chmod 0777 /var/www/html/application/data -R
-#sudo chmod 777 /home/pi/BehovsBoBoxen/html/application/data -R
 #Full behörighet för datakatalogen
 
 sudo chmod 0777 /var/www/html/application/textfile -R
-sudo chmod 777 /home/pi/BehovsBoBoxen/html/application/textfile -R
 #Full behörighet för textfilekatalogen
 
 sudo cp /home/pi/BehovsBoBoxen/rc.local /etc/rc.local
