@@ -22,15 +22,20 @@ You have already downloaded and installed Raspian from
 
 Now, download the latest version from our repository using git client
 
-	git clone https://github.com/Electrotest/behovsboboxen
+	git clone https://github.com/Electrotest/BehovsBoBoxen
 
 Run the installation script and follow the given instructions
 
-	sudo sh /home/pi/behovsboboxen/install.sh
+	sudo sh /home/pi/BehovsBoBoxen/install.sh
 
 if 1-wire sensors are plugged in according to the manual, you will find folders under 
+
 	/sys/bus/w1/devices
+
 where each sensor presents it's temperature.
+The relays should be connected with dupont cabels according to the pin-configurations in 
+
+	dallas.py
 
 
 BehovsBoBoxen är ett styrsystem för smarta hem baserad på Raspberry Pi.
@@ -55,14 +60,20 @@ Ni har laddat ner och installerat Raspian från
 
 Ladda nu ner den senaste versionen från vår katalog (repository) med git klienten
 
-	git clone https://github.com/Electrotest/behovsboboxen
+	git clone https://github.com/Electrotest/BehovsBoBoxen
 
 Kör installationsskriptet och följ de givna instruktionerna
 
 	sudo sh /home/pi/BehovsBoBoxen/install.sh
 
-Om 1-wire sensorer är inkopplade enligt anvisningen, skall det med sökvägen /sys/bus/w1/devices finnas mappar där varje sensor anger sin temperatur.
-Reläna skall kopplas med dupontsladdar enligt pin-konfigurationen i filen dallas.py
+Om 1-wire sensorer är inkopplade enligt anvisningen, skall det med sökvägen 
+
+	/sys/bus/w1/devices 
+
+finnas mappar där varje sensor anger sin temperatur.
+Reläna skall kopplas med dupontsladdar enligt pin-konfigurationen i 
+
+	dallas.py
 
 
 The interface of Behovsboboxen is based on Lydia, which is a PHP-based, MVC-inspired CMF
