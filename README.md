@@ -28,6 +28,8 @@ Run the installation script and follow the given instructions
 
 	sudo sh /home/pi/BehovsBoBoxen/install.sh
 
+Now you can enter your webpage with https://your.ip.n.r
+
 if 1-wire sensors are plugged in according to the manual, you will find folders under 
 
 	/sys/bus/w1/devices
@@ -65,6 +67,8 @@ Ladda nu ner den senaste versionen från vår katalog (repository) med git klien
 Kör installationsskriptet och följ de givna instruktionerna
 
 	sudo sh /home/pi/BehovsBoBoxen/install.sh
+
+Nu kan du gå in på https://your.ip.n.r
 
 Om 1-wire sensorer är inkopplade enligt anvisningen, skall det med sökvägen 
 
