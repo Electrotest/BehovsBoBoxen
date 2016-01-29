@@ -44,18 +44,18 @@ class CCAdminControlPanel extends CObject implements IController {
         $access = $if->AdminOrForbidden();
         $this->views->SetTitle(t('ACP: Admin Control Panel'))
                 ->AddInclude(__DIR__ . '/index.tpl.php', array(
-                    'header' => t('Various settings'),
                     'various' => $this->various,
                     'users' => $this->user->ListAllUsers(),
-                    'header5' => t('The users'),
                     'acronym' => t('Acronym'),
                     'name' => t('Name'),
                     'algoritm' => t('Algorithm'),
                     'created' => t('Created'),
                     'updated' => t('Updated'),
-                    'memberedit' => t('Edit member'),
+                    'memberedit' => t('Member'),
+                    'pass1' => t('new password'),
+                    'pass2' => t('new password confirmed'),
                     'edit' => t('Edit'),
-                    'value' => t('Value'),
+                    'val' => t('Value'),
                     'areacode' => t('Areacode'),
                     'nrof' => t('Your nr of rooms'),
                     'load' => t('Allow load?'),
@@ -63,12 +63,9 @@ class CCAdminControlPanel extends CObject implements IController {
                     'percentlevel' => t('Percentlevel'),
                     'awayfrom' => t('Away from'),
                     'awayto' => t('Away to'),
-                    'database' => t('Reinitiate database'),
-                    'startagain' => t('Here you can start fresh again'),
 
         ));
     }
-
 
 /*****************************************************************************************************
 *create some usable variables for the page
@@ -76,64 +73,30 @@ class CCAdminControlPanel extends CObject implements IController {
 
     public function Lists() {
         $list = $this->user->ListAllUsers();
-        $this->nrOfUsers = count($list);
 
         $rooms = $this->temperatures->ListAll();
         $this->nrOfRooms = count($rooms);
         $this->roomsInfo = $rooms;
 
         $this->various = $this->temperatures->ListVarious();
+        if($this->various[0]['load'] == 1){
+            $this->various[0]['load']= 'JA';
+        }else{
+            $this->various[0]['load']= 'NEJ';
+        }
+        if($this->various[0]['percent'] == 1){
+            $this->various[0]['percent']= 'JA';
+        }else{
+            $this->various[0]['percent']= 'NEJ';
+        }
+
         $this->nrOfActiveRooms = $this->various[0]['nrofrooms'];
         $this->getActiveRooms();
-
-        $this->makeSetvalueTextfiles();
 
         $this->fromDate = $this->various[0]['fromdate'] ? $this->various[0]['fromdate'] : "";
         $this->toDate = $this->various[0]['todate'] ? $this->various[0]['todate'] : "";
 
         $this->todaysDate = $this->textfiles->getTodaysdate();
-    }
-
-/*****************************************************************************************************
-*
-*/
-
-    public function makeSetvalueTextfiles(){
-        $textRoom = array();
-
-        for ($i = 0; $i < 16; $i++) {
-            $theRoom = $this->roomsInfo[$i];
-            $allRooms[$i] = $theRoom;
-            $textRoom[$i] = array(); // Varje döpt rum får egen 24 timmars lista med temperaturer
-
-            for ($q = 0; $q < 24; $q++) {
-                $textRoom[$i][$q] = $allRooms[$i]['home'] . ",";   // Vi skriver en kommaseparerad lista med temperaturerna, en för varje rum
-                }
-        $nr = (string)$i;
-        $roomtextfile = 'room' . $nr . '.txt';
-        $this->textfiles->writeText($roomtextfile, $textRoom[$i]);
-        }
-    }
-
-/*****************************************************************************************************
-* The temperature-admin page.
-*/
-    public function Temperatures() {
-        $if = new CInterceptionFilter();
-        $access = $if->AdminOrForbidden();
-        $this->views->SetTitle(t('Temperatures: Edit'))
-                ->AddInclude(__DIR__ . '/temperatures.tpl.php', array(
-                    'temperatures' => $this->theActiveRooms,
-                    'isTemps' => $this->textfiles->getIsTemps(),
-                    'header4' => t('Temperatures'),
-                    'outside' => t(' degrees Celsius outside.'),
-                    'now' => t('Now it is '),
-                    'edit' => t('Edit'),
-                    'isvalue' => t('Isvalue'),
-                    'shouldvalue' => t('ShouldValue'),
-                    'away' => t('Away'),
-                    'loadcontrol' => t('Loadcontrol'),
-        ));
     }
 
 /***************************************************************************************
@@ -149,497 +112,101 @@ class CCAdminControlPanel extends CObject implements IController {
         return $this->theActiveRooms;
     }
 
-    /*****************************************************************************
-     * Edit a selected member.
-     *
-     * @param id integer the id of the member.
-     */
-    public function Edit($id = null) {
-        $if = new CInterceptionFilter();
-        $if->AdminOrForbidden();
-
-        $thisuser = $this->user->GetMemberById($id);
-
-        $form = new CForm(array(), array(
-            'id' => array(
-                'type' => 'text',
-                'value' => $thisuser['id'],
-                'label' => t('Member id:'),
-                'readonly' => true,
-                'validation' => array('not_empty'),
-            ),
-            'acronym' => array(
-                'type' => 'text',
-                'value' => $thisuser['acronym'],
-                'label' => t('Acronym'),
-                'autofocus' => true,
-                'required' => true,
-                'validation' => array('not_empty'),
-            ),
-            'name' => array(
-                'type' => 'text',
-                'value' => $thisuser['name'],
-                'label' => t('Name'),
-                'required' => true,
-                'validation' => array('not_empty'),
-            ),
-            'email' => array(
-                'type' => 'text',
-                'value' => $thisuser['email'],
-                'label' => t('New email:'),
-                'required' => true,
-                'validation' => array('not_empty'),
-            ),
-            'doUpdateNames' => array(
-                'type' => 'submit',
-                'space' => true,
-                'value' => t('Update'),
-                'callback' => function($f) {
-                    return CBehovsboboxen::Instance()->user->Update($f->Value('acronym'), $f->Value('name'), $f->Value('email'), $f->Value('id'));
-                }
-            ),
-                )
-        );
-
-        $status = $form->Check();
-        if ($status === false) {
-            $this->AddMessage('notice', t('The editform could not be processed.'));
-            $this->RedirectToController('edit', $id);
-        } else if ($status === true) {
-            $this->RedirectTo('acp');
-        }
-
-
-        $passwordform = new CForm(array(), array(
-
-
-        
-
-            'acronym' => array(
-                'type'  => 'hidden',
-                'readonly' => true,
-                'value' => $this->user['acronym'],
-            ),        
-            'password1' => array(
-                'type' => 'password',
-                'value' => $thisuser['password'],
-                'label' => t('Current password:'),
-                'readonly' => true,
-                'autofocus'   => true,
-                'validation' => array('not_empty'),
-            ),
-            'password2' => array(
-                'type' => 'password',
-                'label' => t('New password:'),
-                'required' => true,
-                'validation' => array('not_empty'),
-            ),
-            'password3' => array(
-                'type' => 'password',
-                'label' => t('New password again:'),
-                'required' => true,
-                'validation' => array('not_empty', 'match' => 'password2'),
-            ),
-            'acronym' => array(
-                'type' => 'text',
-                'readonly' => true,
-                'value' => $thisuser['acronym'],
-            ),
-            'id' => array(
-                'type' => 'text',
-                'readonly' => true,
-                'value' => $thisuser['id'],
-                'label' => t('Member id:'),
-            ),
-            'doChange' => array(
-                'type' => 'submit',
-                'space' => true,
-                'value' => t('Change password'),
-                'callback' => function($f) {
-                    return CBehovsboboxen::Instance()->user->ChangePasswordAdminVerify($f->Value('acronym'), $f->Value('password2'), $f->Value('password3'), $f->Value('id'));
-                }
-            ),
-                )
-        );
-
-        $status2 = $passwordform->Check();
-        if ($status2 === false) {
-            $this->AddMessage('notice', t('The password could not be changed, ensure that all fields match and the current password is correct.'));
-        } else if ($status2 === true) {
-            $this->AddMessage('success', (t('Saved new password.')));
-            $this->RedirectTo('acp');
-        }
-
-
-
-        $this->views->SetTitle(t('Update member: '))
-                ->AddClassToRegion('primary', 'acp')
-                ->AddIncludeToRegion('primary', __DIR__ . '/edit.tpl.php', array(
-                    'user' => $thisuser,
-                    'form' => $form->GetHTML(array('class' => 'admin-edit')),
-                    'form2' => $passwordform->GetHTML(array('class' => 'admin-edit')),
-                    'header1' => t('Edit name, acronym or email-address here:'),
-                    'header2' => t('Edit password here'),
-        ));
-    }
-
-    /*******************************************************************************************
-     * Updates selected rooms temperatures.
-     *
-     * @param room string the id of the chosen room.
-     */
-    public function Update($room = null) {
-        $if = new CInterceptionFilter();
-        $if->AdminOrForbidden();
-
-        $room = urldecode($room);
-
-        $temp = array();
-        $temp = $this->temperatures->LoadByRoom($room);
-
-        $form = new CForm(array(), array(
-            'room' => array(
-                'type' => 'text',
-                'value' => $room,
-                'label' => t('Chosen room:'),
-                'readonly' => true,
-                'required' => true,
-                'validation' => array('not_empty'),
-            ),
-            'id' => array(
-                'type' => 'text',
-                'value' => $temp['id'],
-                'readonly' => true,
-                'validation' => array('not_empty'),
-            ),
-            'home' => array(
-                'type' => 'text',
-                'value' => $temp['home'],
-                'label' => t('Isvalue:'),
-                'required' => true,
-                'validation' => array('not_empty','numeric'),
-            ),
-            'max' => array(
-                'type' => 'text',
-                'value' => $temp['max'],
-                'required' => true,
-                'validation' => array('not_empty','numeric'),
-            ),
-            'min' => array(
-                'type' => 'text',
-                'value' => $temp['min'],
-                'required' => true,
-                'validation' => array('not_empty','numeric'),
-            ),
-            'away' => array(
-                'type' => 'text',
-                'value' => $temp['away'],
-                'label' => t('Away:'),
-                'required' => true,
-                'validation' => array('not_empty','numeric'),
-            ),
-            'rund' => array(
-                'type' => 'text',
-                'value' => $temp['rund'],
-                'label' => t('Load:'),
-                'required' => true,
-                'validation' => array('not_empty','numeric'),
-            ),
-            'roomNew' => array(
-                'type' => 'text',
-                'value' => $room,
-                'label' => t('New name:'),
-                'required' => true,
-                'validation' => array('not_empty'),
-            ),
-            'doUpdateRooms' => array(
-                'type' => 'submit',
-                'space' => true,
-                'value' => t('Update'),
-                'callback' => function($f) {
-//$f->AddOutput("<pre>What we post: " . print_r($_POST, true) . "</pre>");
-                    return CBehovsboboxen::Instance()->temperatures->Update($f->Value('home'), $f->Value('max'), $f->Value('min'), $f->Value('away'), $f->Value('rund'), $f->Value('roomNew'), $f->Value('id'));
-                }
-            ),
-        ));
-
-        $status = $form->Check();
-        if ($status === false) {
-            $this->AddMessage('notice', t('The roomeditform could not be processed.'));
-            $this->RedirectToController('update', $room);
-        } else if ($status === true) {
-            $this->RedirectTo('acp/temperatures');
-        }
-
-        $this->views->SetTitle(t('Update room'))
-                ->AddClassToRegion('primary', 'acp')
-                ->AddIncludeToRegion('primary', __DIR__ . '/edit.tpl.php', array(
-                    'form' => $form->GetHTML(array('class' => 'admin-edit')),
-                    'form2' => null,
-                    'header1' => t('Edit the temperatures here:'),
-                    'header2' => null,
-        ));
-
-    }
-
-/******************************************************************************************
-* Form to set dates away from home
+/*****************************************************************************************************
+* Show admin information.
 */
-     public function Holiday() {
+    public function Temperatures() {
         $if = new CInterceptionFilter();
-        $if->AdminOrForbidden();
-
-        $from = $this->fromDate;
-        $to = $this->toDate;
-
-        if(strtotime($this->toDate) < strtotime($this->todaysDate)){
-            $from = "";
-            $to = "";
-        }
-
-        $dateForm = new CForm(array(), array(
-            'from' => array(
-                'type' => 'text',
-                'label' => t('from'),
-                'value' => $from,
-                'required' => true,
-                'validation' => array('not_empty'),
-            ),
-            'to' => array(
-                'type' => 'text',
-                'label' => t('to'),
-                'value' => $to,
-                'required' => true,
-                'validation' => array('not_empty'),
-            ),
-            'doSetDates' => array(
-                'type' => 'submit',
-                'value' => t('Dates'),
-                'callback' => function($f) {
-//$f->AddOutput("<pre>What we post: " . print_r($_POST, true) . "</pre>");
-                    return CBehovsboboxen::Instance()->temperatures->UpdateDates($f->Value('from'), $f->Value('to'));
-                }
-            ),
-        ));
-        $status = $dateForm->Check();
-        if ($status === false) {
-            $this->AddMessage('notice', t('The dateseditform could not be processed.'));
-            $this->RedirectToController('holiday');
-        } else if ($status === true) {
-            $this->RedirectTo('acp');
-        }
-
-
-        $this->views->SetTitle(t('Holiday dates'))
-                ->AddClassToRegion('primary', 'acp')
-                ->AddIncludeToRegion('primary', __DIR__ . '/edit.tpl.php', array(
-                    'form' => $dateForm->GetHTML(array('class' => 'admin-edit')),
-                    'header1' => t('Edit dates dd.mm.yyyy:'),
-                    'form2' => null,
-                    'header2' => null,
+        $access = $if->AdminOrForbidden();
+        $this->views->SetTitle(t('Temperatures: Edit'))
+                ->AddInclude(__DIR__ . '/temperatures.tpl.php', array(
+                    'temperatures' => $this->theActiveRooms,
+                    'isTemps' => $this->textfiles->getIsTemps(),
+                    'outside' => t(' degrees celsius outside.'),
+                    'now' => t('Now it is '),
+                    'edit' => t('Edit'),
+                    'room' => t('Room'),
+                    'isvalue' => t('Isvalue'),
+                    'shouldvalue' => t('ShouldValue'),
+                    'away' => t('Away'),
+                    'loadcontrol' => t('Loadcontrol'),
+                    'edit' => t('Edit'),
+                    'save' => t('Save'),
         ));
     }
 
-/******************************************************************************************
-* Form to set dates away from home
+/*****************************************************************************************************
+* Show admin information.
 */
-     public function Percentlevel() {
+    public function Tableservice() {
         $if = new CInterceptionFilter();
-        $if->AdminOrForbidden();
+        $access = $if->AdminOrForbidden();
 
-        $percentOn = $this->various[0]['percent'];
+        $home; $max; $min; $away; $rund; $room; $id;
 
-if($percentOn == 1){
-
-        $percentForm = new CForm(array(), array(
-            'percentlevel' => array(
-                'type' => 'select',
-                'label' => t('percentlevel'),
-                'options' => array(
-                    '0' => '0',
-                    '1' => '1',
-                    '2' => '2',
-                    '3' => '3',
-                    '4' => '4',
-                    '5' => '5',
-                    '6' => '6',
-                    '7' => '7',
-                    '8' => '8',
-                    '9' => '9',
-                    '10' => '10',
-                    '11' => '11',
-                    '12' => '12',
-                    '13' => '13',
-                    '14' => '14',
-                    '15' => '15',
-                    '16' => '16',
-                    '17' => '17',
-                    '18' => '18',
-                    '19' => '19',
-                    '20' => '20',
-                    ),
-                'validation' => array('not_empty'),
-            ),
-            'doSet' => array(
-                'type' => 'submit',
-                'value' => t('Percentlevel'),
-                'callback' => function($f) {
-//$f->AddOutput("<pre>What we post: " . print_r($_POST, true) . "</pre>");
-                    return CBehovsboboxen::Instance()->temperatures->UpdatePercentlevel($f->Value('percentlevel'));
-                }
-            ),
-        ));
-        $status = $percentForm->Check();
-        if ($status === false) {
-            $this->AddMessage('notice', t('The percentform could not be processed.'));
-            $this->RedirectToController('percentlevel');
-        } else if ($status === true) {
-            $this->RedirectTo('acp');
+        if (isset($_POST) && ($_POST)) {
+            $id = $_POST['id'];
+            $home = $_POST['home'];
+            $max = $_POST['max'];
+            $min = $_POST['min'];
+            $away = $_POST['away'];
+            $rund = $_POST['rund'];
+            $room = $_POST['room'];
+        } else{
+            echo 'no post<br />';
         }
-//var_dump($this->various);
-
-        
-            $percentlevel = $this->various[0]['percentlevel'];
-            $text = t('Percentlevel') . ': ' . $percentlevel;
-
-            $form = $percentForm->GetHTML(array('class' => 'admin-edit'));
-        }else{
-            $text = t('Percent is off');
-            $form = t('You need to allow percent first.');
-        }
-
-        $this->views->SetTitle(t('Set percentlevel'))
-                ->AddClassToRegion('primary', 'acp')
-                ->AddIncludeToRegion('primary', __DIR__ . '/edit.tpl.php', array(
-                    'form' => $form,
-                    'header1' => null,
-                    'form2' => $text,
-                    'header2' => null,
-        ));
+ 
+        $this->temperatures->Update($home, $max, $min, $away, $rund, $room, $id);
 
     }
 
-
-    /*********************************************************************************************
-    * Various settings for Behovsboboxen
-    */
-         public function Smallsettings() {
+/*****************************************************************************************************
+* Show admin information.
+*/
+    public function Acpservice() {
         $if = new CInterceptionFilter();
-        $if->AdminOrForbidden();
+        $access = $if->AdminOrForbidden();
 
-        $variousForm = new CForm(array(), array(
-            'area' => array(
-                'type' => 'select',
-                'label' => t('area'),
-                'options' => array(
-                    'SE1' => 'SE1',
-                    'SE2' => 'SE2',
-                    'SE3' => 'SE3',
-                    'SE4' => 'SE4',
-                    ),
-                'validation' => array('not_empty'),
-            ),
-            'nrofrooms' => array(
-                'type' => 'select',
-                'label' => t('nrOfRooms'),
-                'options' => array(
-                    5 => '5',
-                    6 => '6',
-                    7 => '7',
-                    8 => '8',
-                    9 => '9',
-                    10 => '10',
-                    11 => '11',
-                    12 => '12',
-                    13 => '13',
-                    14 => '14',
-                    15 => '15',
-                    16 => '16',
-                    ),
-                'validation' => array('not_empty'),
-            ),
-            'load' => array(
-                'type' => 'select',
-                'label' => t('load'),
-                'options' => array(
-                    0 => t('off'),
-                    1 => t('on'),
-                    ),
-                'label' => t('Do you accept loadcontrol?'),
-                'validation' => array('not_empty'),
-                ),
-            'percent' => array(
-                'type' => 'select',
-                'label' => t('percent'),
-                'options' => array(
-                    0 => t('off'),
-                    1 => t('on'),
-                    ),
-                'label' => t('You wish to control heat by pricepercent?'),
-                'validation' => array('not_empty'),
-                ),
-            'percentlevel' => array(
-                'type' => 'select',
-                'label' => t('percentlevel'),
-                'options' => array(
-                    '0' => '0',
-                    '1' => '1',
-                    '2' => '2',
-                    '3' => '3',
-                    '4' => '4',
-                    '5' => '5',
-                    '6' => '6',
-                    '7' => '7',
-                    '8' => '8',
-                    '9' => '9',
-                    '10' => '10',
-                    '11' => '11',
-                    '12' => '12',
-                    '13' => '13',
-                    '14' => '14',
-                    '15' => '15',
-                    '16' => '16',
-                    '17' => '17',
-                    '18' => '18',
-                    '19' => '19',
-                    '20' => '20',
-                    ),
-                'validation' => array('not_empty'),
-            ),
-            'doSet' => array(
-                'type' => 'submit',
-                'value' => t('Settings'),
-                'callback' => function($f) {
-//$f->AddOutput("<pre>What we post: " . print_r($_POST, true) . "</pre>");
-                    return CBehovsboboxen::Instance()->temperatures->UpdateVarious($f->Value('area'), $f->Value('nrofrooms'), $f->Value('load'), $f->Value('percent'), $f->Value('percentlevel'));
-                }
-            ),
-        ));
+        $area; $nrofrooms; $load; $percent; $percentlevel; $awayfrom; $awayto;
 
-        $status = $variousForm->Check();
-        if ($status === false) {
-            $this->AddMessage('notice', t('The variousform could not be processed.'));
-            $this->RedirectToController('smallsettings');
-        } else if ($status === true) {
-            $this->RedirectTo('acp');
+        if (isset($_POST) && ($_POST)) {
+            $area = $_POST['area'];
+            $nrofrooms = $_POST['nrofrooms'];
+            $load = $_POST['load'];
+            $percent = $_POST['percent'];
+            $percentlevel = $_POST['percentlevel'];
+            $awayfrom = $_POST['awayfrom'];
+            $awayto = $_POST['awayto'];
+
+        } else{
+            echo 'no post<br />';
         }
-//var_dump($this->various);
-        $area = $this->various[0]['area'];
-        $roomnr = $this->various[0]['nrofrooms'];
-        $percentlevel = $this->various[0]['percentlevel'];
-        $loadcontrol = ($this->various[0]['load'] == '1' ? t('on') : t('off'));
-        $havepercent = ($this->various[0]['percent'] == '1' ? t('on') : t('off'));
-        $text = t('Areacode:') . ' ' . $area . ', '  . t('nr of rooms:') . ' ' . $roomnr . ', '  . t('load:') . ' ' . $loadcontrol . ', '  . t('have percent:') . ' ' . $havepercent . ', '  . t('percentlevel:') . ' ' . $percentlevel;
 
-        $this->views->SetTitle(t('Various settings'))
-                ->AddClassToRegion('primary', 'acp')
-                ->AddIncludeToRegion('primary', __DIR__ . '/smallsettings.tpl.php', array(
-                    'form' => $variousForm->GetHTML(array('class' => 'admin-edit')),
-                    'header1' => null,
-                    'form2' => $text,
-                    'header2' => null,
-        ));
-
+        $this->temperatures->UpdateVarious($area, $nrofrooms, $load, $percent, $percentlevel, $awayfrom, $awayto); 
+     
     }
 
+/*****************************************************************************************************
+* Show admin information.
+*/
+    public function Passwordservice() {
+        $if = new CInterceptionFilter();
+        $access = $if->AdminOrForbidden();
+
+        $acronym; $pass1; $pass2; $name; $email; $id;
+
+        if (isset($_POST) && ($_POST)) {
+            $acronym = $_POST['acronym'];
+            $pass1 = $_POST['pass1'];
+            $pass2 = $_POST['pass2'];
+            $name = $_POST['name'];
+            $email = $_POST['email'];
+            $id = $_POST['id'];
+
+        } else{
+            echo 'no post<br />';
+        }
+
+        $this->user->UpdateMember($acronym, $pass1, $pass2, $name, $email, $id);      
+    }
 }

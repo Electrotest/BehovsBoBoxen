@@ -62,9 +62,9 @@ class CMUser extends CObject implements IHasSQL, ArrayAccess, IModule {
                 try {
                     $this->db->ExecuteQuery(self::SQL('drop table user'));
                     $this->db->ExecuteQuery(self::SQL('create table user'));
-                    $this->db->ExecuteQuery(self::SQL('insert into user'), array('anonymous', 'Anonymous, not authenticated', null, 'plain', null, null));
+                    $this->db->ExecuteQuery(self::SQL('insert into user'), array('anonymous', 'Anonymous', '', 'plain', null, null));
                     $password = $this->CreatePassword('root');
-                    $this->db->ExecuteQuery(self::SQL('insert into user'), array('root', 'The Administrator', 'root@dbwebb.se', $password['algorithm'], $password['salt'], $password['password']));
+                    $this->db->ExecuteQuery(self::SQL('insert into user'), array('root', 'The Administrator', 'bbb@behovsboboxen.com', $password['algorithm'], $password['salt'], $password['password']));
                     $idRootUser = $this->db->LastInsertId();
                     
                       return array('success', t('Successfully created the database tables and created a default admin user as root:root'));
@@ -89,18 +89,15 @@ class CMUser extends CObject implements IHasSQL, ArrayAccess, IModule {
             'table name user' => "User",
             'drop table user' => "DROP TABLE IF EXISTS User;",
             'table exist' => "SELECT name FROM sqlite_master WHERE type='table' AND name='User';",
-            //'drop table group' => "DROP TABLE IF EXISTS Groups;",
-            //'drop table user2group' => "DROP TABLE IF EXISTS User2Groups;",
             'create table user' => "CREATE TABLE IF NOT EXISTS User (id INTEGER PRIMARY KEY, acronym TEXT KEY, name TEXT, email TEXT, algorithm TEXT, salt TEXT, password TEXT, created DATETIME default (datetime('now', 'localtime')), updated DATETIME default NULL);",
             'insert into user' => 'INSERT INTO User (acronym,name,email,algorithm,salt,password) VALUES (?,?,?,?,?,?);',
             'check user password' => 'SELECT * FROM User WHERE (acronym=? OR email=?);',
             'select user by id' => 'SELECT * FROM User WHERE id=?;',
             'select all users' => 'SELECT * FROM User;',
-            'select user by acronym' => 'SELECT * FROM User WHERE acronym=?;',
-            'update profile' => "UPDATE User SET name=?, email=?, updated=datetime('now', 'localtime') WHERE id=?;",
-            'update password' => "UPDATE User SET algorithm=?, salt=?, password=?, updated=datetime('now', 'localtime') WHERE id=?;",
-            'update adminpassword' => "UPDATE User SET algorithm=?, salt=?, password=?, updated=datetime('now', 'localtime') WHERE id=?;",
-            'update names' => "UPDATE User SET acronym=?, name=?, email=?, updated=datetime('now', 'localtime') WHERE id=?;",
+            //'update adminpassword' => "UPDATE User SET algorithm=?, salt=?, password=?, updated=datetime('now', 'localtime') WHERE id=?;",
+            'update member' => "UPDATE User SET acronym=?,name=?,email=?,algorithm=?, salt=?, password=?,  updated=datetime('now', 'localtime') WHERE id=?;",
+            //'update names' => "UPDATE User SET acronym=?, name=?, email=?, updated=datetime('now', 'localtime') WHERE id=?;",
+            'update nopass' => "UPDATE User SET acronym=?, name=?, email=?, updated=datetime('now', 'localtime') WHERE id=?;",
             );
         if (!isset($queries[$key])) {
             throw new Exception("No such SQL query, key '$key' was not found.");
@@ -152,7 +149,6 @@ class CMUser extends CObject implements IHasSQL, ArrayAccess, IModule {
         unset($user['password']);
         if ($user) {
             $user['isAuthenticated'] = true;
-            $user['groups']['id']=1;
             $user['hasRoleAdmin'] = true;
 
             $this->profile = $user;
@@ -162,12 +158,33 @@ class CMUser extends CObject implements IHasSQL, ArrayAccess, IModule {
     }
 
     /**
+     * Verify if user and password matches.
+     *
+     * @param string $akronymOrEmail the emailadress or user akronym.
+     * @param string $password the password that should match the akronym or emailadress.
+     * @return array with the user details as returned from the database.
+     */
+    private function VerifyUserAndPassword($akronymOrEmail, $password) {
+        if (empty($akronymOrEmail) || empty($password)) {
+            return false;
+        }
+        $user = $this->db->ExecuteSelectQueryAndFetchAll(self::SQL('check user password'), array($akronymOrEmail, $akronymOrEmail));
+        $user = (isset($user[0])) ? $user[0] : null;
+        if (!$user) {
+            return false;
+        } else if (!$this->CheckPassword($password, $user['algorithm'], $user['salt'], $user['password'])) {
+            return false;
+        }
+        return $user;
+    }
+
+    /**
      * Logout. Clear both session and internal properties.
      */
     public function Logout() {
         $this->session->UnsetAuthenticatedUser();
         $this->profile = array();
-        $this->session->AddMessage('success', "You have logged out.");
+        $this->session->AddMessage('success', t("You have logged out."));
     }
 
     /**
@@ -177,15 +194,6 @@ class CMUser extends CObject implements IHasSQL, ArrayAccess, IModule {
    */
   public function IsAdmin() {
     return $this['hasRoleAdmin'];
-  }
-  
-      /**
-   * Check if user has secrets authorisation.
-   *
-   * @return boolean true or false.
-   */
-  public function IsAuthorised() {
-    return $this['hasRoleSecrets'];
   }
   
   
@@ -207,60 +215,15 @@ class CMUser extends CObject implements IHasSQL, ArrayAccess, IModule {
   public function IsAnonomous() {
     return $this['hasRoleAnonomous'];
   }
-  
-  
-  /**
-   * Check if user is a known visitor.
-   *
-   * @return boolean true or false.
-   */
-  public function IsVisitor() {
-    return $this['hasRoleVisitor'];
-  }
-  
+
 
     /**
-     * Create new user.
+     * Check if user is a regular user.
      *
-     * @param $acronym string the acronym.
-     * @param $password string the password plain text to use as base. 
-     * @param $name string the user full name.
-     * @param $email string the user email.
-     * @returns boolean true if user was created or else false and sets failure message in session.
+     * @return boolean true or false.
      */
-    public function Create($acronym, $password, $name, $email) {
-        $pwd = $this->CreatePassword($password);
-        $this->db->ExecuteQuery(self::SQL('insert into user'), array($acronym, $name, $email, $pwd['algorithm'], $pwd['salt'], $pwd['password']));
-        if ($this->db->RowCount() == 0) {
-            $this->session->AddMessage('error', "Failed to create user.");
-            return false;
-        }
-        $idUser = $this->db->LastInsertId();
-        $this->db->ExecuteQuery(self::SQL('insert into user2group'), array($idUser, 2));
-        return true;
-        return true;
-    }
-    
-     /**
-     * Create new group.
-     *
-     * @param $acronym string the acronym.
-     * @param $name string the groups full name.
-     * @returns boolean true if user was created or else false and sets failure message in session.
-     */
-    public function CreateGroup($acronym, $name) {
-        $this->db->ExecuteQuery(self::SQL('insert into group'), array($acronym, $name));
-         $rowcount = $this->db->RowCount();
-        if ($rowcount) {
-            $this->session->AddMessage('success', "Successfully created a group.");
-        } else {
-            $this->session->AddMessage('error', "Failed to create group.");
-            return false;
-        }
-        $idGroup = $this->db->LastInsertId();
-        $this->db->ExecuteQuery(self::SQL('insert into user2group'), array(2, $idGroup));
-        return true;
-        return true;
+    public function IsUser() {
+        return $this['hasRoleUser'];
     }
 
 
@@ -319,42 +282,9 @@ class CMUser extends CObject implements IHasSQL, ArrayAccess, IModule {
             default: throw new Exception('Unknown hashing algorithm');
         }
     }
-
-    /**
-     * Verify if user and password matches.
-     *
-     * @param string $akronymOrEmail the emailadress or user akronym.
-     * @param string $password the password that should match the akronym or emailadress.
-     * @return array with the user details as returned from the database.
-     */
-    private function VerifyUserAndPassword($akronymOrEmail, $password) {
-        if (empty($akronymOrEmail) || empty($password)) {
-            return false;
-        }
-        $user = $this->db->ExecuteSelectQueryAndFetchAll(self::SQL('check user password'), array($akronymOrEmail, $akronymOrEmail));
-        $user = (isset($user[0])) ? $user[0] : null;
-        if (!$user) {
-            return false;
-        } else if (!$this->CheckPassword($password, $user['algorithm'], $user['salt'], $user['password'])) {
-            return false;
-        }
-        return $user;
-    }
-
-    /**
-     * Save user profile to database and update user profile in session.
-     *
-     * @returns boolean true if success else false.
-     */
-    public function Save() {
-        $this->db->ExecuteQuery(self::SQL('update profile'), array($this['name'], $this['email'], $this['id']));
-        $this->session->SetAuthenticatedUser($this->profile);
-        return $this->db->RowCount() === 1;
-    }
-    
     
      /**
-     * Save the edited member-content. With an id update current entry or else insert new member.
+     * Update and save the edited member-content.
      *
      * @returns boolean true if success else false.
      */
@@ -366,90 +296,24 @@ class CMUser extends CObject implements IHasSQL, ArrayAccess, IModule {
         } 
         $rowcount = $this->db->RowCount();
         if ($rowcount) {
-            $this->session->AddMessage('success', "Successfully updated a member.");
+            $this->session->AddMessage('success', t("Successfully updated a member."));
         } else {
-            $this->session->AddMessage('error', "The member was not updated.");
+            $this->session->AddMessage('error', t("The member was not updated."));
         }
         return $rowcount === 1;
-    }
-    
-      
-     /**
-     * Delete a member. 
-     *
-      * @param int id as identifier 
-      * @param string  acronym form messages 
-     * @returns boolean true if success else false.
-     */
-    public function DeleteMember($acronym, $id) {
-        $msg = null;
-        //echo 'Inne i Deletemember';
-        //echo $id;
-        if ($id) {
-            $this->db->ExecuteQuery(self::SQL('delete member'), array($id));
-            $msg = 'deleted from user';
-        } 
-        $rowcount = $this->db->RowCount();
-        if ($rowcount) {
-            $this->session->AddMessage('success', "Successfully deleted member $id $acronym from User");
-        } else {
-            $this->session->AddMessage('error', "The member $acronym with id $id was not deleted.");
-        }
-        
-        if ($id) {
-            $this->db->ExecuteQuery(self::SQL('delete membergroups'), array($id));
-            $msg .= 'deleted from user2group';
-        } 
-        $rowcount2 = $this->db->RowCount();
-        if ($rowcount2) {
-            $this->session->AddMessage('success', "Successfully deleted member $id $acronym from User2Group");
-        } else {
-            $this->session->AddMessage('error', "The member $acronym with id $id was not deleted.");
-        }
-        return $rowcount === 1;
-    }
-
-    /**
-     * Change user password when in user session.
-     *
-     * @param $plain string plaintext of the new password
-     * @returns boolean true if success else false.
-     */
-    public function ChangePassword($plain, $id) {
-        $password = $this->CreatePassword($plain);
-        $this->db->ExecuteQuery(self::SQL('update password'), array($password['algorithm'], $password['salt'], $password['password'], $id));
-        $this['salt'] = $password['salt'];
-        $this['password'] = $password['password'];
-        return $this->db->RowCount() === 1;
     }
     
      /**
      * Change user password.
      *
-     * @param $password3 string text of the new password
+     * @param $passwordnew string text of the new password
       * @param int $identifier 
      * @returns boolean true if success else false.
      */
-    public function ChangePasswordAdmin($password3, $identifier) {
-        $password = $this->CreatePassword($password3);
+    public function ChangePasswordAdmin($passwordnew, $identifier) {
+        $password = $this->CreatePassword($passwordnew);
         $this->db->ExecuteQuery(self::SQL('update adminpassword'), array($password['algorithm'], $password['salt'], $password['password'], $identifier));
         return $this->db->RowCount() === 1;
-    }
-
-    /**
-     * User changes own password if successful verification.
-     *
-     * @param string $acronym current user according to controller
-     * @param string $current password,
-     * @param string $new1 new password,
-     * @param string $new2 new password again,
-     * @return boolean true if success else false.
-     */
-    public function ChangeOwnPasswordVerify($acronym, $current, $new1, $new2, $id) {
-        if (CInterceptionFilter::Instance()->SessionUserMatches($acronym) === false) {
-            return false;
-        }       
-        return $this->ChangePassword($new1, $id);
     }
 
     public function ChangePasswordAdminVerify($acronym, $new1, $new2, $id) {
@@ -461,66 +325,34 @@ class CMUser extends CObject implements IHasSQL, ArrayAccess, IModule {
         
     }
 
-    /**
-     * User changes own mail.
-     *
-     * @param string $acronym current user according to controller
-     * @param string $email the users email adress.
-     * @return boolean true if success else false.
-     */
-    public function ChangeOwnEmail($acronym, $email) {
+    public function UpdateMember($acronym, $pass1, $pass2, $name, $email, $id){
+        if($pass1){
+            if($pass1 == $pass2){
+                $password = $this->CreatePassword($pass1);
+                $this->db->ExecuteQuery(self::SQL('update member'), array($acronym, $name, $email, $password['algorithm'], $password['salt'], $password['password'], $id));
+                $rowcount = $this->db->RowCount();
+                if ($rowcount) {
+                    $this->session->AddMessage('success', t("Successfully updated password and names."));
+                } else {
+                    $this->session->AddMessage('error', t("Names and password were not updated."));
+                }
+                return $this->db->RowCount() === 1;
 
-        if (CInterceptionFilter::Instance()->SessionUserMatches($acronym) === false) {
-            return false;
+            } else{
+                $this->session->AddMessage('error', "The passwords didn't match.");
+            }
+        }else{
+            $this->db->ExecuteQuery(self::SQL('update nopass'), array($acronym, $name, $email, $id));
+            $rowcount = $this->db->RowCount();
+            if ($rowcount) {
+                $this->session->AddMessage('success', t("Successfully updated the names"));
+            } else {
+                $this->session->AddMessage('error', t("The names were not updated."));
+            }
+            return $this->db->RowCount() === 1;
+
+
         }
-
-        $this['email'] = $email;
-        return $this->Save();
-    }
-
-    /**
-     * User changes own profile.
-     *
-     * @param string $acronym current user according to controller
-     * @param string $acronym of the user.
-     * @param string $name of the user.
-     * @return boolean true if success else false.
-     */
-    public function ChangeOwnProfile($acronym, $acronym, $name) {
-
-        if (CInterceptionFilter::Instance()->SessionUserMatches($acronym) === false) {
-            return false;
-        }
-
-        $this['acronym'] = $acronym;
-        $this['name'] = $name;
-        return $this->Save();
-    }
-
-    /**
-     * Check if user is a regular user.
-     *
-     * @return boolean true or false.
-     */
-    public function IsUser() {
-        return $this['hasRoleUser'];
-    }
-
-    /**
-     * Get details for a user by its id.
-     *
-     * @param integer $id as the users id.
-     * @return array with details or false.
-     */
-    public function GetUserbyId($id) {
-        try {
-            $res = $this->db->ExecuteSelectQueryAndFetchAll(self::SQL('select user by id'), array($id));
-
-        } catch (Exception $e) {
-            echo $e;
-            return false;
-        }
-        return $res[0];
     }
 
     /**
@@ -531,7 +363,6 @@ class CMUser extends CObject implements IHasSQL, ArrayAccess, IModule {
      */
     public function ListAllUsers($args = null) {
         try {
-
             $res = $this->db->ExecuteSelectQueryAndFetchAll(self::SQL('select all users', array($args)));
             return $res;
         } catch (Exception $e) {
@@ -539,22 +370,4 @@ class CMUser extends CObject implements IHasSQL, ArrayAccess, IModule {
             return null;
         }
     }
-
-
-    /**
-     * Get details for a user by its acronym.
-     *
-     * @param string $acronym as the users acronym.
-     * @return array with details or false.
-     */
-    public function GetUserbyAcronym($acronym) {
-        try {
-            $res = $this->db->ExecuteSelectQueryAndFetchAll(self::SQL('select user by acronym'), array($acronym));
-        } catch (Exception $e) {
-            return false;
-        }
-        return $res[0];
-    }
-
 }
-

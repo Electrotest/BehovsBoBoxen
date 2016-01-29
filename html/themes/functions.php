@@ -84,7 +84,6 @@ function get_messages_from_session() {
   $html = null;
   if(!empty($messages)) {
     foreach($messages as $val) {
-      //$trans = t($val['message']);
       $valid = array('info', 'notice', 'success', 'warning', 'error', 'alert');
       $class = (in_array($val['type'], $valid)) ? $val['type'] : 'info';
       $html .= "<div class='$class'>{$val['message']}</div>\n";
@@ -92,29 +91,6 @@ function get_messages_from_session() {
   }
   return $html;
 }
-
-function login_menu() {
-  $bbb = CBehovsboboxen::Instance();
-  if(isset($bbb->config['menus']['login'])) {
-    if($bbb->user->isAuthenticated()) {
-      $item = $bbb->config['menus']['login']['items']['ucp'];
-      $items = "<a href='" . create_url($item['url']) . "' title='{$item['title']}'><img class='gravatar'  alt=''> " . $bbb->user['acronym'] . "</a> ";
-      if($bbb->user['hasRoleAdmin']) {
-        $item = $bbb->config['menus']['login']['items']['acp'];
-        $items .= "<a href='" . create_url($item['url']) . "' title='{$item['title']}'>{$item['label']}</a> ";
-      }
-      $item = $bbb->config['menus']['login']['items']['logout'];
-      $items .= "<a href='" . create_url($item['url']) . "' title='{$item['title']}'>{$item['label']}</a> ";
-    } else {
-      $item = $bbb->config['menus']['login']['items']['login'];
-      $items = "<a href='" . create_url($item['url']) . "' title='{$item['title']}'>{$item['label']}</a> ";
-    }
-    return "<nav>$items</nav>";
-  }
-  return null;
-}
-
-
 
 /**
  * Escape data to make it safe to write in the browser.
@@ -152,6 +128,8 @@ function create_url($urlOrController=null, $method=null, $arguments=null) {
  * @returns string the absolute url.
  */
 function theme_url($url) {
+  //echo 'theme_url: ' . $url;
+  //echo CBehovsboboxen::Instance()->themeUrl . "/{$url}";
     return create_url(CBehovsboboxen::Instance()->themeUrl . "/{$url}");
 }
 
@@ -162,6 +140,7 @@ function theme_url($url) {
 * @returns string the absolute url.
 */
 function theme_parent_url($url) {
+  //echo 'theme_parent_url: ' . $url;
     return create_url(CBehovsboboxen::Instance()->themeParentUrl . "/{$url}"); 
 }
 
@@ -254,16 +233,6 @@ function canvas_include() {
 }
 
 /**
- * Include the javascript library jsdatepick, if defined.
- *
- * @return string if jsdatepick path is defined, else null.
- */
-function jsdatepick_include() {
-  global $bbb;
-  return isset($bbb->config['javascript']['jsdatepick']) ? "<script src='" . static_url($bbb->config['javascript']['jsdatepick']) . "'></script>" : null;
-}
-
-/**
  * Include the javascript library jquery, if defined.
  *
  * @return string if jquery path is defined, else null.
@@ -273,3 +242,42 @@ function jquery_include() {
   return isset($bbb->config['javascript']['jquery']) ? "<script src='" . static_url($bbb->config['javascript']['jquery']) . "'></script>" : null;
 }
 
+/**
+ * Include the javascript library jquery-1.7.1.min, if defined.
+ *
+ * @return string if jquery path is defined, else null.
+ */
+function jquery7_include() {
+  global $bbb;
+  return isset($bbb->config['javascript']['jquery7']) ? "<script src='" . static_url($bbb->config['javascript']['jquery7']) . "'></script>" : null;
+}
+
+/**
+ * Include the javascript library jquery, if defined.
+ *
+ * @return string if jquery path is defined, else null.
+ */
+function script_include() {
+  global $bbb;
+  return isset($bbb->config['javascript']['script']) ? "<script src='" . static_url($bbb->config['javascript']['script']) . "'></script>" : null;
+}
+
+function jqueryui_include(){
+  global $bbb;
+  return isset($bbb->config['javascript']['jqueryui']) ? "<script src='" . static_url($bbb->config['javascript']['jqueryui']) . "'></script>" : null;
+}
+
+function jquery10_include(){
+  global $bbb;
+  return isset($bbb->config['javascript']['jquery10']) ? "<script src='" . static_url($bbb->config['javascript']['jquery10']) . "'></script>" : null;
+}
+
+function jquery11_include(){
+  global $bbb;
+  return isset($bbb->config['javascript']['jquery11']) ? "<script src='" . static_url($bbb->config['javascript']['jquery11']) . "'></script>" : null;
+}
+
+function less_include(){
+  global $bbb;
+  return isset($bbb->config['javascript']['less']) ? "<script src='" . static_url($bbb->config['javascript']['less']) . "'></script>" : null;
+}

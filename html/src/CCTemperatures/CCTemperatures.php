@@ -23,7 +23,6 @@ class CCTemperatures extends CObject implements IController {
         $this->temperatures = new CMTemperatures();
         $this->list = $this->temperatures->ListAll();
         $this->various = $this->temperatures->ListVarious();
-//var_dump($this->list);
     }
 
     /**

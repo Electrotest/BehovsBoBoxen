@@ -20,6 +20,7 @@ class CCSpotprices extends CObject implements IController {
     public $tomorrowsDate;
     public $todayArray;
     public $tomorrowArray;
+    public $translate;
 
 
     /**
@@ -29,6 +30,7 @@ class CCSpotprices extends CObject implements IController {
         parent::__construct();
         $this->textfiles = new CMTextfiles();
         $this->temperatures = new CMTemperatures();
+        $this->translate = new CMTranslate();
         $this->list = $this->temperatures->ListAll();
         $this->various = $this->temperatures->ListVarious();
         $this->isTemps = $this->textfiles->getIsTemps();
@@ -36,8 +38,6 @@ class CCSpotprices extends CObject implements IController {
         $this->toDate = $this->getToDate();
         $this->todaysDate = $this->textfiles->getTodaysDate();
         $this->tomorrowsDate = $this->textfiles->getTomorrowsDate();
-//var_dump($this->various);
-//var_dump($this->isTemps);
     }
 
     /**
@@ -46,6 +46,9 @@ class CCSpotprices extends CObject implements IController {
     public function Index() {
         $if = new CInterceptionFilter();
         $access = $if->AdminOrForbidden();
+        $next = t("The next days spotprice is released 16:00 from NordPool's ftp server. Here we show the setvalues per hour to avoid buying electricity when the price is high.");
+        $get = t('Get current spotprice');
+        $translate = t('Update translations');
         $this->views->SetTitle('Spotprice Controller')
                 ->AddInclude(__DIR__ . '/index.tpl.php', array(
                     'html' => $this->createTable(),
@@ -56,8 +59,9 @@ class CCSpotprices extends CObject implements IController {
                     'todayArray' => $this->textfiles->getCurrentCommaValues(),
                     'tomorrowsDate' => $this->tomorrowsDate,
                     'tomorrowArray' => $this->textfiles->getTomCommaValues(),
-                    'text' => t("The next days spotprice is released 16:00 from NordPool's ftp server. Here we show the setvalues per hour to avoid buying electricity when the price is high."),
-                    'get' => t('Get current spotprice'),
+                    'text' => $next,
+                    'get' => $get,
+                    'translate' => $translate,
         ));
     }
 
@@ -66,10 +70,8 @@ class CCSpotprices extends CObject implements IController {
         $head = "";
         $content = "";
         $spotprices = $this->textfiles->getCurrentCleanValues();
-//var_dump($spotprices);
         $average = $this->textfiles->getCurrentAveragePrice();
         $smallvar = $this->temperatures->ListVarious();
-//var_dump($smallvar);
         $nrOf = $smallvar[0]['nrofrooms'];
         $room = "";
         $rooms = array();
@@ -78,7 +80,7 @@ class CCSpotprices extends CObject implements IController {
         $pickedPercent = $smallvar[0]['percentlevel'];
         $havePercentValue = $smallvar[0]['percent'];
         $current = t("Current averageprice "); 
-        $strRoom = t('Room');
+        $strRoom = t('Hour');
         $currentRed = t('Current price');
         $choice = t('Your chosen percentlevel:');
 
@@ -88,7 +90,7 @@ class CCSpotprices extends CObject implements IController {
             $this->textfiles->getCurrentAveragePrice() . "</span>. " . $choice . " " . $pickedPercent . ".</caption>";
         $head .= "<thead><tr><th scope='col'>" . $strRoom . "</th>";
             for ($i = 0; $i < 24; $i++) {
-                $head .= "<th class = 'w3'>" . ($i + 1) . "</th>";
+                $head .= "<th class = 'w3'>" . ($i) . "</th>";
             }
         $head .= "</tr></thead><tbody>";
 
@@ -105,7 +107,7 @@ class CCSpotprices extends CObject implements IController {
             $this->rooms[$room]['home'] = $this->list[$i]['home'];
             $this->rooms[$room]['away'] = $this->list[$i]['away'];
             $this->rooms[$room]['isTemp'] = $this->isTemps[$i+1];
-            $this->setpoints[$room] = array();    // Varje döpt rum får egen 24 timmars lista med temperaturer
+            $this->setpoints[$room] = array();    // Each room gets 24 hour list of temperatures
             $textRoom[$i] = $this->setpoints[$room];  
 
             $percentValue = ($pickedPercent / 100) + 1;
@@ -114,14 +116,10 @@ class CCSpotprices extends CObject implements IController {
             $cutOffArray = array();
                 for ($t = 0; $t < 24; $t++) {
                 $cutOffArray[$t] = false;
-                //$lower[$t] = false;
             }
             for ($q = 0; $q < 24; $q++) {
                 if ($spotprices[$q] > ($percentValue * $average)) {
-                //if(($compare23[$q] - ($percentValue * $average)) > $ore){
                 $cutOffArray[$q] = true;
-            //}
-            //$lower[$q] = true;
                 }
             }
 
@@ -137,17 +135,16 @@ class CCSpotprices extends CObject implements IController {
     for ($q = 0; $q < 24; $q++) {
         $redmax1 = $q+1;
         $redmax2 = $q+2;
-        $this->setpoints[$room] = "";  // 24 timmars temperaturer för varje rum       
-        $textRoom[$i][$q] = $this->setpoints[$room] . ",";   // Vi skriver en kommaseparerad lista med temperaturerna, en för varje rum
+        $this->setpoints[$room] = "";  // temperatures for 24 hours for each room     
+        $textRoom[$i][$q] = $this->setpoints[$room] . ",";   // The temperatures with commas
 
 
-        if (($this->toDate && $this->fromDate)  &&  ((strtotime($this->toDate)  >= strtotime($this->fromDate)) && ((strtotime($this->toDate) >= strtotime($this->todaysDate))))) {                
+        if (($this->toDate && $this->fromDate)  &&  (strtotime($this->toDate)  >= strtotime($this->fromDate)) && (strtotime($this->toDate) >= strtotime($this->todaysDate)) && (strtotime($this->fromDate) <= strtotime($this->todaysDate))) {                
                     $this->setpoints[$room] = $this->rooms[$room]['away'];
                     $content .= "<td class ='opacity'>" . $this->setpoints[$room] . "</td>";
                     $textRoom[$i][$q] = $this->setpoints[$room] . ",";
         }elseif ($havePercentValue == 1) {
             if($spotprices[$q] > ($percentValue * $average)){
-                //if(($compare23[$q] - ($percentValue * $average)) > $ore){
                 $this->setpoints[$room] = $this->rooms[$room]['min'];
                 $content .= "<td class ='opacityblue'>" . $this->setpoints[$room] . "</td>";
                 $textRoom[$i][$q] = $this->setpoints[$room] . ",";
@@ -204,7 +201,7 @@ class CCSpotprices extends CObject implements IController {
         }else{
             $tablespot .= "<tr><td><b><span class ='orange'>" . $this->todaysDate . "</span></b></td><td><b><span class ='orange'>" . $this->textfiles->getCurrentMaxPrice() . "</span></b></td><td><b><span class ='orange'>" . $this->textfiles->getCurrentMinPrice() . "</span></b></td><td><b><span class ='orange'>" . $this->textfiles->getCurrentAveragePrice() . "</span></b></td></tr>";
         }
-    $tablespot .= "</tbody></table>";
+    $tablespot .= "</tbody></table></div>";
     return $tablespot;
     }
 
@@ -226,12 +223,17 @@ class CCSpotprices extends CObject implements IController {
         return $this->toDate;
     }
 
-    public function GetSpot(){
+    public function getSpot(){
         $myFile = $this->config['textbase'] . 'spotprice2.txt';
         $filename = "ftp://spot:spo1245t@ftp.nordpoolspot.com/spotprice.sdv";
             $current = file_get_contents($filename);
             file_put_contents($myFile, $current);
             $this->RedirectTo('spotprices');
+    }
+
+    public function updateTranslations(){
+        $this->translate->Manage('install');
+        $this->RedirectTo('spotprices');
     }
 
 

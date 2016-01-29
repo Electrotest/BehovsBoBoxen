@@ -104,8 +104,8 @@ class CMTranslate extends CObject implements IHasSQL, ArrayAccess, IModule {
                     $this->db->ExecuteQuery(self::SQL('insert translate'), array('Away', 'Borta'));
                     $this->db->ExecuteQuery(self::SQL('insert translate'), array('Loadcontrol', 'Rundstyrning'));
                     $this->db->ExecuteQuery(self::SQL('insert translate'), array('Now it is ', 'Nu är det '));
-                    $this->db->ExecuteQuery(self::SQL('insert translate'), array(' degrees Celsius outside.', ' grader Ceslsius ute.'));
-                    $this->db->ExecuteQuery(self::SQL('insert translate'), array('Edit', 'Redigera'));
+                    $this->db->ExecuteQuery(self::SQL('insert translate'), array(' degrees celsius outside.', ' grader celsius ute.'));
+                    $this->db->ExecuteQuery(self::SQL('insert translate'), array('Edit', 'Ändra'));
                     $this->db->ExecuteQuery(self::SQL('insert translate'), array('Various settings', 'Några inställningar'));
                     $this->db->ExecuteQuery(self::SQL('insert translate'), array('Value', 'Värde'));
                     $this->db->ExecuteQuery(self::SQL('insert translate'), array('Areacode', 'Områdeskod'));
@@ -117,8 +117,8 @@ class CMTranslate extends CObject implements IHasSQL, ArrayAccess, IModule {
                     $this->db->ExecuteQuery(self::SQL('insert translate'), array('Away to', 'Borta till'));
                     $this->db->ExecuteQuery(self::SQL('insert translate'), array('Reinitiate database', 'Installera om databas'));
                     $this->db->ExecuteQuery(self::SQL('insert translate'), array('The users', 'Användare'));
-                    $this->db->ExecuteQuery(self::SQL('insert translate'), array('Edit member', 'Redigera medlem'));
-                    $this->db->ExecuteQuery(self::SQL('insert translate'), array('Acronym', 'Akronym'));
+                    $this->db->ExecuteQuery(self::SQL('insert translate'), array('Member', 'Medlem'));
+                    $this->db->ExecuteQuery(self::SQL('insert translate'), array('Acronym', 'Användarnamn'));
                     $this->db->ExecuteQuery(self::SQL('insert translate'), array('Name', 'Namn'));
                     $this->db->ExecuteQuery(self::SQL('insert translate'), array('Algorithm', 'Algoritm'));
                     $this->db->ExecuteQuery(self::SQL('insert translate'), array('Created', 'Skapad'));
@@ -209,6 +209,20 @@ class CMTranslate extends CObject implements IHasSQL, ArrayAccess, IModule {
                     $this->db->ExecuteQuery(self::SQL('insert translate'), array('Install modules','Installera moduler'));
                     $this->db->ExecuteQuery(self::SQL('insert translate'), array('This is a demo. Login with root:root.','Detta är en demo. Logga in med root:root.'));
                     $this->db->ExecuteQuery(self::SQL('insert translate'), array('404, Page not found','404, Sidan finns inte'));
+                    $this->db->ExecuteQuery(self::SQL('insert translate'), array('Update translations','Updatera översättningstabell'));
+                    $this->db->ExecuteQuery(self::SQL('insert translate'), array('You have logged out.','Du är utloggad.'));
+                    $this->db->ExecuteQuery(self::SQL('insert translate'), array('Room','Rum'));
+                    $this->db->ExecuteQuery(self::SQL('insert translate'), array('Successfully updated password and names.','Uppdaterade lösenord och användarnamn'));
+                    $this->db->ExecuteQuery(self::SQL('insert translate'), array('Names and password were not updated.','Lösenord och namn uppdaterades inte.'));
+                    $this->db->ExecuteQuery(self::SQL('insert translate'), array('Successfully updated the names.','Namnen uppdaterades.'));
+                    $this->db->ExecuteQuery(self::SQL('insert translate'), array('The names were not updated.','Namnen uppdaterades inte.'));
+                    $this->db->ExecuteQuery(self::SQL('insert translate'), array('new password','nytt lösenord'));
+                    $this->db->ExecuteQuery(self::SQL('insert translate'), array('new password confirmed','bekräfta nytt lösnord'));
+                    $this->db->ExecuteQuery(self::SQL('insert translate'), array('Welcome ','Välkommen '));
+                    $this->db->ExecuteQuery(self::SQL('insert translate'), array('makes your house smart!','gör hus smarta!'));
+                    $this->db->ExecuteQuery(self::SQL('insert translate'), array('Login/Logout','Logga In/Ut'));
+                    $this->db->ExecuteQuery(self::SQL('insert translate'), array('Hour','Timma'));
+
                      return array('success', t('Successfully created the database tables and created a default Translatetable, owned by you.'));
                 } catch (Exception$e) {
                     die("$e<br/>Failed to open database: " . $this->config['database'][0]['dsn']);
@@ -248,8 +262,4 @@ class CMTranslate extends CObject implements IHasSQL, ArrayAccess, IModule {
             return null;
         }
     }
-    
-
-                  
-
 }

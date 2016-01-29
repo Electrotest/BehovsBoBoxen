@@ -8,7 +8,7 @@ sudo modprobe w1_therm &
 
 sleep 10
 
-sudo python /home/pi/BehovsBoBoxen/dallas.py &
+sudo python /home/pi/dallas.py &
 
 sleep 10
 

@@ -81,6 +81,14 @@ public function GetMessages() {
     $_SESSION[$this->key] = $this->data;
   }
 
+  /**
+   * Get values
+   */
+  public function __getTempArray($key) {
+    echo $key->data;
+    return isset($key->data) ? $key->data : null;
+  }
+
 
   /**
    * Store values from this object into the session.

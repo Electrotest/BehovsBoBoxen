@@ -71,9 +71,9 @@ class CMTemperatures extends CObject implements IHasSQL, ArrayAccess, IModule {
 
             'drop table smallsettings' => "DROP TABLE IF EXISTS smallsettings;",
             'create table smallsettings' => "CREATE TABLE IF NOT EXISTS smallsettings (id INTEGER PRIMARY KEY NOT NULL, area TEXT, nrofrooms INTEGER, load INTEGER, percent INTEGER, percentlevel INTEGER, fromdate DATETIME, todate DATETIME);",
-            'insert smallsettings' => "INSERT INTO smallsettings (area, nrofrooms, load, percent, percentlevel) VALUES (?,?,?,?,?);",
+            'insert smallsettings' => "INSERT INTO smallsettings (area, nrofrooms, load, percent, percentlevel, fromdate, todate) VALUES (?,?,?,?,?,?,?);",
             'select allsmall' => "SELECT id, area, nrofrooms, load, percent, percentlevel, fromdate, todate FROM smallsettings;",
-            'update smallsettings' => "UPDATE smallsettings SET area = ?,nrofrooms = ?,load = ?, percent = ?, percentlevel = ? WHERE id = 1;",  
+            'update smallsettings' => "UPDATE smallsettings SET area = ?,nrofrooms = ?,load = ?, percent = ?, percentlevel = ?, fromdate = ?, todate = ? WHERE id = 1;",  
             'update percentlevel' => "UPDATE smallsettings SET percentlevel = ? WHERE id = 1;",
             'update dates' => "UPDATE smallsettings SET fromdate = ?, todate = ?;",
 
@@ -117,7 +117,7 @@ class CMTemperatures extends CObject implements IHasSQL, ArrayAccess, IModule {
                     
                     $this->db->ExecuteQuery(self::SQL('drop table smallsettings'));
                     $this->db->ExecuteQuery(self::SQL('create table smallsettings'));
-                    $this->db->ExecuteQuery(self::SQL('insert smallsettings'), array('SE1', 8, 0, 0, 0));
+                    $this->db->ExecuteQuery(self::SQL('insert smallsettings'), array('SE1', 8, 0, 0, 0, '', ''));
 
                      return array('success', t('Successfully created the database tables and created a default Temperaturetable, owned by you.'));
                 } catch (Exception$e) {
@@ -250,10 +250,10 @@ class CMTemperatures extends CObject implements IHasSQL, ArrayAccess, IModule {
         return $rowcount === 1;
     }
 
-    public function UpdateVarious($area, $nrofrooms, $load, $percent, $percentlevel){
+    public function UpdateVarious($area, $nrofrooms, $load, $percent, $percentlevel, $awayfrom, $awayto){
         $msg = null;
         
-        $this->db->ExecuteQuery(self::SQL('update smallsettings'), array($area, $nrofrooms, $load, $percent, $percentlevel));
+        $this->db->ExecuteQuery(self::SQL('update smallsettings'), array($area, $nrofrooms, $load, $percent, $percentlevel, $awayfrom, $awayto));
         $msg = 'updated';
         
         $rowcount = $this->db->RowCount();

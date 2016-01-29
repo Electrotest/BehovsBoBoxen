@@ -3,17 +3,16 @@
     <head>
         <meta charset='utf-8'/>
         <title><?= $title ?></title>
+
         <link rel='shortcut icon' href='<?= theme_url($favicon) ?>'/>
         <link rel='stylesheet' href='<?= theme_url($stylesheet) ?>'/>
-        <?php if (isset($inline_style)): ?><style><?= $inline_style ?></style><?php endif; ?>
         <?=modernizr_include()?>
     </head>
     <body>
-        
+       
         <div id='outer-wrap-header'>
             <div id='inner-wrap-header'>
                 <div id='header'>
-                    <!--<div id='login-menu'><?= login_menu() ?></div>-->
                     <div id='banner'>
                         <a href='<?= base_url() ?>'><img id='site-logo' src='<?= theme_url($logo) ?>' title = 'Index' alt='logo' width='<?= $logo_width ?>' height='<?= $logo_height ?>' /></a>
                         <span id='site-title'><a href='<?= base_url() ?>'><?= $header ?></a></span>
@@ -25,9 +24,6 @@
                                 <div id='navbar'><?=render_views('navbar')?></div>
                             <?php endif; ?>
                         </div>
-                            <?php if(region_has_content('my-navbar')): ?>
-                                <!--<div id='my-navbar'><?=render_views('my-navbar')?></div>-->
-                            <?php endif; ?>
                     </div>
                 </div>
             </div>
@@ -55,7 +51,7 @@
             <div id='inner-wrap-main'>
                 <?= get_messages_from_session() ?><?= @$main ?>
                 <div id='primary'><?= render_views('primary') ?><?= render_views() ?></div>
-                <div id='sidebar'><?= render_views('sidebar') ?></div>
+
             </div>
         </div>
 
@@ -84,8 +80,14 @@
                 <div id='footer'><?= render_views('footer') ?><?= $footer ?><?= get_debug() ?></div>
             </div>
         </div>
+
         <?=canvas_include()?>
-        <?=jsdatepick_include()?>
         <?=jquery_include()?>
+        <?=jquery7_include()?>
+        <?=script_include()?>
+        <?=jqueryui_include()?>
+        <?=jquery10_include()?>
+        <?=jquery11_include()?>
+        <?=less_include()?>
     </body>
 </html>

@@ -1,6 +1,6 @@
 #!/usr/bin/python
-#2015-11-06
-
+#2015-05-13:14:09
+#2015-10-26:10:42
 import datetime;
 import time;
 import sqlite3
@@ -18,10 +18,16 @@ GPIO.setup(23,GPIO.OUT)
 GPIO.setup(11,GPIO.OUT)
 GPIO.setup(12,GPIO.OUT)
 GPIO.setup(15,GPIO.OUT)
+#GPIO general purpose input output
 
-slaveArray = [0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15]
+sensorArray = [0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15]
+#master in raspberrypi ask these sensors (slaves)
 setpointArray = [0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15]
+#the value we want
 actualTemp = [0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15]
+#the value we have
+pins = [11,13,15,29,31,33,35,37,12,16,18,22,32,36,38,40]
+#may be programmed for input or output
 
 #read dallasgivare
 path1="/sys/bus/w1/devices/w1_bus_master1/w1_master_slaves"
@@ -30,14 +36,14 @@ tfile=open (path1,'r')
 
 for line in tfile:
   dallas=line[0:15]
-  slaveArray[i] = dallas
-  #print slaveArray[i] 
+  sensorArray[i] = dallas
+  #print sensorArray[i] 
   i=i+1
 tfile.close()
 
-def initiate(setpointArray, actualTemp, slaveArray):
+def initiate(setpointArray, actualTemp, sensorArray):
 	setpointArray = setPoints(setpointArray)
-	actualTemp = actualTemps(actualTemp, slaveArray)
+	actualTemp = actualTemps(actualTemp, sensorArray)
 	updateTempFile(actualTemp)
 	#print "setpoints:", setpointArray, "/actuals:", actualTemp
 
@@ -45,7 +51,7 @@ def setPoints(setpointArray):
 	setpoint=0
 
 	# Creates or opens a file called mydb with a SQLite3 DB
-	db = sqlite3.connect('/home/pi/BehovsBoBoxen/html/application/data/.ht.sqlite')
+	db = sqlite3.connect('/var/www/html/application/data/.ht.sqlite3')
 	cursor = db.cursor()
 	cursor.execute("SELECT * FROM roomsettings")
 	all_rows = cursor.fetchall()
@@ -59,13 +65,13 @@ def setPoints(setpointArray):
 	return setpointArray
 
 
-def actualTemps(actualTemp, slaveArray):
+def actualTemps(actualTemp, sensorArray):
 	basePath="/sys/bus/w1/devices/"
 	tailPath="/w1_slave"
 	
 	i = 0
 	while i < 8:
-		string = str(slaveArray[i])
+		string = str(sensorArray[i])
 		searchPath = basePath + string + tailPath
 		tfile = open(searchPath)
 		text = tfile.read()
@@ -80,13 +86,13 @@ def actualTemps(actualTemp, slaveArray):
 	return actualTemp
 
 
-#las in aktuell datum och tid, samt ta bort microsekunderna
+#read actual time and date, removes microseconds
 def getdate():
     date = datetime.datetime.now()
     return(unicode(date.replace(microsecond=0)))
 	
 def updateTempFile(actualTemp):
-	file = open("/home/pi/BehovsBoBoxen/html/application/textfile/temperature.txt", "w") 
+	file = open("/var/www/html/application/textfile/temperature.txt", "w") 
 	file.write(getdate()) 
 	file.write("; ") 
 	file.write('; '.join(map(str, actualTemp)))	
@@ -95,83 +101,26 @@ def updateTempFile(actualTemp):
 def main():
 
     while 1 > 0:            
-		initiate(setpointArray, actualTemp, slaveArray)
+		initiate(setpointArray, actualTemp, sensorArray)
 		actualtime=datetime.datetime.now()#get time
 		actualhour=actualtime.hour#get hour
 
-		#get setpoint 
-		fileroom0 = open("/home/pi/BehovsBoBoxen/html/application/textfile/room0.txt", "r")
-		setpoint0=float(fileroom0.read().split(',')[actualhour])
-		fileroom0.close()
-		#end get setpoint 
-                if actualTemp[0] < setpoint0: GPIO.output(26,False)
-                if actualTemp[0] > setpoint0: GPIO.output(26,True)
-                
-		#get setpoint 
-		fileroom1 = open("/home/pi/BehovsBoBoxen/html/application/textfile/room1.txt", "r")
-		setpoint1=float(fileroom1.read().split(',')[actualhour])
-		fileroom1.close()
-		#end get setpoint 
-                if actualTemp[1] < setpoint1: GPIO.output(24,False)
-                if actualTemp[1] > setpoint1: GPIO.output(24,True)
-                
 
-                #get setpoint 
-		fileroom2 = open("/home/pi/BehovsBoBoxen/html/application/textfile/room2.txt", "r")
-		setpoint2=float(fileroom2.read().split(',')[actualhour])
-		fileroom2.close()
-		#end get setpoint 
-                if actualTemp[2] < setpoint2: GPIO.output(21,False)
-                if actualTemp[2] > setpoint2: GPIO.output(21,True)
-                
-                #get setpoint 
-		fileroom3 = open("/home/pi/BehovsBoBoxen/html/application/textfile/room3.txt", "r")
-		setpoint3=float(fileroom3.read().split(',')[actualhour])
-		fileroom3.close()
-		#end get setpoint 
-                if actualTemp[3] < setpoint3: GPIO.output(19,False)
-                if actualTemp[3] > setpoint3: GPIO.output(19,True)
-
-                #get setpoint 
-		fileroom4 = open("/home/pi/BehovsBoBoxen/html/application/textfile/room4.txt", "r")
-		setpoint4=float(fileroom4.read().split(',')[actualhour])
-		fileroom4.close()
-		#end get setpoint 
-                if actualTemp[4] < setpoint4: GPIO.output(23,False)
-                if actualTemp[4] > setpoint4: GPIO.output(23,True)
-                
-		#get setpoint 
-		fileroom5 = open("/home/pi/BehovsBoBoxen/html/application/textfile/room5.txt", "r")
-		setpoint5=float(fileroom5.read().split(',')[actualhour])
-		fileroom5.close()
-		#end get setpoint 
-                if actualTemp[5] < setpoint5: GPIO.output(11,False)
-                if actualTemp[5] > setpoint5: GPIO.output(11,True)
-                
-                #get setpoint 
-		fileroom6 = open("/home/pi/BehovsBoBoxen/html/application/textfile/room6.txt", "r")
-		setpoint6=float(fileroom6.read().split(',')[actualhour])
-		fileroom6.close()
-		#end get setpoint 
-                if actualTemp[6] < setpoint6: GPIO.output(12,False)
-                if actualTemp[6] > setpoint6: GPIO.output(12,True)
-
-                #get setpoint 
-		fileroom7 = open("/home/pi/BehovsBoBoxen/html/application/textfile/room7.txt", "r")
-		setpoint7=float(fileroom7.read().split(',')[actualhour])
-		fileroom7.close()
-		#end get setpoint 
-                if actualTemp[7] < setpoint7: GPIO.output(15,False)
-                if actualTemp[7] > setpoint7: GPIO.output(15,True)
-                
-
-                
-                
-                
-                
-                
-                print getdate(), 'Actual temp=',actualTemp[1], 'Setpoint=' ,setpoint0 
-		time.sleep(10) #vanta i 10s(ca 5min)
+	#get setpoints
+	x = 0
+	while x < 8:
+			room = "room" + str(x)
+			string = "/var/www/html/application/textfile/" + room + ".txt"
+			fileroom[x] = open(string, "r")
+			setpoint[x]=float(fileroom[x].read().split(',')[actualhour])
+			fileroom[x].close()
+			#end get setpoint 
+                if actualTemp[x] > setpoint0: GPIO.output(pins[x],False)
+                if actualTemp[x] < setpoint0: GPIO.output(pins[x],True)
+                x = x + 1
+		
+                #print getdate(), 'Actual temp=',temp1, 'Setpoint=' ,setpointArray[1] #temp2,temp3,temp4,temp5,temp6,temp7,temp8
+		time.sleep(10) #vanta i 297s(ca 5min)
 main();
 
 

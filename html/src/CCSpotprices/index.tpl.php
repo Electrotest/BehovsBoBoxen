@@ -1,6 +1,6 @@
 <?php if($tablespot):?>
 	<?= $tablespot ?>
-   </div>
+   
 <?php endif;?>
 
 <?php if($html):?>
@@ -13,7 +13,8 @@
 	<?= $header ?>
 <?php endif; ?>
 
-<div id="chartContainer2" style="height: 150px; width: 95%;"></div>
+<div id="chartContainer2" style="height: 150px; width: 92%;"></div>
+</div>
 
 <script>
             window.onload = function() {

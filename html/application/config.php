@@ -95,10 +95,9 @@ $bbb->config['character_encoding'] = 'UTF-8';
  *
  * langugage: the language of the webpage and locale, settings for i18n, 
  *            internationalization supporting multilanguage.
- * i18n: enable internationalization through gettext.
+ *            change to en_GB
  */
 $bbb->config['language'] = 'sv_SE';
-$bbb->config['i18n'] = function_exists('gettext');
 
 
 /**
@@ -107,8 +106,13 @@ $bbb->config['i18n'] = function_exists('gettext');
  */
 $bbb->config['javascript']['modernizr'] = 'js/modernizr/2.6.1_smallest.js';
 $bbb->config['javascript']['canvas'] = 'js/canvasjs.min.js';
-$bbb->config['javascript']['jsdatepick'] = 'js/jsDatePick.full.1.3.js';
 $bbb->config['javascript']['jquery'] = 'js/jquery.min.js';
+$bbb->config['javascript']['jquery7'] = 'js/jquery-1.7.1.min.js';
+$bbb->config['javascript']['jqueryui'] = 'js/jquery-ui-1.8.17.custom.min.js';
+$bbb->config['javascript']['jquery10'] = 'js/jquery-1.10.2.js';
+$bbb->config['javascript']['jquery11'] = 'js/_1.11.4_jquery-ui.js';
+$bbb->config['javascript']['script'] = 'js/script.js';
+$bbb->config['javascript']['less'] = 'js/less.js';
 
 
 /**
@@ -126,7 +130,8 @@ $bbb->config['controllers'] = array(
     'spotprices'    => array('enabled' => true,'class' => 'CCSpotprices'),
     'index'     => array('enabled' => true,'class' => 'CCIndex'),
     'modules'   => array('enabled' => true,'class' => 'CCModules'),   
-    'user'      => array('enabled' => true,'class' => 'CCUser')
+    'user'      => array('enabled' => true,'class' => 'CCUser'),
+    'presentation'   => array('enabled' => true,'class' => 'CCPresentation'),
 );
 
 /**
@@ -152,19 +157,17 @@ $bbb->config['title_separator'] = ' - ';
  */
 $bbb->config['menus'] = array(
     'navbar' => array(
+        'presentation' => array('label' => t('Presentation'), 'url' => 'presentation'),
         'spotprices' => array('label' => t('Spotprices'), 'url' => 'spotprices'),
-      'temperatures' => array('label' => t('Temperatures'), 'url' => 'acp/temperatures'),
-      'acp' => array('label' => t('AdminControlPanel'), 'url' => 'acp'),
-      'logout' => array('label' => t('Logout'), 'url' => 'user/logout'),
+        'temperatures' => array('label' => t('Temperatures'), 'url' => 'acp/temperatures'),
+        'acp' => array('label' => t('AdminControlPanel'), 'url' => 'acp'),
+        'logout' => array('label' => t('Login/Logout'), 'url' => 'user/logout'),
     ),
 );
 
 /**
  * Settings for the theme. The theme may have a parent theme.
  *
- * When a parent theme is used the parent's functions.php will be included before the current
- * theme's functions.php. The parent stylesheet can be included in the current stylesheet
- * by an @import clause. See application/themes/mytheme for an example of a child/parent theme.
  * Template files can reside in the parent or current theme, the CBehovsboboxen::ThemeEngineRender()
  * looks for the template-file in the current theme first, then it looks in the parent theme.
  *
@@ -185,7 +188,6 @@ $bbb->config['menus'] = array(
 $bbb->config['theme'] = array(
     'path' => 'themes/bb',
     'parent' => 'themes/bb',
-    'stylesheet' => 'style.css',
     'template_file' => 'index.tpl.php',
     'regions' => array('header','navbar', 'my-navbar', 'flash', 'featured-first', 'featured-middle', 'featured-last',
         'primary', 'custom', 'sidebar', 'triptych-first', 'triptych-middle', 'triptych-last',
@@ -194,12 +196,12 @@ $bbb->config['theme'] = array(
     'menu_to_region' => array('navbar' => 'navbar'),
     'data' => array(
         'header' => 'BehovsBoBoxen',
-        'slogan' => t('Some text'),
+        'slogan' => t('makes your house smart!'),
         'favicon' => 'smallbox.jpg',
         'logo' => 'box.jpg',
         'logo_width' => 88,
         'logo_height' => 88,
-        'stylesheet' => 'style.php',
+        'stylesheet' => 'style.css',
         'footer' => '<p>BehovsBoBoxen &copy; Anders Kjellström, <a href="http://www.behovsbo.se">www.behovsbo.se</a></p>',
     ),
 );

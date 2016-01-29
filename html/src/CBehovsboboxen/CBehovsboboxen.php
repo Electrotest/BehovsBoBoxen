@@ -232,8 +232,9 @@ class CBehovsboboxen implements ISingleton /*, IModule*/  {
         }
 
         // Add stylesheet name to the $bbb->data array
-        $this->data['stylesheet'] = $this->config['theme']['stylesheet'];
+        $this->data['stylesheet'] = $this->config['theme']['data']['stylesheet'];
         // Make the theme urls available as part of $bbb
+//echo $this->data['stylesheet'];
         $this->themeUrl = $themeUrl;
         $this->themeParentUrl = $parentUrl;
 
@@ -519,6 +520,7 @@ class CBehovsboboxen implements ISingleton /*, IModule*/  {
         break;
 
       case 'theme_url':
+      echo 'theme_url';
         return $this->CreateUrl( $isAbsolute ? $this->request->site_url . $url : $this->themeUrl . "/$url" );
         break;
 

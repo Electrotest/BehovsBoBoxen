@@ -47,7 +47,6 @@ class CMTextfiles extends CObject implements ArrayAccess/*, IModule */{
         parent::__construct();
             $this->temperatures = new CMTemperatures();
         	$this->LoadLists();
-//var_dump($this->lists);
     }
 
 
@@ -79,17 +78,18 @@ class CMTextfiles extends CObject implements ArrayAccess/*, IModule */{
     *   Execute a reading of file and return the result.
     */ 
     public function readSpotPrices() {
-    	$myFile = $this->config['textbase'] . 'spotprices.txt';
-        $ourFile = $this->config['textbase'] . 'currentPrices.txt';
-
-        $filearray = file($myFile);
-//var_dump($filearray);
         $area = $this->getAreaCode();
         $currency = $this->getCurrency();
-        $chosen = "";
 
-        $myFileNew = $this->config['textbase'] . 'spotprice2.txt';
-        $ourFileNew = $this->config['textbase'] . 'newPrices.txt';
+        //current day
+    	$myFile = $this->config['textbase'] . 'spotprice.txt'; 
+        $ourFile = $this->config['textbase'] . 'currentPrices.txt'; 
+        $filearray = file($myFile);
+        $chosen = "";
+        
+        //next day (if after 16:00)
+        $myFileNew = $this->config['textbase'] . 'spotprice2.txt';  
+        $ourFileNew = $this->config['textbase'] . 'newPrices.txt'; 
         $filearrayNew = file($myFileNew);
         $chosen2 = "";
 
@@ -97,7 +97,7 @@ class CMTextfiles extends CObject implements ArrayAccess/*, IModule */{
             $pos1 = strpos($line, $area);
             $pos2 = strpos($line, $currency);
             if ($pos1 == true && $pos2 == true) {
-                $chosen = $line; // pick out our data
+                $chosen = $line; // picks out our current data
             }
         } 
 
@@ -105,7 +105,7 @@ class CMTextfiles extends CObject implements ArrayAccess/*, IModule */{
             $pos1 = strpos($line2, $area);
             $pos2 = strpos($line2, $currency);
             if ($pos1 == true && $pos2 == true) {
-                $chosen2 = $line2; // pick out our data
+                $chosen2 = $line2; // picks out our nextdays data
             }
         }  
         file_put_contents($ourFile, $chosen); 
@@ -270,13 +270,11 @@ class CMTextfiles extends CObject implements ArrayAccess/*, IModule */{
     		$newUrl = $this->config['textbase'] . 'newPrices.txt';
     		$newFile = file_get_contents($newUrl);
     		$currentUrl = $this->config['textbase'] . 'currentPrices.txt';
-            //$currentFile = file_get_contents($currentUrl);
     		file_put_contents($currentUrl, $newFile);
 
             $newSpot = $this->config['textbase'] . 'spotprice2.txt';
             $spotFile = file_get_contents($newSpot);
-            $currentSpot = $this->config['textbase'] . 'spotprices.txt';
-            //$currentSpotFile = file_get_contents($currentSpot);
+            $currentSpot = $this->config['textbase'] . 'spotprice.txt';;
             file_put_contents($currentSpot, $spotFile);
 		}
 
@@ -305,8 +303,7 @@ class CMTextfiles extends CObject implements ArrayAccess/*, IModule */{
     	$this->lists['tomMaxPrice'] = $max2;
     	$this->lists['tomMinPrice'] = $min2;
     	$this->lists['tomAveragePrice'] = $tomclean[24];
- 
-//var_dump($this->lists); 
+  
         return $this->lists;   
               
     }
