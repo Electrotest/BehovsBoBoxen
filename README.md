@@ -1,10 +1,9 @@
 Behovsboboxen - a controlsystem for smart homes based on Raspberry Pi.
 ======================================================================
-BehovsBoBoxen är ett styrsystem för smarta hem baserad på Raspberry Pi. 
+BehovsBoBoxen är ett styrsystem för smarta hem baserad på Raspberry Pi. (Svensk text längre ner.)
 
-(Svensk text längre ner.)
-
-You need this:
+<img src="http://www.behovsbo.se/bilderipso/bbbmaterial.jpg" width="90" />
+Bom:
 
 * 1 Raspberry pi 2 modell B
 * 7 ds18b20 with pins
@@ -27,15 +26,11 @@ Now, download the latest version from our repository using git client
 
 Run the installation script and follow the given instructions
 
-	sudo sh /home/pi/behovsboboxen/installbbb.sh
+	sudo sh /home/pi/behovsboboxen/install.sh
 
 if 1-wire sensors are plugged in according to the manual, you will find folders under 
 	/sys/bus/w1/devices
 where each sensor presents it's temperature.
-
-<img src="http://www.behovsbo.se/bilderipso/bbbmaterial.jpg" width="90" />
-
-We have used openssl with a new fqdn: behovs.bo.boxen, to make a secure https connection.
 
 
 BehovsBoBoxen är ett styrsystem för smarta hem baserad på Raspberry Pi.
@@ -66,17 +61,8 @@ Kör installationsskriptet och följ de givna instruktionerna
 
 	sudo sh /home/pi/BehovsBoBoxen/install.sh
 
-Om 1-wire sensorer är inkopplade enligt anvisningen, skall det i katalogen med sökvägen /sys/bus/w1/devices finnas mappar där varje sensor presenterar sin temperatur.
-Reläna skall kopplas med dupontsladdar enligt pinkonfigurationen i filen dallas.py
-
-
-Vi har använt openssl med en ny fqdn: behovsboboxen, för att skapa en säker https anslutning.
-
-Följ denna site för att lägga till adressen t.ex. (192.168.1.101 behovs behovs.bo.boxen) till din egen hosts fil.
-
-http://www.howtogeek.com/howto/27350/beginner-geek-how-to-edit-your-hosts-file/
-
-
+Om 1-wire sensorer är inkopplade enligt anvisningen, skall det med sökvägen /sys/bus/w1/devices finnas mappar där varje sensor anger sin temperatur.
+Reläna skall kopplas med dupontsladdar enligt pin-konfigurationen i filen dallas.py
 
 
 The interface of Behovsboboxen is based on Lydia, which is a PHP-based, MVC-inspired CMF
@@ -91,20 +77,3 @@ License
 -------
 
 Behovsboboxen (and Lydia) is licensed according to MIT-license. 
-
-
-Use of external libraries
------------------------------------
-
-The following external modules are included in Behovsboboxen.
-
-### lessphp
-lessphp by leaf to compile LESS.
-* Website: http://leafo.net/lessphp
-* Version: 0.3.8 (2012-08-18)
-* License: Dual license, MIT LICENSE and GPL VERSION 3
-* Lydia path: `themes/bb/lessphp`
-* Used by: `themes/bb/style.php`
-
-
-
