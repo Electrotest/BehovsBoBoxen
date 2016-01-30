@@ -121,7 +121,4 @@ class CPageLoader extends CObject {
 
     $this->views->Add($this->page);
   }
-
-
-
 } 

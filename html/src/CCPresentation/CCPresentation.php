@@ -104,7 +104,7 @@ class CCPresentation extends CObject implements IController {
         klonar man BehovsBoBoxens katalog från github: 
         <br /><br />
         <a href='https://github.com/Electrotest/behovsboboxen'>
-        <code>git clone https://github.com/Electrotest/behovsboboxen</code></a>
+        <code>git clone https://github.com/Electrotest/BehovsBoBoxen</code></a>
         <br /><br /> 
         I README-filen får man mera information.
         <br /><br /><br />
