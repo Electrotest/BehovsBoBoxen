@@ -25,7 +25,7 @@ In order to reach BehovsBoBoxen from internet you need to do a portforwarding in
 
 You have already downloaded and installed Raspian from `https://www.raspberrypi.org/downloads/noobs/`
 
-Now, download the latest version from our repository using git client `git clone https://githubcom/Electrotest/BehovsBoBoxen`
+Now, download the latest version from our repository using git client `git clone https://github.com/Electrotest/BehovsBoBoxen`
 
 Run the installation script and follow the given instructions `sudo sh /home/pi/BehovsBoBoxen/install.sh`
 
@@ -64,65 +64,46 @@ Materiallista:
 * 1 knippe kopplingssladdar hona-hona
 * 1 Ethernetsladd
 
-Koppla in temperaturgivarna (ds18b20) med plus, minus och signal på GPIO4
+1. Koppla in temperaturgivarna (ds18b20) med plus, minus och signal på GPIO4
 
-Reläkortet kopplas med sina 8 relän från GPIO pinnarna som är angivet i samma ordning som anges i början av filen dallas.py
+2. Reläkortet kopplas med sina 8 relän från GPIO pinnarna som är angivet i samma ordning som anges i början av filen `/home/pi/dallas.py`
 
-Normal läge för IP adress är DHCP, om fast ip adress önskas ändrar man i filen /etc/network/interfaces
+3. Normal läge för IP adress är DHCP, om fast ip adress önskas ändrar man i filen `/etc/network/interfaces`
 
-Om ni vill kunna nå BehovsBoBoxen från Internet måste ni göra en portvidarebefodran i er router, se er manual hur det görs.
+4. Om ni vill kunna nå BehovsBoBoxen från Internet måste ni göra en portvidarebefodran i er router, se er manual hur det görs.
 
-Ni har laddat ner och installerat Raspian från 
+5. Ni har laddat ner och installerat Raspian från `https://www.raspberrypi.org/downloads/noobs/`
 
-	https://www.raspberrypi.org/downloads/noobs/
+6. Ladda nu ner den senaste versionen från vår katalog (repository) med git klienten `git clone https://github.com/Electrotest/BehovsBoBoxen`
 
-Ladda nu ner den senaste versionen från vår katalog (repository) med git klienten
+7. Kör installationsskriptet och följ de givna instruktionerna `sudo sh /home/pi/BehovsBoBoxen/install.sh`
 
-	git clone https://github.com/Electrotest/BehovsBoBoxen
+8. Nu kan du gå in på `https://your.ip.n.r` Logga in med root:root
 
-Kör installationsskriptet och följ de givna instruktionerna
-
-	sudo sh /home/pi/BehovsBoBoxen/install.sh
-
-Nu kan du gå in på https://your.ip.n.r Logga in med root:root
-
-Första gången kan du få en varning och få klicka för att du litar på certifikatet. Det är ju bara signeart
+9. Första gången kan du få en varning och få klicka för att du litar på certifikatet. Det är ju bara signerat
 av dig och inte någon professionell Certificate Authority, CA.
 
-Du byter namn och lösenord på administrationssidan. Om du glömmer inloggningsuppgifterna kan du installera om Boxen  – ingen större skada skedd.
+10. Du byter namn och lösenord på administrationssidan. Om du glömmer inloggningsuppgifterna kan du installera om Boxen  – ingen större skada skedd.
 
-Om 1-wire sensorer är inkopplade enligt anvisningen, skall det med sökvägen 
+11. Om 1-wire sensorer är inkopplade enligt anvisningen, skall det med sökvägen `/sys/bus/w1/devices` finnas mappar där varje sensor anger sin temperatur.
 
-	/sys/bus/w1/devices 
+12. Reläna skall kopplas med dupontsladdar enligt pin-konfigurationen i `/home/pi/dallas.py`
 
-finnas mappar där varje sensor anger sin temperatur.
-Reläna skall kopplas med dupontsladdar enligt pin-konfigurationen i 
+13. Rundstyrning kan användas om man gör ett avtal med sitt elnätsbolag om att styra laster för att förhindra störningar på det lokala elnätet. 
 
-	/home/pi/dallas.py
+14. Du kan byta språk till engelska om du går till `/var/www/html/application/config.php`
 
-Rundstyrning kan användas om man gör ett avtal med sitt elnätsbolag om att styra laster för att förhindra störningar på det lokala elnätet. 
-
-Du kan byta språk till engelska om du går till
-
-	/var/www/html/application/config.php
-
-På rad 100 hittar du
-
-	$bbb->config['language'] = 'sv_SE';
-
-Ändra 'sv_SE till 'en_GB'
+15. På rad 100 hittar du `$bbb->config['language'] = 'sv_SE';` Ändra 'sv_SE till 'en_GB'
 
 
-The interface of Behovsboboxen is based on Lydia, which is a PHP-based, MVC-inspired CMF
-----------------------------------------------------------------------------------------
+## The interface of Behovsboboxen is based on Lydia, which is a PHP-based, MVC-inspired CMF
 
 You find Lydia here: https://github.com/mosbth/lydia
 
 The modified and accustomed version is made by Gunvor Nilsson.
 
 
-License
--------
+## License
 
 Behovsboboxen (and Lydia) is licensed according to MIT-license. 
 
