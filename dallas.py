@@ -1,6 +1,6 @@
 #!/usr/bin/python
-#2015-05-13:14:09
-#2015-10-26:10:42
+#2016-01-31 17:17
+
 import datetime;
 import time;
 import sqlite3
@@ -10,14 +10,14 @@ import subprocess
 import RPi.GPIO as GPIO
 GPIO.setmode(GPIO.BOARD)
 GPIO.setwarnings(False)
-GPIO.setup(26,GPIO.OUT)
-GPIO.setup(24,GPIO.OUT)
-GPIO.setup(21,GPIO.OUT)
-GPIO.setup(19,GPIO.OUT)
-GPIO.setup(23,GPIO.OUT)
 GPIO.setup(11,GPIO.OUT)
-GPIO.setup(12,GPIO.OUT)
+GPIO.setup(13,GPIO.OUT)
 GPIO.setup(15,GPIO.OUT)
+GPIO.setup(29,GPIO.OUT)
+GPIO.setup(31,GPIO.OUT)
+GPIO.setup(33,GPIO.OUT)
+GPIO.setup(35,GPIO.OUT)
+GPIO.setup(37,GPIO.OUT)
 #GPIO general purpose input output
 
 sensorArray = [0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15]
@@ -28,6 +28,7 @@ actualTemp = [0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15]
 #the value we have
 pins = [11,13,15,29,31,33,35,37,12,16,18,22,32,36,38,40]
 #may be programmed for input or output
+fileroom=[0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15]
 
 #read dallasgivare
 path1="/sys/bus/w1/devices/w1_bus_master1/w1_master_slaves"
@@ -101,26 +102,26 @@ def updateTempFile(actualTemp):
 def main():
 
     while 1 > 0:            
-		initiate(setpointArray, actualTemp, sensorArray)
-		actualtime=datetime.datetime.now()#get time
-		actualhour=actualtime.hour#get hour
+	initiate(setpointArray, actualTemp, sensorArray)
+	actualtime=datetime.datetime.now()#get time
+	actualhour=actualtime.hour#get hour
 
 
 	#get setpoints
 	x = 0
 	while x < 8:
-			room = "room" + str(x)
-			string = "/var/www/html/application/textfile/" + room + ".txt"
-			fileroom[x] = open(string, "r")
-			setpointArray[x]=float(fileroom[x].read().split(',')[actualhour])
-			fileroom[x].close()
-			#end get setpoint 
-                if actualTemp[x] > setpoint0: GPIO.output(pins[x],False)
-                if actualTemp[x] < setpoint0: GPIO.output(pins[x],True)
-                x = x + 1
+		room = "room" + str(x)
+		string = "/var/www/html/application/textfile/" + room + ".txt"
+		fileroom[x] = open(string, "r")
+		setpointArray[x]=float(fileroom[x].read().split(',')[actualhour])
+		fileroom[x].close()
+		#end get setpoint 
+                if actualTemp[x] > setpointArray[x]: GPIO.output(pins[x],False)
+                if actualTemp[x] < setpointArray[x]: GPIO.output(pins[x],True)
+        x = x + 1
 		
-                #print getdate(), 'Actual temp=',temp1, 'Setpoint=' ,setpointArray[1] #temp2,temp3,temp4,temp5,temp6,temp7,temp8
-		time.sleep(10) #vanta i 297s(ca 5min)
+        #print getdate(), 'Actual temp=',temp1, 'Setpoint=' ,setpointArray[1] #temp2,temp3,temp4,temp5,temp6,temp7,temp8
+	time.sleep(10) #vanta i 297s(ca 5min)
 main();
 
 
