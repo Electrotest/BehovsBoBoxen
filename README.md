@@ -16,6 +16,14 @@ Bom:
 * 1 bunch connection-wires female-female
 * 1 Ethernetwire
 
+Connect the temperature sensors (ds18b20) with plus, minus and signal on GPIO4.
+
+Connect the relay card with it's 8 relays from the GPIO pins in the same order as described in the beginning of the file dallas.py
+
+Normal mood for an ip-address is DHCP. If you wish a static ip-address, change in the file xxxx.
+
+In order to reach BehovsBoBoxen from internet you need to do a portforwarding in your router. Se your manual how it's done.
+
 You have already downloaded and installed Raspian from
 
 	https://www.raspberrypi.org/downloads/noobs/
@@ -28,10 +36,14 @@ Run the installation script and follow the given instructions
 
 	sudo sh /home/pi/BehovsBoBoxen/install.sh
 
-Now you can enter your webpage with https://your.ip.n.r
-And log in with root:root
+Now you can enter your webpage with https://your.ip.n.r and log in with root:root
 
-if 1-wire sensors are plugged in according to the manual, you will find folders under 
+The first time you might get a warning and need to accept that you trust the certificate as it is signed by you
+and not a professional Certificate Authority, CA. 
+
+You change username and password at the administrationpage. If you forget these you can install BehovsBoBoxen again. Not to much harm done for you.
+
+If 1-wire sensors are plugged in according to the manual, you will find folders under 
 
 	/sys/bus/w1/devices
 
@@ -39,6 +51,18 @@ where each sensor presents it's temperature.
 The relays should be connected with dupont cabels according to the pin-configurations in 
 
 	dallas.py
+
+Rundstyrning (Demand side management) can be used if you make an agreement with your utility company in order to controlle loads and prohibite disturbance on the local network.
+
+You can change language to english if open 
+
+	application/config.php
+
+On line 100 you find
+
+	$bbb->config['language'] = 'sv_SE';
+
+Change 'sv_SE to 'en_GB'
 
 
 BehovsBoBoxen är ett styrsystem för smarta hem baserad på Raspberry Pi.
@@ -57,6 +81,14 @@ Materiallista:
 * 1 knippe kopplingssladdar hona-hona
 * 1 Ethernetsladd
 
+Koppla in temperaturgivarna (ds18b20) med plus, minus och signal på GPIO4
+
+Reläkortet kopplas med sina 8 relän från GPIO pinnarna som är angivet i samma ordning som anges i början av filen dallas.py
+
+Normal läge för IP adress är DHCP, om fast ip adress önskas ändrar man i filen xxxx.
+
+Om ni vill kunna nå BehovsBoBoxen från Internet måste ni göra en portvidarebefodran i er router, se er manual hur det görs.
+
 Ni har laddat ner och installerat Raspian från 
 
 	https://www.raspberrypi.org/downloads/noobs/
@@ -69,8 +101,12 @@ Kör installationsskriptet och följ de givna instruktionerna
 
 	sudo sh /home/pi/BehovsBoBoxen/install.sh
 
-Nu kan du gå in på https://your.ip.n.r
-Logga in med root:root
+Nu kan du gå in på https://your.ip.n.r Logga in med root:root
+
+Första gången kan du få en varning och få klicka för att du litar på certifikatet. Det är ju bara signeart
+av dig och inte någon professionell Certificate Authority, CA.
+
+Du byter namn och lösenord på administrationssidan. Om du glömmer inloggningsuppgifterna kan du installera om Boxen  – ingen större skada skedd.
 
 Om 1-wire sensorer är inkopplade enligt anvisningen, skall det med sökvägen 
 
@@ -80,6 +116,18 @@ finnas mappar där varje sensor anger sin temperatur.
 Reläna skall kopplas med dupontsladdar enligt pin-konfigurationen i 
 
 	dallas.py
+
+Rundstyrning kan användas om man gör ett avtal med sitt elnätsbolag om att styra laster för att förhindra störningar på det lokala elnätet. 
+
+Du kan byta språk till engelska om du går till
+
+	application/config.php
+
+På rad 100 hittar du
+
+	$bbb->config['language'] = 'sv_SE';
+
+Ändra 'sv_SE till 'en_GB'
 
 
 The interface of Behovsboboxen is based on Lydia, which is a PHP-based, MVC-inspired CMF
@@ -94,3 +142,7 @@ License
 -------
 
 Behovsboboxen (and Lydia) is licensed according to MIT-license. 
+
+
+License/ Pricing:
+CanvasJS is free for non-commercial and paid for commercial use.

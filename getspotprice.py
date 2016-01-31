@@ -1,6 +1,6 @@
 #!/usr/bin/python
 #2016-01-28 16:28
-#Hämtar spotprice.sdv och lägger filen i /home/pi
+#Downloads spotprice.sdv and adds the file in /home/pi
 from ftplib import FTP
 ftp=FTP('ftp.nordpoolspot.com')
 ftp.login('spot','spo1245t')
