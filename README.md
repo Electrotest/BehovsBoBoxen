@@ -2,7 +2,8 @@ Behovsboboxen - a controlsystem for smart homes based on Raspberry Pi.
 ======================================================================
 BehovsBoBoxen är ett styrsystem för smarta hem baserad på Raspberry Pi. (Svensk text längre ner.)
 
-<img src="http://www.behovsbo.se/bilderipso/bbbmaterial.jpg" width="90" />
+<img src="http://www.behovsbo.se/bilderipso/bbbmaterial.jpg" width="616" />
+
 Bom:
 
 * 1 Raspberry pi 2 modell B
