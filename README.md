@@ -17,47 +17,47 @@ Bom:
 * 1 bunch connection-wires female-female
 * 1 Ethernetwire
 
-Connect the temperature sensors (ds18b20) with plus, minus and signal on GPIO4.
+1. Connect the temperature sensors (ds18b20) with plus, minus and signal on GPIO4.
 
-Connect the relay card with it's 8 relays from the GPIO pins in the same order as described in the beginning of the file dallas.py
+2. Connect the relay card with it's 8 relays from the GPIO pins in the same order as described in the beginning of the file dallas.py
 
-Normal mood for an ip-address is DHCP. If you wish a static ip-address, change in the file /etc/network/interfaces
+3. Normal mood for an ip-address is DHCP. If you wish a static ip-address, change in the file /etc/network/interfaces
 
-In order to reach BehovsBoBoxen from internet you need to do a portforwarding in your router. Se your manual how it's done.
+4. In order to reach BehovsBoBoxen from internet you need to do a portforwarding in your router. Se your manual how it's done.
 
-You have already downloaded and installed Raspian from
+5. You have already downloaded and installed Raspian from
 
 	https://www.raspberrypi.org/downloads/noobs/
 
-Now, download the latest version from our repository using git client
+6. Now, download the latest version from our repository using git client
 
 	git clone https://github.com/Electrotest/BehovsBoBoxen
 
-Run the installation script and follow the given instructions
+7. Run the installation script and follow the given instructions
 
 	sudo sh /home/pi/BehovsBoBoxen/install.sh
 
-Now you can enter your webpage with https://your.ip.n.r and log in with root:root
+8. Now you can enter your webpage with https://your.ip.n.r and log in with root:root
 
 The first time you might get a warning and need to accept that you trust the certificate as it is signed by you
 and not a professional Certificate Authority, CA. 
 
-You change username and password at the administrationpage. If you forget these you can install BehovsBoBoxen again. Not to much harm done for you.
+9. You change username and password at the administrationpage. If you forget these you can install BehovsBoBoxen again. Not to much harm done for you.
 
-If 1-wire sensors are plugged in according to the manual, you will find folders under 
+10. If 1-wire sensors are plugged in according to the manual, you will find folders under 
 
 	/sys/bus/w1/devices
 
 where each sensor presents it's temperature.
 The relays should be connected with dupont cabels according to the pin-configurations in 
 
-	dallas.py
+	/home/pi/dallas.py
 
-Rundstyrning (Demand side management) can be used if you make an agreement with your utility company in order to controlle loads and prohibite disturbance on the local network.
+11. Rundstyrning (Demand side management) can be used if you make an agreement with your utility company in order to controlle loads and prohibite disturbance on the local network.
 
-You can change language to english if open 
+12. You can change language to english if open 
 
-	application/config.php
+	/var/www/html/application/config.php
 
 On line 100 you find
 
@@ -116,13 +116,13 @@ Om 1-wire sensorer är inkopplade enligt anvisningen, skall det med sökvägen
 finnas mappar där varje sensor anger sin temperatur.
 Reläna skall kopplas med dupontsladdar enligt pin-konfigurationen i 
 
-	dallas.py
+	/home/pi/dallas.py
 
 Rundstyrning kan användas om man gör ett avtal med sitt elnätsbolag om att styra laster för att förhindra störningar på det lokala elnätet. 
 
 Du kan byta språk till engelska om du går till
 
-	application/config.php
+	/var/www/html/application/config.php
 
 På rad 100 hittar du
 
