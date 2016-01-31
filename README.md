@@ -20,7 +20,7 @@ Connect the temperature sensors (ds18b20) with plus, minus and signal on GPIO4.
 
 Connect the relay card with it's 8 relays from the GPIO pins in the same order as described in the beginning of the file dallas.py
 
-Normal mood for an ip-address is DHCP. If you wish a static ip-address, change in the file xxxx.
+Normal mood for an ip-address is DHCP. If you wish a static ip-address, change in the file /etc/network/interfaces
 
 In order to reach BehovsBoBoxen from internet you need to do a portforwarding in your router. Se your manual how it's done.
 
@@ -85,7 +85,7 @@ Koppla in temperaturgivarna (ds18b20) med plus, minus och signal på GPIO4
 
 Reläkortet kopplas med sina 8 relän från GPIO pinnarna som är angivet i samma ordning som anges i början av filen dallas.py
 
-Normal läge för IP adress är DHCP, om fast ip adress önskas ändrar man i filen xxxx.
+Normal läge för IP adress är DHCP, om fast ip adress önskas ändrar man i filen /etc/network/interfaces
 
 Om ni vill kunna nå BehovsBoBoxen från Internet måste ni göra en portvidarebefodran i er router, se er manual hur det görs.
 
