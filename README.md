@@ -45,18 +45,18 @@ Bom: | Get this
 
 # BehovsBoBoxen är ett styrsystem för smarta hem baserad på Raspberry Pi.
 
-Materiallista:
-
-* 1 Raspberry pi 2 modell B
-* 7 ds18b20 med pinnar
-* 1 ds18b20 vattensäker
-* 1 micro SD kort 8GB
-* 1 reläkort med 8 relän
-* 1 5V 2,1A USB laddare
-* 1 kopplingsdeck
-* 1 knippe kopplingssladdar hane-hane
-* 1 knippe kopplingssladdar hona-hona
-* 1 Ethernetsladd
+Bom | Materiallista
+--- | -------------
+1 | 1 Raspberry pi 2 modell B
+2 | 7 ds18b20 med pinnar
+3 | 1 ds18b20 vattensäker
+4 | 1 micro SD kort 8GB
+5 | 1 reläkort med 8 relän
+6 | 1 5V 2,1A USB laddare
+7 | 1 kopplingsdeck
+8 | 1 knippe kopplingssladdar hane-hane
+9 | 1 knippe kopplingssladdar hona-hona
+10 | 1 Ethernetsladd
 
 
 1. Koppla in temperaturgivarna (ds18b20) med plus, minus och signal på GPIO4
