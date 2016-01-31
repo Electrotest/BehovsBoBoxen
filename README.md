@@ -48,8 +48,8 @@ and not a professional Certificate Authority, CA.
 
 	/sys/bus/w1/devices
 
-where each sensor presents it's temperature.
-The relays should be connected with dupont cabels according to the pin-configurations in 
+	* where each sensor presents it's temperature.
+	* The relays should be connected with dupont cabels according to the pin-configurations in 
 
 	/home/pi/dallas.py
 
