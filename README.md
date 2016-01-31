@@ -23,43 +23,28 @@ Normal mood for an ip-address is DHCP. If you wish a static ip-address, change i
 
 In order to reach BehovsBoBoxen from internet you need to do a portforwarding in your router. Se your manual how it's done.
 
-You have already downloaded and installed Raspian from
+You have already downloaded and installed Raspian from `https://www.raspberrypi.org/downloads/noobs/`
 
-`https://www.raspberrypi.org/downloads/noobs/`
+Now, download the latest version from our repository using git client `git clone https://githubcom/Electrotest/BehovsBoBoxen`
 
-Now, download the latest version from our repository using git client
+Run the installation script and follow the given instructions `sudo sh /home/pi/BehovsBoBoxen/install.sh`
 
-`git clone https://github.com/Electrotest/BehovsBoBoxen`
-
-Run the installation script and follow the given instructions
-
-	sudo sh /home/pi/BehovsBoBoxen/install.sh
-
-Now you can enter your webpage with https://your.ip.n.r and log in with root:root
+Now you can enter your webpage with `https://your.ip.n.r` and log in with root:root
 
 The first time you might get a warning and need to accept that you trust the certificate as it is signed by you
 and not a professional Certificate Authority, CA. 
 
 You change username and password at the administrationpage. If you forget these you can install BehovsBoBoxen again. Not to much harm done for you.
 
-If 1-wire sensors are plugged in according to the manual, you will find folders under 
+If 1-wire sensors are plugged in according to the manual, you will find folders under `/sys/bus/w1/devices` where each sensor presents it's temperature.
 
-	/sys/bus/w1/devices
-
-where each sensor presents it's temperature.
-The relays should be connected with dupont cabels according to the pin-configurations in 
-
-	/home/pi/dallas.py
+The relays should be connected with dupont cabels according to the pin-configurations in `/home/pi/dallas.py`
 
 Rundstyrning (Demand side management) can be used if you make an agreement with your utility company in order to controlle loads and prohibite disturbance on the local network.
 
-You can change language to english if open 
+You can change language to english if you open `/var/www/html/application/config.php`
 
-	/var/www/html/application/config.php
-
-On line 100 you find
-
-	$bbb->config['language'] = 'sv_SE';
+On line 100 you find `$bbb->config['language'] = 'sv_SE';`
 
 Change 'sv_SE to 'en_GB'
 
