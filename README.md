@@ -2,18 +2,19 @@
 BehovsBoBoxen är ett styrsystem för smarta hem baserad på Raspberry Pi. (Svensk text längre ner.)
 ![What you need](http://www.behovsbo.se/bilderipso/bbbmaterial.jpg)
 
-Bom:
+Bom: |
+----- |
 
-* 1 Raspberry pi 2 modell B
-* 7 ds18b20 with pins
-* 1 ds18b20 waterproof
-* 1 micro SD card 8GB
-* 1 relaycard med 8 relays
-* 1 5V 2,1A USB charger
-* 1 breadboard
-* 1 bunch connection-wires male-male
-* 1 bunch connection-wires female-female
-* 1 Ethernetwire
+1 Raspberry pi 2 modell B |
+7 ds18b20 with pins |
+1 ds18b20 waterproof |
+1 micro SD card 8GB |
+1 relaycard med 8 relays |
+1 5V 2,1A USB charger |
+1 breadboard |
+1 bunch connection-wires male-male |
+1 bunch connection-wires female-female |
+1 Ethernetwire |
 
 1. Connect the temperature sensors (ds18b20) with plus, minus and signal on GPIO4.
 

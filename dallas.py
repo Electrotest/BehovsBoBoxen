@@ -112,7 +112,7 @@ def main():
 			room = "room" + str(x)
 			string = "/var/www/html/application/textfile/" + room + ".txt"
 			fileroom[x] = open(string, "r")
-			setpoint[x]=float(fileroom[x].read().split(',')[actualhour])
+			setpointArray[x]=float(fileroom[x].read().split(',')[actualhour])
 			fileroom[x].close()
 			#end get setpoint 
                 if actualTemp[x] > setpoint0: GPIO.output(pins[x],False)
