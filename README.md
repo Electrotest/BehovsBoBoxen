@@ -1,8 +1,6 @@
-Behovsboboxen - a controlsystem for smart homes based on Raspberry Pi.
-======================================================================
+# Behovsboboxen - a controlsystem for smart homes based on Raspberry Pi.
 BehovsBoBoxen är ett styrsystem för smarta hem baserad på Raspberry Pi. (Svensk text längre ner.)
-
-<img src="http://www.behovsbo.se/bilderipso/bbbmaterial.jpg" width="616" />
+![What you need](http://www.behovsbo.se/bilderipso/bbbmaterial.jpg)
 
 Bom:
 
@@ -17,45 +15,45 @@ Bom:
 * 1 bunch connection-wires female-female
 * 1 Ethernetwire
 
-1. Connect the temperature sensors (ds18b20) with plus, minus and signal on GPIO4.
+Connect the temperature sensors (ds18b20) with plus, minus and signal on GPIO4.
 
-2. Connect the relay card with it's 8 relays from the GPIO pins in the same order as described in the beginning of the file dallas.py
+Connect the relay card with it's 8 relays from the GPIO pins in the same order as described in the beginning of the file `/home/pi/dallas.py`
 
-3. Normal mood for an ip-address is DHCP. If you wish a static ip-address, change in the file /etc/network/interfaces
+Normal mood for an ip-address is DHCP. If you wish a static ip-address, change in the file `/etc/network/interfaces`
 
-4. In order to reach BehovsBoBoxen from internet you need to do a portforwarding in your router. Se your manual how it's done.
+In order to reach BehovsBoBoxen from internet you need to do a portforwarding in your router. Se your manual how it's done.
 
-5. You have already downloaded and installed Raspian from
+You have already downloaded and installed Raspian from
 
-	https://www.raspberrypi.org/downloads/noobs/
+`https://www.raspberrypi.org/downloads/noobs/`
 
-6. Now, download the latest version from our repository using git client
+Now, download the latest version from our repository using git client
 
-	git clone https://github.com/Electrotest/BehovsBoBoxen
+`git clone https://github.com/Electrotest/BehovsBoBoxen`
 
-7. Run the installation script and follow the given instructions
+Run the installation script and follow the given instructions
 
 	sudo sh /home/pi/BehovsBoBoxen/install.sh
 
-8. Now you can enter your webpage with https://your.ip.n.r and log in with root:root
+Now you can enter your webpage with https://your.ip.n.r and log in with root:root
 
 The first time you might get a warning and need to accept that you trust the certificate as it is signed by you
 and not a professional Certificate Authority, CA. 
 
-9. You change username and password at the administrationpage. If you forget these you can install BehovsBoBoxen again. Not to much harm done for you.
+You change username and password at the administrationpage. If you forget these you can install BehovsBoBoxen again. Not to much harm done for you.
 
-10. If 1-wire sensors are plugged in according to the manual, you will find folders under 
+If 1-wire sensors are plugged in according to the manual, you will find folders under 
 
 	/sys/bus/w1/devices
 
-	* where each sensor presents it's temperature.
-	* The relays should be connected with dupont cabels according to the pin-configurations in 
+where each sensor presents it's temperature.
+The relays should be connected with dupont cabels according to the pin-configurations in 
 
 	/home/pi/dallas.py
 
-11. Rundstyrning (Demand side management) can be used if you make an agreement with your utility company in order to controlle loads and prohibite disturbance on the local network.
+Rundstyrning (Demand side management) can be used if you make an agreement with your utility company in order to controlle loads and prohibite disturbance on the local network.
 
-12. You can change language to english if open 
+You can change language to english if open 
 
 	/var/www/html/application/config.php
 
@@ -66,8 +64,7 @@ On line 100 you find
 Change 'sv_SE to 'en_GB'
 
 
-BehovsBoBoxen är ett styrsystem för smarta hem baserad på Raspberry Pi.
-=======================================================================
+# BehovsBoBoxen är ett styrsystem för smarta hem baserad på Raspberry Pi.
 
 Materiallista:
 
@@ -145,5 +142,5 @@ License
 Behovsboboxen (and Lydia) is licensed according to MIT-license. 
 
 
-License/ Pricing:
-CanvasJS is free for non-commercial and paid for commercial use.
+[License/ Pricing:](http://canvasjs.com/download-html5-charting-graphing-library/)
+> CanvasJS is free for non-commercial and paid for commercial use.
