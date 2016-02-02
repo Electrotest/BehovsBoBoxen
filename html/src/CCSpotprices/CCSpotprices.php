@@ -236,5 +236,16 @@ class CCSpotprices extends CObject implements IController {
         $this->RedirectTo('spotprices');
     }
 
+    public function getSpotforCron(){
+        $myFile = $this->config['textbase'] . 'spotprice2.txt';
+        $filename = "ftp://spot:spo1245t@ftp.nordpoolspot.com/spotprice.sdv";
+        $current = file_get_contents($filename);
+        file_put_contents($myFile, $current); 
+    }
+
+    public function recalculateforCron(){
+        $this->createTable();        
+    }
+
 
 }

@@ -126,10 +126,9 @@ $bbb->config['javascript']['less'] = 'js/less.js';
  */
 $bbb->config['controllers'] = array(
     'acp'       => array('enabled' => true,'class' => 'CCAdminControlPanel'),
-    'temperatures'    => array('enabled' => true,'class' => 'CCTemperatures'),
+    //'temperatures'    => array('enabled' => true,'class' => 'CCTemperatures'),
     'spotprices'    => array('enabled' => true,'class' => 'CCSpotprices'),
-    'index'     => array('enabled' => true,'class' => 'CCIndex'),
-    'modules'   => array('enabled' => true,'class' => 'CCModules'),   
+    'index'     => array('enabled' => true,'class' => 'CCIndex'),   
     'user'      => array('enabled' => true,'class' => 'CCUser'),
     'presentation'   => array('enabled' => true,'class' => 'CCPresentation'),
 );

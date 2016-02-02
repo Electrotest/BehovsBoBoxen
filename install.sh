@@ -31,12 +31,6 @@ sudo chmod 777 /home/pi/BehovsBoBoxen -R
 sudo cp /home/pi/BehovsBoBoxen/rc.local /etc/rc.local
 #copies and change path for the file that starts the box at reboot
 
-sudo cp /home/pi/BehovsBoBoxen/getspotprice.py /home/pi/getspotprice.py
-#copies and change path for the file that gets the spotprice from Nordpool
-
-sudo cp /home/pi/BehovsBoBoxen/dallas.py /home/pi/dallas.py
-#copies and change path for the main file for BehovsBoBoxen
-
 sudo chmod 777 /var/www/html -R
 #full file permissions
 
@@ -48,12 +42,18 @@ sudo chmod 755 /var/www/html -R
 sudo chmod 777 /var/www/html/application/textfile -R
 sudo chmod 777 /var/www/html/application/data -R
 sudo chmod 777 /var/www/html/application/data/.ht.sqlite3
+sudo chmod 777 /var/www/html/src/CCSpotprices/CCSpotprices.php
 #full file permissions
+
+crontab -l | { cat; echo "5 16 * * * root wget -O - -q http://127.0.0.1/spotprices/getspotforcron"; } | crontab -
+crontab -l | { cat; echo "5 00 * * * root wget -O - -q http://127.0.0.1/spotprices/recalculateforcron"; } | crontab -
 
 echo "dtoverlay=w1-gpio,gpiopin=4" | sudo tee -a /boot/config.txt
 
 sudo rm /var/www/html/index.html
 #remove above file
+
+sudo crontab cron.txt
 
 sudo a2enmod ssl
 sudo service apache2 restart

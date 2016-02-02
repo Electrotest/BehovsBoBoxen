@@ -1,0 +1,2 @@
+01 16 * * *  pi /usr/bin/python3 >> /home/pi/BehovsBoBoxen/getspotprice.py
+01 0 * * *  pi /home/pi/BehovsBoBoxen/cron.sh

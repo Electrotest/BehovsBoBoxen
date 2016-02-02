@@ -8,15 +8,10 @@ TABLE.formwork = function(table) {
 
   $tables.each(function () {
     var _table = $(this);
-
-    //console.log(_table.find('thead tr th:nth-child(8)').html());
-    //console.log(_table.find('tbody tr td:nth-child(8)').html());
     _table.find('thead tr').append($('<th class="edit">&nbsp;</th>'));
-    //$('td:nth-child(2)').hide();
     _table.find('tbody tr').append($("<td class='edit'><input type='button' value='Klicka för att ändra' /></td>"))
  _table.find('thead tr th:nth-child(8)').hide();
  _table.find('tbody tr td:nth-child(8)').hide();
- //console.log(_table.find('tbody tr td:nth-child(8)').html());
   });
   
   $tables.find('.edit :button').on('click', function(e) {
@@ -257,7 +252,7 @@ makeajax($acpArray);
     // cell methods
 
         $area.data('text', $area.html()).html('');
-        var $input = $('<select id="areaselect" name="area"><option value="1">1</option><option value="2">2</option><option value="3">3</option><option value="4">4</option></select>')
+        var $input = $('<select id="areaselect" name="area"><option value="SE1">SE1</option><option value="SE2">SE2</option><option value="SE3">SE3</option><option value="SE4">SE4</option></select>')
         .val($area.data('text'))
         .width($area.width()-$area.width()+100);
         $area.append($input); 
