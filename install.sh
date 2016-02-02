@@ -53,8 +53,6 @@ echo "dtoverlay=w1-gpio,gpiopin=4" | sudo tee -a /boot/config.txt
 sudo rm /var/www/html/index.html
 #remove above file
 
-sudo crontab cron.txt
-
 sudo a2enmod ssl
 sudo service apache2 restart
 #enable mod_ssl 
