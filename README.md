@@ -17,7 +17,7 @@ Bom: | Get this
 
 
 1. Connect the temperature sensors (ds18b20) with plus, minus and signal on GPIO4. If you want to have fewer than 8,
-you need to change in the two while-loops in `/home/pi/dallas.py`.
+you need to change in the two while-loops in `/home/pi/dallas.py`. You can also add more, up to 16.
 
 2. Connect the relay card with it's 8 relays from the GPIO pins in the same order as described in the beginning of the file `/home/pi/dallas.py`
 
@@ -60,7 +60,7 @@ Bom | Materiallista
 10 | 1 Ethernetsladd
 
 
-1. Koppla in temperaturgivarna (ds18b20) med plus, minus och signal på GPIO4. Om du vill ha färre än 8 givare behöver du ändra i de två while-looparna i `/home/pi/dallas.py`.
+1. Koppla in temperaturgivarna (ds18b20) med plus, minus och signal på GPIO4. Om du vill ha färre än 8 givare behöver du ändra i de två while-looparna i `/home/pi/dallas.py`. Du kan likaså lägga till fler, upp till 16 stycken.
 
 2. Reläkortet kopplas med sina 8 relän från GPIO pinnarna som är angivet i samma ordning som anges i början av filen `/home/pi/dallas.py`
 
