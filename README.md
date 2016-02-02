@@ -8,7 +8,7 @@ Bom: | Get this
 2 | 7 ds18b20 with pins 
 3 | 1 ds18b20 waterproof 
 4 | 1 micro SD card 8GB 
-5 | 1 relaycard med 8 relays 
+5 | 1 relaycard with 8 relays 
 6 | 1 5V 2,1A USB charger 
 7 | 1 breadboard 
 8 | 1 bunch connection-wires male-male 
@@ -16,7 +16,8 @@ Bom: | Get this
 10 | 1 Ethernetwire 
 
 
-1. Connect the temperature sensors (ds18b20) with plus, minus and signal on GPIO4.
+1. Connect the temperature sensors (ds18b20) with plus, minus and signal on GPIO4. If you want to have fewer than 8,
+you need to change in the two while-loops in `/home/pi/dallas.py`.
 
 2. Connect the relay card with it's 8 relays from the GPIO pins in the same order as described in the beginning of the file `/home/pi/dallas.py`
 
@@ -59,7 +60,7 @@ Bom | Materiallista
 10 | 1 Ethernetsladd
 
 
-1. Koppla in temperaturgivarna (ds18b20) med plus, minus och signal på GPIO4
+1. Koppla in temperaturgivarna (ds18b20) med plus, minus och signal på GPIO4. Om du vill ha färre än 8 givare behöver du ändra i de två while-looparna i `/home/pi/dallas.py`.
 
 2. Reläkortet kopplas med sina 8 relän från GPIO pinnarna som är angivet i samma ordning som anges i början av filen `/home/pi/dallas.py`
 
