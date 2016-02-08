@@ -53,6 +53,7 @@ sudo chmod 777 /home/pi/BehovsBoBoxen -R
 
 sudo cp /home/pi/BehovsBoBoxen/scripts/rc.local /etc/rc.local
 #copies and change path for the file that starts the box at reboot
+sudo chmod 644 /etc/rc.local
 
 sudo chmod 777 /var/www/html -R
 #full file permissions
