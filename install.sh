@@ -25,18 +25,20 @@ sudo a2enmod rewrite
 sudo service apache2 restart
 #restarts apache2
 
-sudo chmod 777 /home/pi/bbb -R
+sudo chmod 777 /home/pi/BehovsBoBoxen/ -R
 
-if [-d /home/pi/BehovsBoBoxen]
+if [-d /etc/rc.local]
 	then
-	sudo rm /home/pi/BehovsBoBoxen -R
-	sudo mkdir /home/pi/BehovsBoBoxen
-	sudo cp /home/pi/bbb/BehovsBoBoxen -R /home/pi/BehovsBoBoxen
+	mkdir /home/pi/bbb
+	sudo chmod 777 /home/pi/bbb -R
+	sudo cp /home/pi/bbb/BehovsBoBoxen -R /home/pi/bbb
 	sudo rm /home/pi/bbb/BehovsBoBoxen -R
+	sudo mkdir /home/pi/BehovsBoBoxen
+	sudo cp /home/pi/bbb/ -R /home/pi/BehovsBoBoxen
+	sudo rm /home/pi/bbb/ -R
 	sudo chmod 777 /etc/rc.local
 	sudo rm /etc/rc.local
 else
-	sudo mkdir /home/pi/BehovsBoBoxen
 	sudo cp /home/pi/bbb/BehovsBoBoxen -R /home/pi/BehovsBoBoxen
 	sudo rm /home/pi/bbb/BehovsBoBoxen -R
 fi
