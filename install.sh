@@ -25,28 +25,33 @@ sudo a2enmod rewrite
 sudo service apache2 restart
 #restarts apache2
 
-sudo chmod 777 /home/pi/BehovsBoBoxen/ -R
+sudo chmod 777 /home/pi/BehovsBoBoxen/bbb -R
 
-if [-d /etc/rc.local]
-	then
-	mkdir /home/pi/bbb
-	sudo chmod 777 /home/pi/bbb -R
-	sudo cp /home/pi/bbb/BehovsBoBoxen -R /home/pi/bbb
-	sudo rm /home/pi/bbb/BehovsBoBoxen -R
-	sudo mkdir /home/pi/BehovsBoBoxen
-	sudo cp /home/pi/bbb/ -R /home/pi/BehovsBoBoxen
-	sudo rm /home/pi/bbb/ -R
-	sudo chmod 777 /etc/rc.local
-	sudo rm /etc/rc.local
-else
-	sudo cp /home/pi/bbb/BehovsBoBoxen -R /home/pi/BehovsBoBoxen
-	sudo rm /home/pi/bbb/BehovsBoBoxen -R
-fi
+mkdir /home/pi/bbb
+sudo chmod 777 /home/pi/bbb -R
+sudo cp /home/pi/BehovsBoBoxen/bbb -R /home/pi
+sudo rm -f /home/pi/BehovsBoBoxen/html -R
+sudo rm -f /home/pi/BehovsBoBoxen/ssl -R
+sudo rm -f /home/pi/BehovsBoBoxen/scripts -R
+sudo rm -f /home/pi/BehovsBoBoxen/LICENSE.txt
+sudo rm -f /home/pi/BehovsBoBoxen/README.md
+sudo rm -f /home/pi/BehovsBoBoxen/.htaccess
+sudo cp /home/pi/bbb/html -R /home/pi/BehovsBoBoxen
+sudo cp /home/pi/bbb/ssl -R /home/pi/BehovsBoBoxen
+sudo cp /home/pi/bbb/scripts -R /home/pi/BehovsBoBoxen
+sudo cp /home/pi/bbb/LICENSE.txt /home/pi/BehovsBoBoxen
+sudo cp /home/pi/bbb/README.md /home/pi/BehovsBoBoxen
+sudo cp /home/pi/bbb/.htaccess /home/pi/BehovsBoBoxen
+sudo rm /home/pi/bbb/ -R
+sudo rm /var/www/html -R
+sudo rm /home/pi/BehovsBoBoxen/bbb -R
+sudo chmod 777 /etc/rc.local
+sudo rm /etc/rc.local
 
 sudo chmod 777 /home/pi/BehovsBoBoxen -R
 #full file permissions for the the BehovsBoBoxen-repository from github
 
-sudo cp /home/pi/BehovsBoBoxen/rc.local /etc/rc.local
+sudo cp /home/pi/BehovsBoBoxen/scripts/rc.local /etc/rc.local
 #copies and change path for the file that starts the box at reboot
 
 sudo chmod 777 /var/www/html -R
@@ -63,7 +68,7 @@ sudo chmod 777 /var/www/html/application/data/.ht.sqlite3
 sudo chmod 777 /var/www/html/src/CCSpotprices/CCSpotprices.php
 #full file permissions
 
-sudo crontab -l -u root |  cat /home/pi/BehovsBoBoxen/cron.txt | sudo crontab -u root -
+sudo crontab -l -u root |  cat /home/pi/BehovsBoBoxen/scripts/cron.txt | sudo crontab -u root -
 #we get the new spotpricefile after 16:00 and recalculate the temperatures after 00:00
 
 echo "dtoverlay=w1-gpio,gpiopin=4" | sudo tee -a /boot/config.txt
@@ -78,7 +83,7 @@ sudo service apache2 restart
 sudo chmod 777 /etc/apache2 -R
 
 sudo rm /etc/apache2/apache2.conf
-sudo cp /home/pi/BehovsBoBoxen/apache2.conf /etc/apache2/apache2.conf
+sudo cp /home/pi/BehovsBoBoxen/scripts/apache2.conf /etc/apache2/apache2.conf
 #AllowOverride All
 
 #sudo mkdir /etc/apache2/ssl
@@ -101,12 +106,12 @@ sudo openssl req -x509 -nodes -days 1095 -newkey rsa:2048 -out /etc/apache2/ssl/
 
 sudo rm /etc/apache2/sites-available/default-ssl.conf
 
-sudo cp -rp /home/pi/BehovsBoBoxen/default-ssl /etc/apache2/sites-available/default-ssl
-sudo cp -rp /home/pi/BehovsBoBoxen/000-default-ssl /etc/apache2/sites-enabled/000-default-ssl
+sudo cp -rp /home/pi/BehovsBoBoxen/scripts/default-ssl /etc/apache2/sites-available/default-ssl
+sudo cp -rp /home/pi/BehovsBoBoxen/scripts/000-default-ssl /etc/apache2/sites-enabled/000-default-ssl
 #symlink text,  -p keeps file permissions from host to receiver
 
-sudo cp -rp /home/pi/BehovsBoBoxen/default-ssl.conf /etc/apache2/sites-available/default-ssl.conf
-sudo cp -rp /home/pi/BehovsBoBoxen/default-ssl.conf /etc/apache2/sites-enabled/default-ssl.conf
+sudo cp -rp /home/pi/BehovsBoBoxen/scripts/default-ssl.conf /etc/apache2/sites-available/default-ssl.conf
+sudo cp -rp /home/pi/BehovsBoBoxen/scripts/default-ssl.conf /etc/apache2/sites-enabled/default-ssl.conf
 #443
 
 sudo chmod 755 /etc/apache2
