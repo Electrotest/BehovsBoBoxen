@@ -42,8 +42,8 @@ sudo cp /home/pi/bbb/scripts -R /home/pi/BehovsBoBoxen
 sudo cp /home/pi/bbb/LICENSE.txt /home/pi/BehovsBoBoxen
 sudo cp /home/pi/bbb/README.md /home/pi/BehovsBoBoxen
 sudo cp /home/pi/bbb/.htaccess /home/pi/BehovsBoBoxen
-sudo rm /home/pi/bbb/ -R
-sudo rm /var/www/html -R
+sudo rm -f /home/pi/bbb/ -R
+sudo rm -f /var/www/html -R
 sudo rm /home/pi/BehovsBoBoxen/bbb -R
 sudo chmod 777 /etc/rc.local
 sudo rm /etc/rc.local
