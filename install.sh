@@ -46,7 +46,7 @@ sudo rm -f /home/pi/bbb/ -R
 sudo rm -f /var/www/html -R
 sudo rm /home/pi/BehovsBoBoxen/bbb -R
 sudo chmod 777 /etc/rc.local
-sudo rm /etc/rc.local
+sudo rm -f /etc/rc.local
 
 sudo chmod 777 /home/pi/BehovsBoBoxen -R
 #full file permissions for the the BehovsBoBoxen-repository from github
