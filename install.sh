@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/bin/sh
 #2016-01-28 18.00
 
 sudo apt-get update -y
@@ -25,6 +25,22 @@ sudo a2enmod rewrite
 sudo service apache2 restart
 #restarts apache2
 
+sudo chmod 777 /home/pi/bbb -R
+
+if [-d /home/pi/BehovsBoBoxen]
+	then
+	sudo rm /home/pi/BehovsBoBoxen -R
+	sudo mkdir /home/pi/BehovsBoBoxen
+	sudo cp /home/pi/bbb/BehovsBoBoxen -R /home/pi/BehovsBoBoxen
+	sudo rm /home/pi/bbb/BehovsBoBoxen -R
+	sudo chmod 777 /etc/rc.local
+	sudo rm /etc/rc.local
+else
+	sudo mkdir /home/pi/BehovsBoBoxen
+	sudo cp /home/pi/bbb/BehovsBoBoxen -R /home/pi/BehovsBoBoxen
+	sudo rm /home/pi/bbb/BehovsBoBoxen -R
+fi
+
 sudo chmod 777 /home/pi/BehovsBoBoxen -R
 #full file permissions for the the BehovsBoBoxen-repository from github
 
@@ -45,8 +61,8 @@ sudo chmod 777 /var/www/html/application/data/.ht.sqlite3
 sudo chmod 777 /var/www/html/src/CCSpotprices/CCSpotprices.php
 #full file permissions
 
-crontab -l | { cat; echo "5 16 * * * root wget -O - -q http://127.0.0.1/spotprices/getspotforcron"; } | crontab -
-crontab -l | { cat; echo "5 00 * * * root wget -O - -q http://127.0.0.1/spotprices/recalculateforcron"; } | crontab -
+sudo crontab -l -u root |  cat /home/pi/BehovsBoBoxen/cron.txt | sudo crontab -u root -
+#we get the new spotpricefile after 16:00 and recalculate the temperatures after 00:00
 
 echo "dtoverlay=w1-gpio,gpiopin=4" | sudo tee -a /boot/config.txt
 

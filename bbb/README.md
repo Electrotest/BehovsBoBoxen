@@ -39,7 +39,7 @@ you need to change in the two while-loops in `/home/pi/dallas.py`. You can also 
 
 11. The relays should be connected with dupont cabels according to the pin-configurations in `/home/pi/dallas.py`
 
-12. Rundstyrning (Demand side management) can be used if you make an agreement with your utility company in order to controlle loads and prohibite disturbance on the local network.
+12. Rundstyrning (Demand side management) can be used if you make an agreement with your utility company in order to control loads and prohibite disturbance on the local network.
 
 13. You can change language to english if you open `/var/www/html/application/config.php` On line 100 you find `$bbb->config['language'] = 'sv_SE';` Change `'sv_SE to 'en_GB'`
 
