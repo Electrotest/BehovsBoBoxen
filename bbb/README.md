@@ -41,7 +41,7 @@ you need to change in the two while-loops in `/home/pi/dallas.py`. You can also 
 
 12. Rundstyrning (Demand side management) can be used if you make an agreement with your utility company in order to control loads and prohibite disturbance on the local network.
 
-13. You can change language to english if you open `/var/www/html/application/config.php` On line 100 you find `$bbb->config['language'] = 'sv_SE';` Change `'sv_SE to 'en_GB'`
+13. You can change language to english if you open `/var/www/html/application/config.php` On line 100 you find `$bbb->config['language'] = 'sv_SE';` Change `'sv_SE` to `'en_GB'`
 
 
 # BehovsBoBoxen är ett styrsystem för smarta hem baserad på Raspberry Pi.
@@ -84,7 +84,7 @@ Bom | Materiallista
 
 12. Rundstyrning kan användas om man gör ett avtal med sitt elnätsbolag om att styra laster för att förhindra störningar på det lokala elnätet. 
 
-13. Du kan byta språk till engelska om du går till `/var/www/html/application/config.php` På rad 100 hittar du `$bbb->config['language'] = 'sv_SE';` Ändra `'sv_SE till 'en_GB'`
+13. Du kan byta språk till engelska om du går till `/var/www/html/application/config.php` På rad 100 hittar du `$bbb->config['language'] = 'sv_SE';` Ändra `'sv_SE` till `'en_GB'`
 
 
 #### The interface of Behovsboboxen is based on Lydia, which is a PHP-based, MVC-inspired CMF
