@@ -1,2 +1,2 @@
-5 16 * * * /home/pi/BehovsBoBoxen/script.sh
-5 00 * * * /home/pi/BehovsBoBoxen/script2.sh
+5 16 * * * /home/pi/BehovsBoBoxen/scripts/script.sh
+5 00 * * * /home/pi/BehovsBoBoxen/scripts/script2.sh
