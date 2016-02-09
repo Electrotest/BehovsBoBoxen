@@ -25,7 +25,7 @@ you need to change in the two while-loops in `/home/pi/dallas.py`. You can also 
 
 4. In order to reach BehovsBoBoxen from internet you need to do a portforwarding in your router. Se your manual how it's done.
 
-5. You have already downloaded and installed Raspian from `https://www.raspberrypi.org/downloads/noobs/`
+5. You have already downloaded and installed Raspian from `https://www.raspberrypi.org/downloads/noobs/` and made local configurations
 
 6. Now, download the latest version from our repository using git client `git clone https://github.com/Electrotest/BehovsBoBoxen`
 
@@ -66,9 +66,9 @@ Bom | Materiallista
 
 3. Normal läge för IP adress är DHCP, om fast ip adress önskas ändrar man i filen `/etc/network/interfaces`
 
-4. Om ni vill kunna nå BehovsBoBoxen från Internet måste ni göra en portvidarebefodran i er router, se er manual hur det görs.
+4. Om du vill kunna nå BehovsBoBoxen från Internet måste du göra en portvidarebefodran i er router, se manualen hur det görs.
 
-5. Ni har laddat ner och installerat Raspian från `https://www.raspberrypi.org/downloads/noobs/`
+5. Du har laddat ner och installerat Raspian från `https://www.raspberrypi.org/downloads/noobs/` och konfigurerat till svenska förhållanden
 
 6. Ladda nu ner den senaste versionen från vår katalog (repository) med git klienten `git clone https://github.com/Electrotest/BehovsBoBoxen`
 
@@ -84,7 +84,8 @@ Bom | Materiallista
 
 12. Rundstyrning kan användas om man gör ett avtal med sitt elnätsbolag om att styra laster för att förhindra störningar på det lokala elnätet. 
 
-13. Du kan byta språk till engelska om du går till `/var/www/html/application/config.php` På rad 100 hittar du `$bbb->config['language'] = 'sv_SE';` Ändra `'sv_SE` till `'en_GB'`
+13. Du kan byta språk till engelska om du går till `/var/www/html/application/config.php` På rad 105 hittar du `$bbb->config['language'] = 'sv_SE';` Ändra `'sv_SE` till `'en_GB'`
+
 
 
 #### The interface of Behovsboboxen is based on Lydia, which is a PHP-based, MVC-inspired CMF

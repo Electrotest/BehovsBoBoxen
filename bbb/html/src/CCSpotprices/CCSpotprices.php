@@ -132,44 +132,43 @@ class CCSpotprices extends CObject implements IController {
             }
 
 
-    for ($q = 0; $q < 24; $q++) {
-        $redmax1 = $q+1;
-        $redmax2 = $q+2;
-        $this->setpoints[$room] = "";  // temperatures for 24 hours for each room     
-        $textRoom[$i][$q] = $this->setpoints[$room] . ",";   // The temperatures with commas
+        for ($q = 0; $q < 24; $q++) {
+            $redmax1 = $q+1;
+            $redmax2 = $q+2;
+            $this->setpoints[$room] = "";  // temperatures for 24 hours for each room     
+            $textRoom[$i][$q] = $this->setpoints[$room] . ",";   // The temperatures with commas
 
 
-        if (($this->toDate && $this->fromDate)  &&  (strtotime($this->toDate)  >= strtotime($this->fromDate)) && (strtotime($this->toDate) >= strtotime($this->todaysDate)) && (strtotime($this->fromDate) <= strtotime($this->todaysDate))) {                
-                    $this->setpoints[$room] = $this->rooms[$room]['away'];
-                    $content .= "<td class ='opacity'>" . $this->setpoints[$room] . "</td>";
+            if (($this->toDate && $this->fromDate)  &&  (strtotime($this->toDate)  >= strtotime($this->fromDate)) && (strtotime($this->toDate) >= strtotime($this->todaysDate)) && (strtotime($this->fromDate) <= strtotime($this->todaysDate))) {                
+                        $this->setpoints[$room] = $this->rooms[$room]['away'];
+                        $content .= "<td class ='opacity'>" . $this->setpoints[$room] . "</td>";
+                        $textRoom[$i][$q] = $this->setpoints[$room] . ",";
+            }elseif ($havePercentValue == 1) {
+                if($spotprices[$q] > ($percentValue * $average)){
+                    $this->setpoints[$room] = $this->rooms[$room]['min'];
+                    $content .= "<td class ='opacityblue'>" . $this->setpoints[$room] . "</td>";
                     $textRoom[$i][$q] = $this->setpoints[$room] . ",";
-        }elseif ($havePercentValue == 1) {
-            if($spotprices[$q] > ($percentValue * $average)){
-                $this->setpoints[$room] = $this->rooms[$room]['min'];
-                $content .= "<td class ='opacityblue'>" . $this->setpoints[$room] . "</td>";
-                $textRoom[$i][$q] = $this->setpoints[$room] . ",";
-            }elseif($redmax1 < 24 && $cutOffArray[$redmax1] == true || $redmax2 < 24 && $cutOffArray[$redmax2] == true){
-                $this->setpoints[$room] = $this->rooms[$room]['max'];
-                $content .= "<td class ='redmax'>" . $this->setpoints[$room] . "</td>";
-                $textRoom[$i][$q] = $this->setpoints[$room] . ",";
+                }elseif($redmax1 < 24 && $cutOffArray[$redmax1] == true || $redmax2 < 24 && $cutOffArray[$redmax2] == true){
+                    $this->setpoints[$room] = $this->rooms[$room]['max'];
+                    $content .= "<td class ='redmax'>" . $this->setpoints[$room] . "</td>";
+                    $textRoom[$i][$q] = $this->setpoints[$room] . ",";
+                } else {
+                    $this->setpoints[$room] = $this->rooms[$room]['home'];
+                    $textRoom[$i][$q] = $this->setpoints[$room] . ",";
+                    $content .= $row . $this->setpoints[$room];
+                }
             } else {
                 $this->setpoints[$room] = $this->rooms[$room]['home'];
                 $textRoom[$i][$q] = $this->setpoints[$room] . ",";
-                $content .= $row . $this->setpoints[$room];
+                $content .= $row . $this->setpoints[$room] . "</td>"; 
             }
-        } else {
-            $this->setpoints[$room] = $this->rooms[$room]['home'];
-            $textRoom[$i][$q] = $this->setpoints[$room] . ",";
-            $content .= $row . $this->setpoints[$room] . "</td>"; 
         }
-    }
-    $textRoom[$i][24] = '[ ' . $this->todaysDate . ' ]';
-    $nr = (string)$i;
-    $roomtextfile = 'room' . $nr . '.txt';
-    $this->textfiles->writeText($roomtextfile, $textRoom[$i]);
-    }
+        $textRoom[$i][24] = '[ ' . $this->todaysDate . ' ]';
+        $nr = (string)$i;
+        $roomtextfile = 'room' . $nr . '.txt';
+        $this->textfiles->writeText($roomtextfile, $textRoom[$i]);
 
-        
+        }       
     }
 
 
@@ -241,11 +240,23 @@ class CCSpotprices extends CObject implements IController {
         $myFile = $this->config['textbase'] . 'spotprice2.txt';
         $filename = "ftp://spot:spo1245t@ftp.nordpoolspot.com/spotprice.sdv";
         $current = file_get_contents($filename);
-        file_put_contents($myFile, $current); 
+        file_put_contents($myFile, $current);
+
+        $checkfile = $this->config['textbase'] . 'spotcron.txt';
+        $day = $this->textfiles->getTodaysDate();
+        $time = $this->textfiles->getTodaysTime();
+        $date = 'Time and date: ' . $day . ' ' . $time;
+        file_put_contents($checkfile, $date); 
     }
 
     public function recalculateforCron(){
-        $this->createTable();        
+        $this->createTable();
+
+        $checkfile = $this->config['textbase'] . 'recalcron.txt';
+        $day = $this->textfiles->getTodaysDate();
+        $time = $this->textfiles->getTodaysTime();
+        $date = 'Time and date: ' . $day . ' ' . $time;
+        file_put_contents($checkfile, $date);        
     }
 
 

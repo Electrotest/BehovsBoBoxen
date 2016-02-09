@@ -91,6 +91,11 @@ $bbb->config['timezone'] = 'Europe/Stockholm';
 $bbb->config['character_encoding'] = 'UTF-8';
 
 /**
+* Define datetimezone like 'Etc/GMT-1' for Sweden
+*/
+$bbb->config['datetimezone'] = 'Etc/GMT-1';
+
+/**
  * Define language
  *
  * langugage: the language of the webpage and locale, settings for i18n, 

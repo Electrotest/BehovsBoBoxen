@@ -371,6 +371,14 @@ class CMTextfiles extends CObject implements ArrayAccess/*, IModule */{
     	return $now;
     }
 
+    public function getTodaysTime(){
+        $now = date("H:i");
+        $zone = $this->config['datetimezone'];
+        $date = new DateTime($now,new DateTimeZone("GMT"));
+        $date->setTimezone(new DateTimeZone($zone));
+        return $date->format('H:i');
+    }
+
     public function getTomorrowsDate(){
     	$newestDate = $this->tomorrowsDate;
 //var_dump($newestDate);
