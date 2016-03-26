@@ -53,9 +53,9 @@ sudo chmod 777 /home/pi/BehovsBoBoxen -R
 
 sudo cp /home/pi/BehovsBoBoxen/scripts/rc.local /etc/rc.local
 #copies and change path for the file that starts the box at reboot
-sudo chmod 644 /etc/rc.local
+sudo chmod 755 /etc/rc.local
 
-sudo chmod 777 /var/www/html -R
+sudo chmod 777 /var/www -R
 #full file permissions
 
 sudo cp -R /home/pi/BehovsBoBoxen/html /var/www
@@ -74,7 +74,7 @@ sudo crontab -l -u root |  cat /home/pi/BehovsBoBoxen/scripts/cron.txt | sudo cr
 
 echo "dtoverlay=w1-gpio,gpiopin=4" | sudo tee -a /boot/config.txt
 
-sudo rm /var/www/html/index.html
+sudo rm -f /var/www/html/index.html
 #remove above file
 
 sudo a2enmod ssl
@@ -83,7 +83,7 @@ sudo service apache2 restart
 
 sudo chmod 777 /etc/apache2 -R
 
-sudo rm /etc/apache2/apache2.conf
+sudo rm -f /etc/apache2/apache2.conf
 sudo cp /home/pi/BehovsBoBoxen/scripts/apache2.conf /etc/apache2/apache2.conf
 #AllowOverride All
 
@@ -105,7 +105,7 @@ sudo openssl req -x509 -nodes -days 1095 -newkey rsa:2048 -out /etc/apache2/ssl/
 #-subj arg 	Replaces subject field of input request with specified data and outputs modified request. The arg must be formatted as /type0=value0/type1=value1/type2=..., characters may be escaped by \ (backslash), no spaces are skipped.
 
 
-sudo rm /etc/apache2/sites-available/default-ssl.conf
+sudo rm -f /etc/apache2/sites-available/default-ssl.conf
 
 sudo cp -rp /home/pi/BehovsBoBoxen/scripts/default-ssl /etc/apache2/sites-available/default-ssl
 sudo cp -rp /home/pi/BehovsBoBoxen/scripts/000-default-ssl /etc/apache2/sites-enabled/000-default-ssl
@@ -122,5 +122,7 @@ sudo chmod 755 /home/pi/BehovsBoBoxen
 
 sudo /etc/init.d/apache2 restart
 #restarts apache2
+
+echo "installation ok, the system will restart" | sudo tee -a /boot/config.txt
 
 sudo reboot
