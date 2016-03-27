@@ -122,8 +122,8 @@ def main():
 		setpoints[x]=float(room.read().split(',')[actualhour])
 		room.close()
 		#end get setpoint 
-	    if actualTemp[x] > setpoints[x]: GPIO.output(pins[x],False)
-	    if actualTemp[x] < setpoints[x]: GPIO.output(pins[x],True)
+	    	if actualTemp[x] > setpoints[x]: GPIO.output(pins[x],False)
+	    	if actualTemp[x] < setpoints[x]: GPIO.output(pins[x],True)
 		x = x + 1
 		
     #print getdate(), 'Actual temp=',temp1, 'Setpoint=' ,setpoints[1] #temp2,temp3,temp4,temp5,temp6,temp7,temp8
