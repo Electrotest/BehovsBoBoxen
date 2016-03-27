@@ -82,22 +82,22 @@ class CMTextfiles extends CObject implements ArrayAccess/*, IModule */{
         $currency = $this->getCurrency();
 
         //current day
-    	$myFile = $this->config['textbase'] . 'spotprice.txt'; 
-        $ourFile = $this->config['textbase'] . 'currentPrices.txt'; 
-        $filearray = file($myFile);
-        $chosen = "";
+    	$currentNordpoolFile = $this->config['textbase'] . 'spotprice.txt'; // the file from Nordpool
+        $currentExtractedLine = $this->config['textbase'] . 'currentPrices.txt'; // the line we need from $currentNordpoolFile
+        $filearrayCurrent = file($currentNordpoolFile);
+        $chosenCurrent = "";
         
         //next day (if after 16:00)
-        $myFileNew = $this->config['textbase'] . 'spotprice2.txt';  
-        $ourFileNew = $this->config['textbase'] . 'newPrices.txt'; 
-        $filearrayNew = file($myFileNew);
-        $chosen2 = "";
+        $newNordpoolFile = $this->config['textbase'] . 'spotprice2.txt';  
+        $newExtractedLine = $this->config['textbase'] . 'newPrices.txt'; 
+        $filearrayNew = file($newNordpoolFile);
+        $chosenNew = "";
 
-        foreach ($filearray as $line) {
+        foreach ($filearrayCurrent as $line) {
             $pos1 = strpos($line, $area);
             $pos2 = strpos($line, $currency);
             if ($pos1 == true && $pos2 == true) {
-                $chosen = $line; // picks out our current data
+                $chosenCurrent = $line; // picks out our current data
             }
         } 
 
@@ -105,13 +105,13 @@ class CMTextfiles extends CObject implements ArrayAccess/*, IModule */{
             $pos1 = strpos($line2, $area);
             $pos2 = strpos($line2, $currency);
             if ($pos1 == true && $pos2 == true) {
-                $chosen2 = $line2; // picks out our nextdays data
+                $chosenNew = $line2; // picks out our nextdays data
             }
         }  
-        file_put_contents($ourFile, $chosen); 
-        file_put_contents($ourFileNew, $chosen2);
+        file_put_contents($currentExtractedLine, $chosenCurrent); 
+        file_put_contents($newExtractedLine, $chosenNew);
   
-        return $chosen;
+        return $chosenCurrent;
     }
 
     public function getAreaCode(){
@@ -144,9 +144,11 @@ class CMTextfiles extends CObject implements ArrayAccess/*, IModule */{
         $this->various = $this->temperatures->ListVarious();
     	$this->readSpotPrices();
 
-        $ourFile = $this->config['textbase'] . 'currentPrices.txt';
-        $current = file_get_contents($ourFile);
+        $currentExtractedLine = $this->config['textbase'] . 'currentPrices.txt';
+        $current = file_get_contents($currentExtractedLine);
         $cur = explode(";", $current);
+        $arraylength = count($cur);
+        if($cur[10] == ""){$cur[10] = "0,01";}
 
         $compare = array();  // start with 23 values (not to get a separator after the last value - (or price))
         $count = 0;
@@ -156,7 +158,7 @@ class CMTextfiles extends CObject implements ArrayAccess/*, IModule */{
         $todaysToolsList = "";	// the above values in format ['x','x']
 
 
-        for ($i = 8; $i <= 31; $i++) {
+        for ($i = 8; $i <= $arraylength - 2; $i++) {  // 31
             if(!$cur[$i] ==  ""){
                 $price = $cur[$i];
                 $replacecomma = str_replace(",", "", $price);
@@ -175,7 +177,7 @@ class CMTextfiles extends CObject implements ArrayAccess/*, IModule */{
 		$shortSemicolonPrices = $semicolonPrices;
 		$shortTodaysToolsList = $todaysToolsList;
 
-		$price24 = $cur[32];
+		$price24 = $cur[$arraylength - 2]; // 32
 		$fixComma = str_replace(",", "", $price24);
 		$formatPrice = round(((double) $fixComma / 1000), 1);
 		$clean[23] = $formatPrice;
@@ -192,7 +194,7 @@ class CMTextfiles extends CObject implements ArrayAccess/*, IModule */{
 
         // Now 25 values
 		$compareLength = count($compare);
-		$noComma = str_replace(",", "", $cur[33]);
+		$noComma = str_replace(",", "", $cur[$arraylength - 1]); // 33
 		$formatprice = round(((double) $noComma / 1000), 1);
 		$compare[$compareLength] = $formatprice; 
 
@@ -211,11 +213,13 @@ class CMTextfiles extends CObject implements ArrayAccess/*, IModule */{
         $tomcompare = array();  // start with 23 values (not to get a separator after the last value - (or price))
         $count = 0;
         $tomclean = array();
+        $arraylength = count($tom);
         $tomsemicolonPrices = "";
         $tomcommaPrices = "";
         $tomToolsList = "";
+        if($tom[10] == ""){$tom[10] = "0,01";}
 
-        for ($i = 8; $i <= 31; $i++) {
+        for ($i = 8; $i <= $arraylength - 2; $i++) {
             if(!$tom[$i] ==  ""){
                 $price = $tom[$i];
                 $replacecomma = str_replace(",", "", $price);
@@ -234,7 +238,7 @@ class CMTextfiles extends CObject implements ArrayAccess/*, IModule */{
 		$shortSemicolonPrices = $tomsemicolonPrices;
 		$shortTomToolsList = $tomToolsList;
 
-		$price24 = $tom[32];
+		$price24 = $tom[$arraylength - 2];
 		$fixComma = str_replace(",", "", $price24);
 		$formatPrice = round(((double) $fixComma / 1000), 1);
 		$tomclean[23] = $formatPrice;
@@ -251,7 +255,7 @@ class CMTextfiles extends CObject implements ArrayAccess/*, IModule */{
 
         // Now 25 values
 		$compareLength = count($tomcompare);
-		$noComma = str_replace(",", "", $tom[33]);
+		$noComma = str_replace(",", "", $tom[$arraylength - 1]);
 		$formatprice = round(((double) $noComma / 1000), 1);
 		$tomcompare[$compareLength] = $formatprice; 
 
@@ -278,11 +282,13 @@ class CMTextfiles extends CObject implements ArrayAccess/*, IModule */{
             file_put_contents($currentSpot, $spotFile);
 		}
 
-
+        $extract = array();
+        $extract = $this->nonzero($clean);
 		$max = max($clean);
-		$min = min($clean);
+        $min = min($extract);
 
-		$min2 = min($tomclean);
+        $extract = $this->nonzero($tomclean);
+        $min2 = min($extract);
 		$max2 = max($tomclean);
 
        
@@ -306,6 +312,19 @@ class CMTextfiles extends CObject implements ArrayAccess/*, IModule */{
   
         return $this->lists;   
               
+    }
+
+    public function nonzero($a){
+        $length = count($a);
+        $count = 0;
+        $nonzero = array(); 
+        for($i = 0; $i < $length; $i++){
+            if($a[$i] > 0.01){
+                $nonzero[$count] = $a[$i];
+            } 
+            $count++;               
+        }
+        return $nonzero;
     }
 
     public function getCurrentSemicolonPrices(){
