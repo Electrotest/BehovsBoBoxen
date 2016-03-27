@@ -70,6 +70,7 @@ class CCSpotprices extends CObject implements IController {
         $head = "";
         $content = "";
         $spotprices = $this->textfiles->getCurrentCleanValues();
+        $nrOfHours = count($spotprices) - 1;
         $average = $this->textfiles->getCurrentAveragePrice();
         $smallvar = $this->temperatures->ListVarious();
         $nrOf = $smallvar[0]['nrofrooms'];
@@ -89,7 +90,7 @@ class CCSpotprices extends CObject implements IController {
         $head .= "<caption>" . $current . ' ' . $this->textfiles->getTodaysDate() . ": <span class ='red'>" . 
             $this->textfiles->getCurrentAveragePrice() . "</span>. " . $choice . " " . $pickedPercent . ".</caption>";
         $head .= "<thead><tr><th scope='col'>" . $strRoom . "</th>";
-            for ($i = 0; $i < 24; $i++) {
+            for ($i = 0; $i < $nrOfHours; $i++) {
                 $head .= "<th class = 'w3'>" . ($i) . "</th>";
             }
         $head .= "</tr></thead><tbody>";
@@ -114,10 +115,10 @@ class CCSpotprices extends CObject implements IController {
             $gone = false;
 
             $cutOffArray = array();
-                for ($t = 0; $t < 24; $t++) {
+                for ($t = 0; $t < $nrOfHours; $t++) {
                 $cutOffArray[$t] = false;
             }
-            for ($q = 0; $q < 24; $q++) {
+            for ($q = 0; $q < $nrOfHours; $q++) {
                 if ($spotprices[$q] > ($percentValue * $average)) {
                 $cutOffArray[$q] = true;
                 }
@@ -132,7 +133,7 @@ class CCSpotprices extends CObject implements IController {
             }
 
 
-        for ($q = 0; $q < 24; $q++) {
+        for ($q = 0; $q < $nrOfHours; $q++) {
             $redmax1 = $q+1;
             $redmax2 = $q+2;
             $this->setpoints[$room] = "";  // temperatures for 24 hours for each room     
@@ -148,7 +149,7 @@ class CCSpotprices extends CObject implements IController {
                     $this->setpoints[$room] = $this->rooms[$room]['min'];
                     $content .= "<td class ='opacityblue'>" . $this->setpoints[$room] . "</td>";
                     $textRoom[$i][$q] = $this->setpoints[$room] . ",";
-                }elseif($redmax1 < 24 && $cutOffArray[$redmax1] == true || $redmax2 < 24 && $cutOffArray[$redmax2] == true){
+                }elseif($redmax1 < $nrOfHours && $cutOffArray[$redmax1] == true || $redmax2 < $nrOfHours && $cutOffArray[$redmax2] == true){
                     $this->setpoints[$room] = $this->rooms[$room]['max'];
                     $content .= "<td class ='redmax'>" . $this->setpoints[$room] . "</td>";
                     $textRoom[$i][$q] = $this->setpoints[$room] . ",";
@@ -163,7 +164,7 @@ class CCSpotprices extends CObject implements IController {
                 $content .= $row . $this->setpoints[$room] . "</td>"; 
             }
         }
-        $textRoom[$i][24] = '[ ' . $this->todaysDate . ' ]';
+        $textRoom[$i][$nrOfHours] = '[ ' . $this->todaysDate . ' ]';
         $nr = (string)$i;
         $roomtextfile = 'room' . $nr . '.txt';
         $this->textfiles->writeText($roomtextfile, $textRoom[$i]);
@@ -174,7 +175,7 @@ class CCSpotprices extends CObject implements IController {
 
 
         $content .= "<tr><th scope='row' abbr='<?= $currentRed ?>' class='specaltred spec'>" . $currentRed . "</th>";
-            for ($k = 0; $k < 24; $k++) {
+            for ($k = 0; $k < $nrOfHours; $k++) {
                 $content .= "<td class = 'red'>" . $spotprices[$k] . "</td>";
             }
         $content .= "</tr>";

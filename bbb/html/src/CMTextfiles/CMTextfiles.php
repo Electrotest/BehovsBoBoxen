@@ -176,25 +176,25 @@ class CMTextfiles extends CObject implements ArrayAccess/*, IModule */{
         $shortCommaPrices = $commaPrices;
 		$shortSemicolonPrices = $semicolonPrices;
 		$shortTodaysToolsList = $todaysToolsList;
+        $nrOfHours = count($clean); // if wintertime 
+		$price24 = $cur[$arraylength - 2]; // last hour (last value in array is average-price)
 
-		$price24 = $cur[$arraylength - 2]; // 32
 		$fixComma = str_replace(",", "", $price24);
 		$formatPrice = round(((double) $fixComma / 1000), 1);
-		$clean[23] = $formatPrice;
-
+		$clean[$nrOfHours - 1] = $formatPrice;
 		$semicolonPrices .= $formatPrice . ';';
 		$commaPrices .= $formatPrice . ',';
 		$todaysToolsList .= $formatPrice . "','";
-		$compare[23] = $formatPrice;            // Now we add the last value (24)
+		$compare[$nrOfHours - 1] = $formatPrice;            // Now we add the last value (24)
 
 		$shortCommaPrices .= $formatPrice;
 		$shortCommaPrices = '[' . $shortCommaPrices . ']';
 		$shortTodaysToolsList .= $formatPrice . "']";
 		$shortSemicolonPrices .= $formatPrice;
 
-        // Now 25 values
+        // last value = average-price
 		$compareLength = count($compare);
-		$noComma = str_replace(",", "", $cur[$arraylength - 1]); // 33
+		$noComma = str_replace(",", "", $cur[$arraylength - 1]); 
 		$formatprice = round(((double) $noComma / 1000), 1);
 		$compare[$compareLength] = $formatprice; 
 
@@ -238,15 +238,16 @@ class CMTextfiles extends CObject implements ArrayAccess/*, IModule */{
 		$shortSemicolonPrices = $tomsemicolonPrices;
 		$shortTomToolsList = $tomToolsList;
 
-		$price24 = $tom[$arraylength - 2];
+        $nrOfHours = count($tomclean); // if wintertime
+		$price24 = $tom[$arraylength - 2]; // last hour (last value in array is average-price)
 		$fixComma = str_replace(",", "", $price24);
 		$formatPrice = round(((double) $fixComma / 1000), 1);
-		$tomclean[23] = $formatPrice;
+		$tomclean[$nrOfHours - 1] = $formatPrice;
 
 		$tomsemicolonPrices .= $formatPrice . ';';
 		$tomcommaPrices .= $formatPrice . ',';
 		$tomToolsList .= $formatPrice . "','";
-		$tomcompare[23] = $formatPrice;            // Now we add the last value (24)
+		$tomcompare[$nrOfHours - 1] = $formatPrice;            // Now we add the last value (24)
 
 		$shortCommaPrices .= $formatPrice;
 		$shortCommaPrices = '[' . $shortCommaPrices . ']';
