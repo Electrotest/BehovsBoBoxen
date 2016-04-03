@@ -16,6 +16,7 @@ class CCSpotprices extends CObject implements IController {
     public $isTemps;
     public $fromDate;
     public $toDate;
+    public $isAway = "";
     public $todaysDate;
     public $tomorrowsDate;
     public $todayArray;
@@ -38,6 +39,7 @@ class CCSpotprices extends CObject implements IController {
         $this->toDate = $this->getToDate();
         $this->todaysDate = $this->textfiles->getTodaysDate();
         $this->tomorrowsDate = $this->textfiles->getTomorrowsDate();
+        $this->isAway = $this->getIsAway();
     }
 
     /**
@@ -88,7 +90,7 @@ class CCSpotprices extends CObject implements IController {
 
         $head = "<table class ='fixed'>";
         $head .= "<caption>" . $current . ' ' . $this->textfiles->getTodaysDate() . ": <span class ='red'>" . 
-            $this->textfiles->getCurrentAveragePrice() . "</span>. " . $choice . " " . $pickedPercent . ".</caption>";
+            $this->textfiles->getCurrentAveragePrice() . "</span>. " . $choice . " " . $pickedPercent . " " . $this->isAway . "</caption>";
         $head .= "<thead><tr><th scope='col'>" . $strRoom . "</th>";
             for ($i = 0; $i < $nrOfHours; $i++) {
                 $head .= "<th class = 'w3'>" . ($i) . "</th>";
@@ -222,6 +224,13 @@ class CCSpotprices extends CObject implements IController {
     public function getToDate(){
         $this->toDate = $this->various[0]['todate'];
         return $this->toDate;
+    }
+
+    public function getIsAway(){
+        if (($this->toDate && $this->fromDate)  &&  (strtotime($this->toDate)  >= strtotime($this->fromDate)) && (strtotime($this->toDate) >= strtotime($this->todaysDate)) && (strtotime($this->fromDate) <= strtotime($this->todaysDate))) { 
+            $this->isAway = t(". Awaymood is on.");
+        }             
+        return $this->isAway;
     }
 
     public function getSpot(){

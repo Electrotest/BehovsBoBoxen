@@ -222,6 +222,7 @@ class CMTranslate extends CObject implements IHasSQL, ArrayAccess, IModule {
                     $this->db->ExecuteQuery(self::SQL('insert translate'), array('makes your house smart!','gör hus smarta!'));
                     $this->db->ExecuteQuery(self::SQL('insert translate'), array('Login/Logout','Logga In/Ut'));
                     $this->db->ExecuteQuery(self::SQL('insert translate'), array('Hour','Timma'));
+                    $this->db->ExecuteQuery(self::SQL('insert translate'), array('. Awaymood is on.','. Bortaläge är aktiverat.'));
 
                      return array('success', t('Successfully created the database tables and created a default Translatetable, owned by you.'));
                 } catch (Exception$e) {

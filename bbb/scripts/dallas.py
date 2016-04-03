@@ -1,9 +1,8 @@
 #!/usr/bin/python
 #2016-02-07:17.33
-import datetime;
-import time;
-import sqlite3
 import datetime
+import time
+import sqlite3
 
 import subprocess
 import RPi.GPIO as GPIO

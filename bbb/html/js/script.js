@@ -78,7 +78,7 @@ console.log('Efter: is: '  +$arrayrow[0] + ', home: ' +$arrayrow[1]  + ', max: '
             //dataType: Json,
             success: function(data){
                 console.log(data + ': Ajax förfrågan uppfylldes.'); 
-                window.location = 'temperatures';   
+                window.location.href = '../spotprices';   
             },
             error: function(jqXHR, textStatus, errorThrown){
                 console.log('Ajax förfrågan misslyckades: ' + textStatus + ', ' + errorThrown); 

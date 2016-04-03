@@ -158,7 +158,7 @@ class CMTextfiles extends CObject implements ArrayAccess/*, IModule */{
         $todaysToolsList = "";	// the above values in format ['x','x']
 
 
-        for ($i = 8; $i <= $arraylength - 2; $i++) {  // 31
+        for ($i = 8; $i <= $arraylength - 2; $i++) {  
             if(!$cur[$i] ==  ""){
                 $price = $cur[$i];
                 $replacecomma = str_replace(",", "", $price);
