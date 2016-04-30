@@ -64,7 +64,7 @@ do_start()
 #       run script once from /home/pi/bbb_addon
 #       kill the daemon
 #
-        /home/pi/BehovsBoBoxen/scripts/bbb_domoticz_local.sh start
+        /home/pi/bbb_addon/bbb_domoticz_local.sh start
 #
         echo "Extra start", $?
         sleep 10   #wait
