@@ -16,7 +16,7 @@ DESC="BehovsBoBox Control System"
 NAME=bbb_domoticz.py
 USERNAME=pi
 
-DAEMON=/home/pi/scripts/$NAME
+DAEMON=/home/pi/BehovsBoBoxen/scripts/$NAME
 DEAMON_OPTS=$2
 
 PIDFILE=/var/run/bbb_domoticz.pid
