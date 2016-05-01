@@ -1,0 +1,1 @@
+15 1 * * * root /home/pi/BehovsBoBoxen/scripts/reboot.sh
