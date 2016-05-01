@@ -115,7 +115,7 @@ do_all()
 #       we get the new spotpricefile after 16:00 and recalculate the temperatures afte
 
 
-        cat /boot/config.txt |grep "dtoverlay=w1-gpio,gpiopin=4" ||  sudo tee -a /boot/config.txt
+        cat /boot/config.txt |grep "dtoverlay=w1-gpio,gpiopin=4" ||  echo "dtoverlay=w1-gpio,gpiopin=4" | sudo tee -a /boot/config.txt
 #       append "dtoverlay=..." to /boot/config.txt unless it's already there
 #
 

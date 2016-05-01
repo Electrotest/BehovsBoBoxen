@@ -61,7 +61,7 @@ DOMOTICZ_URL="bobox.dyndns.org:8085"  # URL to Domoticz server - use 127.0.0.1 f
 USERNAME = 'ubee'                     # update username and password to what is defined in Domoticz
 PASSWORD = 'xyz'
 
-LOGFILE = '/var/log/bbb/bbb_domoticz.log'
+LOGFILE = '/home/pi/bbb_addon/bbb_domoticz.log'
 
 def tracefunc(frame, event, arg, indent=[0]):
   calltrace=""

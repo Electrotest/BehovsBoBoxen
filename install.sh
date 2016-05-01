@@ -14,6 +14,8 @@
 #       control process.
 #
 
+LOGFILE = "/var/log/bbb"
+
 if [ -z "$2" ]
 then
 
@@ -102,7 +104,7 @@ do_all()
             sudo cp /home/pi/BehovsBoBoxen/scripts/bbb_domoticz.sh /etc/init.d
             sudo chmod 755 /etc/init.d/bbb_domoticz.sh
             sudo update-rc.d bbb_domoticz.sh defaults
-        
+            [ -e $LOGFILE ] || mkdir $LOGFILE       
         else
             sudo cp /home/pi/BehovsBoBoxen/scripts/rc.local /etc/rc.local
             sudo chmod 755 /etc/rc.local
