@@ -62,17 +62,17 @@ Bom | Materiallista
 
 1. Koppla in temperaturgivarna (ds18b20) med plus, minus och signal på GPIO4. Om du vill ha färre än 8 givare behöver du ändra i de två while-looparna i `/home/pi/dallas.py`. Du kan likaså lägga till fler, upp till 16 stycken.
 
-2. Reläkortet kopplas med sina 8 relän från GPIO pinnarna som är angivet i samma ordning som anges i början av filen `/home/pi/dallas.py`
+2. Reläkortet kopplas med sina 8 relän från GPIO pinnarna som är angivet i samma ordning som anges i början av filen `/home/pi/BehovsBoBoxen/script/dallas.py`
 
-3. Normal läge för IP adress är DHCP, om fast ip adress önskas ändrar man i filen `/etc/network/interfaces`
+3. Normal läge för IP adress är DHCP. Om fast ip adress önskas ändrar man i filen `/etc/network/interfaces`
 
 4. Om du vill kunna nå BehovsBoBoxen från Internet måste du göra en portvidarebefodran i er router, se manualen hur det görs.
 
 5. Du har laddat ner och installerat Raspian från `https://www.raspberrypi.org/downloads/noobs/` och konfigurerat till svenska förhållanden
 
-6. Ladda nu ner den senaste versionen från vår katalog (repository) med git klienten `git clone https://github.com/Electrotest/BehovsBoBoxen`
+6. Ladda nu ner den senaste versionen från vår katalog (repository) med git klienten - skriv i terminalen: `git clone https://github.com/Electrotest/BehovsBoBoxen`
 
-7. Kör installationsskriptet och följ de givna instruktionerna `sudo sh /home/pi/BehovsBoBoxen/install.sh`
+7. Kör installationsskriptet och följ de givna instruktionerna i terminalen: `sudo sh /home/pi/BehovsBoBoxen/install.sh`
 
 8. Nu kan du gå in på `https://your.ip.n.r` Logga in med root:root. Första gången kan du få en varning och få klicka för att du litar på certifikatet. Det är ju bara signerat av dig och inte någon professionell Certificate Authority, CA.
 
@@ -85,6 +85,11 @@ Bom | Materiallista
 12. Rundstyrning kan användas om man gör ett avtal med sitt elnätsbolag om att styra laster för att förhindra störningar på det lokala elnätet. 
 
 13. Du kan byta språk till engelska om du går till `/var/www/html/application/config.php` På rad 105 hittar du `$bbb->config['language'] = 'sv_SE';` Ändra `'sv_SE` till `'en_GB'`
+
+14. /sys/bus/w1/devices
+Här finns en mapp för varje dallasgivare (och en för mastern). 
+Klicka på mappen och öppna filen som heter w1_slave. På andra raden står t=12345 av formeln 12345/1000=temperaturen i grader C.
+
 
 
 

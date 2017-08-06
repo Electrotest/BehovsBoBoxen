@@ -1,0 +1,2 @@
+05 16 * * * /usr/bin/python3 /home/pi/behovsboboxen/scripts/getspotprice.py 2> /var/log/mylog.log
+05 00 * * * /usr/bin/wget -q -O --no-check-certificate --ca-directory=/etc/apache2/ssl https://localhost/spotprices/recalculateforcron 2> /var/log/mylog.log

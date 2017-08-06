@@ -1,0 +1,22 @@
+Var ska ute ligga, först, sist?
+Var ska datum ligga?
+Hur många temperaturer?
+temperature.txt och dallas.py
+
+Gör mobilvänlig
+
+Hitta temperaturgivarnas id automatiskt
+
+evok.conf sätt ip-adress -> fixa rättigheter
+gör script för detta
+
+port unipi t.ex. 8022
+port min 8122
+
+sätt lan-konfiguration i netgear
+
+lösenord Box022
+
+i cron.txt ska https://localhost ändras till korrekt adress, om t.ex. port
+
+rätt sökväg i dallas.py

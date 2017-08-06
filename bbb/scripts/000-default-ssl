@@ -1,2 +1,0 @@
-SSLCertificateFile	/etc/apache2/ssl/behovsboboxen.crt
-SSLCertificateKeyFile	/etc/apache2/ssl/behovsboboxen.key
