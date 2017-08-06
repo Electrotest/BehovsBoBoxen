@@ -27,7 +27,7 @@ Bom | Materiallista
 
 6. Ladda nu ner den senaste versionen från vår katalog (repository) med git klienten `git clone https://github.com/Electrotest/BehovsBoBoxen`
 
-7. Kör installationsskriptet och följ de givna instruktionerna `sudo sh /home/pi/behovsboboxen/scripts/install.sh`
+7. Kör installationsskriptet och följ de givna instruktionerna `sudo sh /home/pi/BehovsBoBoxen/behovsboboxen/scripts/install.sh`
 
 8. Nu kan du gå in på `https://your.ip.n.r` Logga in med root:root. Första gången kan du få en varning och få klicka för att du litar på certifikatet. Det är ju bara signerat av dig och inte någon professionell Certificate Authority, CA.
 Boxen kan även hittas med adressen `https://behovsboboxen`. Vill du inte använda certifikatet utelämnar du s och skriver http.
