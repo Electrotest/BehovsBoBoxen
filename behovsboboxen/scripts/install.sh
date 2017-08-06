@@ -28,8 +28,10 @@ sudo service apache2 restart
 sudo chmod 777 /etc/rc.local
 sudo rm -f /etc/rc.local
 
-sudo chmod 777 /home/pi/behovsboboxen -R
+sudo chmod 777 /home/pi/BehovsBoBoxen/behovsboboxen -R
 #full file permissions for the the BehovsBoBoxen-repository from github
+
+sudo cp -R /home/pi/BehovsBoBoxen/behovsboboxen /home/pi/
 
 sudo cp /home/pi/behovsboboxen/scripts/rc.local /etc/rc.local
 #copies and change path for the file that starts the box at reboot
