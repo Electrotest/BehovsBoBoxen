@@ -174,7 +174,7 @@ def updateSensors(relay):
     """end get setpoint"""
     if actualTemp[relay] > setpoints[relay]:
         GPIO.output(pins[relay], True)
-    if actualTemp[realy] < setpoints[realy]:
+    if actualTemp[relay] < setpoints[relay]:
         GPIO.output(pins[relay], False)
 
 
