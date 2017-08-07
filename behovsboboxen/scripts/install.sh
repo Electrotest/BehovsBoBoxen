@@ -88,7 +88,7 @@ sudo rm -f /etc/apache2/sites-available/default-ssl.conf
 sudo cp -rp /home/pi/behovsboboxen/scripts/default-ssl.conf /etc/apache2/sites-available/default-ssl.conf
 sudo ln -s /etc/apache2/sites-available/default-ssl.conf /etc/apache2/sites-enabled/000-default-ssl.conf
 
-sudo chmod -R 744 /etc/apache2
+sudo chmod -R 755 /etc/apache2
 sudo chmod -R 755 /home/pi/behovsboboxen
 sudo chmod -R 777 /home/pi/behovsboboxen/html/application/data
 sudo chmod -R 777 /home/pi/behovsboboxen/html/application/textfile
