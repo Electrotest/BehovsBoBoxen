@@ -196,7 +196,7 @@ class CCSpotprices extends CObject implements IController {
 
         $tablespot .= "<table id='data-table' summary='<?= $summary ?>'>";
         $tablespot .= "<thead><tr><th scope='col'>" . $date . "</th><th scope='col'>" . $max . "</th><th scope='col'>" . $min . "</th><th scope='col'>" . $average . "</th></tr></thead><tbody>";
-        if ($this->todaysDate > $this->tomorrowsDate) {
+        if ($this->todaysDate < $this->tomorrowsDate) {
             $tablespot .= "<tr><td><b><span class ='tableblue'>" . $this->todaysDate . "</span></b></td><td><b><span class ='tableblue'>" . $this->textfiles->getCurrentMaxPrice() . "</span></b></td><td><b><span class ='tableblue'>" . $this->textfiles->getCurrentMinPrice() . "</span></b></td><td><b><span class ='tableblue'>" . $this->textfiles->getCurrentAveragePrice() . "</span></b></td></tr>";
             $tablespot .= "<tr><td><b><span class ='orange'>" . $this->tomorrowsDate . "</span></b></td><td><b><span class ='orange'>" . $this->textfiles->getTomorrowsMaxPrice() . "</span></b></td><td><b><span class ='orange'>" . $this->textfiles->getTomorrowsMinPrice() . "</span></b></td><td><b><span class ='orange'>" . $this->textfiles->getTomorrowsAveragePrice() . "</span></b></td></tr>";
         }else{

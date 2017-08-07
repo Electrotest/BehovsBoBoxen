@@ -90,6 +90,7 @@ class CCAdminControlPanel extends CObject implements IController {
         }else{
             $this->various[0]['percent']= 'NEJ';
         }
+//var_dump($this->various);
 
         $this->nrOfActiveRooms = $this->various[0]['nrofrooms'];
         $this->getActiveRooms();
@@ -121,6 +122,7 @@ class CCAdminControlPanel extends CObject implements IController {
         $if = new CInterceptionFilter();
         $access = $if->AdminOrForbidden();
 //var_dump($this->theActiveRooms);
+//var_dump($this->roomsInfo[1]);
         $this->views->SetTitle(t('Temperatures: Edit'))
                 ->AddInclude(__DIR__ . '/temperatures.tpl.php', array(
                     'temperatures' => $this->theActiveRooms,
@@ -168,7 +170,78 @@ class CCAdminControlPanel extends CObject implements IController {
         }
  
         $this->temperatures->Update($home, $max, $min, $away, $rund, $room, $on, $off, $id);
+        $this->Lists();
+        $this->calculateSetpoints();
 
+    }
+
+    public function calculateSetpoints() {
+        $spotprices = $this->textfiles->getCurrentCleanValues();
+        $nrOfHours = count($spotprices) - 1;
+        $average = $this->textfiles->getCurrentAveragePrice();
+        $nrOf = $this->nrOfActiveRooms;
+        $room = "";
+        $rooms = array();
+        $setpoints = array();
+        $textRoom = array();
+        $pickedPercent = $this->various[0]['percentlevel'];
+        $havePercentValue = $this->various[0]['percent'];
+
+        for ($i = 0; $i < $nrOf; $i++) {
+            $room = $this->roomsInfo['room'];
+            $this->rooms[$room]['rum'] = $this->roomsInfo[$i]['room'];
+            $this->rooms[$room]['home'] = $this->roomsInfo[$i]['home'];
+            $this->rooms[$room]['min'] = $this->roomsInfo[$i]['min'];
+            $this->rooms[$room]['max'] = $this->roomsInfo[$i]['max'];
+            $this->rooms[$room]['rund'] = $this->roomsInfo[$i]['rund'];
+            $this->rooms[$room]['away'] = $this->roomsInfo[$i]['away'];
+
+            $this->setpoints[$room] = array();    // Each room gets 24 hour list of temperatures
+            $textRoom[$i] = $this->setpoints[$room];  
+
+            $percentValue = ($pickedPercent / 100) + 1;
+            $gone = false;
+
+            $cutOffArray = array();
+            for ($t = 0; $t < $nrOfHours; $t++) {
+                $cutOffArray[$t] = false;
+            }
+            for ($q = 0; $q < $nrOfHours; $q++) {
+                if ($spotprices[$q] > ($percentValue * $average)) {
+                    $cutOffArray[$q] = true;
+                }
+            }
+        for ($q = 0; $q < $nrOfHours; $q++) {
+            $redmax1 = $q+1;
+            $redmax2 = $q+2;
+            $this->setpoints[$room] = "";  // temperatures for 24 hours for each room     
+            $textRoom[$i][$q] = $this->setpoints[$room] . ",";   // The temperatures with commas
+
+
+            if (($this->toDate && $this->fromDate)  &&  (strtotime($this->toDate)  >= strtotime($this->fromDate)) && (strtotime($this->toDate) >= strtotime($this->todaysDate)) && (strtotime($this->fromDate) <= strtotime($this->todaysDate))) {                
+                        $this->setpoints[$room] = $this->rooms[$room]['away'];
+                        $textRoom[$i][$q] = $this->setpoints[$room] . ",";
+            } elseif ($havePercentValue == 'JA') {
+                if($spotprices[$q] > ($percentValue * $average)){
+                    $this->setpoints[$room] = $this->rooms[$room]['min'];
+                    $textRoom[$i][$q] = $this->setpoints[$room] . ",";
+                }elseif($redmax1 < $nrOfHours && $cutOffArray[$redmax1] == true || $redmax2 < $nrOfHours && $cutOffArray[$redmax2] == true){
+                    $this->setpoints[$room] = $this->rooms[$room]['max'];
+                    $textRoom[$i][$q] = $this->setpoints[$room] . ",";
+                } else {
+                    $this->setpoints[$room] = $this->rooms[$room]['home'];
+                    $textRoom[$i][$q] = $this->setpoints[$room] . ",";
+                }
+            } else {
+                $this->setpoints[$room] = $this->rooms[$room]['home'];
+                $textRoom[$i][$q] = $this->setpoints[$room] . ","; 
+            }
+        }
+        $textRoom[$i][$nrOfHours] = '[ ' . $this->todaysDate . ' ]';
+        $nr = (string)$i;
+        $roomtextfile = 'room' . $nr . '.txt';
+        $this->textfiles->writeText($roomtextfile, $textRoom[$i]);
+        }       
     }
 
 /*****************************************************************************************************
