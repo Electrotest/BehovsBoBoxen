@@ -162,7 +162,7 @@ class CCAdminControlPanel extends CObject implements IController {
             echo 'no post<br />';
         }
         
-        if ($on == '0' || $off == '0') {
+        if ($on == '0' || $off == '0' || $on == '' || $off == '' || $on == None || $off == None) {
             $on = '0';
             $off = '0';
         }
