@@ -162,9 +162,9 @@ class CCAdminControlPanel extends CObject implements IController {
             echo 'no post<br />';
         }
         
-        if ($on == 0 || $off == 0) {
-            $on = 0;
-            $off = 0;
+        if ($on == '0' || $off == '0') {
+            $on = '0';
+            $off = '0';
         }
  
         $this->temperatures->Update($home, $max, $min, $away, $rund, $room, $on, $off, $id);

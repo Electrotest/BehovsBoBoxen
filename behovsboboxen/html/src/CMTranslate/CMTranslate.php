@@ -97,7 +97,7 @@ class CMTranslate extends CObject implements IHasSQL, ArrayAccess, IModule {
                     $this->db->ExecuteQuery(self::SQL('insert translate'), array('Minprice', 'Minpris'));
                     $this->db->ExecuteQuery(self::SQL('insert translate'), array('Average', 'Medel'));
                     $this->db->ExecuteQuery(self::SQL('insert translate'), array('Date', 'Dag'));
-                    $this->db->ExecuteQuery(self::SQL('insert translate'), array("The next days spotprice is released 16:00 from NordPool's ftp server. Here we show the setvalues per hour to avoid buying electricity when the price is high.", 'Morgondagens spotpris släpps kl 16.00 från NordPools ftp server. Här visar vi ärvärden per timma för att undvika att köpa el när priset är högt.'));
+                    $this->db->ExecuteQuery(self::SQL('insert translate'), array("The next days spotprice is released 16:00 from NordPool's ftp server. Here we show the setvalues per hour to avoid buying electricity when the price is high.", 'Morgondagens spotpris släpps kl 16.00 från NordPools ftp server. Här visar vi börvärden per timma för att undvika att köpa el när priset är högt.'));
                     $this->db->ExecuteQuery(self::SQL('insert translate'), array('Get current spotprice', 'Hämta aktuellt spotpris'));
                     $this->db->ExecuteQuery(self::SQL('insert translate'), array('Isvalue', 'Ärvärde'));
                     $this->db->ExecuteQuery(self::SQL('insert translate'), array('ShouldValue', 'Börvärde'));

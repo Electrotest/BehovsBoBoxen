@@ -98,7 +98,6 @@ class CBehovsboboxen implements ISingleton /*, IModule*/  {
         $this->db = new CDatabase('sqlite:' . BEHOVSBOBOXEN_APPLICATION_PATH . '/data/.ht.sqlite3');
         $this->translated = new CMTranslate();
 
-
         if($this->translated->TableExists() == null){
             $this->translated->Manage('install'); 
         }

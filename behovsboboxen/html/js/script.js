@@ -5,80 +5,80 @@ var PASS = {};
 var TRANS = {};
 
 TABLE.formwork = function(table) {
-  var $tables = $(table);
+    var $tables = $(table);
 
-  $tables.each(function () {
-    var _table = $(this);
-    _table.find('thead tr').append($('<th class="edit">&nbsp;</th>'));
-    _table.find('tbody tr').append($("<td class='edit'><input type='button' value='Klicka för att ändra' /></td>"))
-    _table.find('thead tr th:nth-child(10)').hide();
-    _table.find('tbody tr td:nth-child(10)').hide();
-  });
+    $tables.each(function () {
+        var _table = $(this);
+        _table.find('thead tr').append($('<th class="edit">&nbsp;</th>'));
+        _table.find('tbody tr').append($("<td class='edit'><input type='button' value='Klicka för att ändra' /></td>"))
+        _table.find('thead tr th:nth-child(10)').hide();
+        _table.find('tbody tr td:nth-child(10)').hide();
+    });
   
-  $tables.find('.edit :button').on('click', function(e) {
-    TABLE.editable(this);
-    e.preventDefault();
-  });
+    $tables.find('.edit :button').on('click', function(e) {
+        TABLE.editable(this);
+        e.preventDefault();
+    });
 }
 
 
-
 TABLE.editable = function(button) {
-  var $button = $(button);
-  var $row = $button.parents('tbody tr');
-  var $cells = $row.children('td').not('.edit').slice(1,6);
-  var $is = $row.children('td').eq(0).html();
-  var $on = $row.children('td').eq(6);
-  var $off = $row.children('td').eq(7);
-  var $id = $row.children('td').eq(8).html();
-  var $arrayrow = [];
-  var $room = $row.children('th');
+    var $button = $(button);
+    var $row = $button.parents('tbody tr');
+    var $cells = $row.children('td').not('.edit').slice(1,6);
+    var $is = $row.children('td').eq(0).html();
+    var $on = $row.children('td').eq(6);
+    var $off = $row.children('td').eq(7);
+    var $id = $row.children('td').eq(8).html();
+    var $arrayrow = [];
+    var $room = $row.children('th');
   
-  if ($row.data('flag')) { // in edit mode, move back to table
+    if ($row.data('flag')) { // in edit mode, move back to table
     // cell methods
-console.log('$id: ' + $id);
-    ARRAY.save($is,$arrayrow);
-    ARRAY.save($id,$arrayrow);
+        console.log('$id: ' + $id);
+        ARRAY.save($is,$arrayrow);
+        ARRAY.save($id,$arrayrow);
 
-    $cells.each(function () {
-      var _cell = $(this);
-      var res = $(".replaceme").val();
-      console.log("$('.replaceme').val(): " + $(".replaceme").val());
-      _cell.html(res);
-      if(isNaN(res)){
-        console.log('is not a number');
-        _cell.html('1.0');
-        ARRAY.save('1.0',$arrayrow);
-      }else{
-        console.log('is a number');
-        
-        ARRAY.save(res,$arrayrow);
-      }
-    });
+        $cells.each(function () {
+            var _cell = $(this);
+            var res = $(".replaceme").val();
+            console.log("$('.replaceme').val(): " + $(".replaceme").val());
+            _cell.html(res);
 
-    var roomres = $(".replaceroom").val();
-    console.log("$('.replaceroom').val(): " + $(".replaceroom").val());
-    $room.html(roomres);
-    ARRAY.save(roomres, $arrayrow);
+            if(isNaN(res)){
+                console.log('is not a number');
+                _cell.html('1.0');
+                ARRAY.save('1.0',$arrayrow);
+            }else{
+                console.log('is a number');        
+                ARRAY.save(res,$arrayrow);
+            }
+        });
 
-    var onres = $( ".onselect option:selected" ).text();
-    $on.html(onres);
-    ARRAY.save(onres, $arrayrow);
+        var roomres = $(".replaceroom").val();
+        console.log("$('.replaceroom').val(): " + $(".replaceroom").val());
+        $room.html(roomres);
+        ARRAY.save(roomres, $arrayrow);
 
-    var offres = $( ".offselect option:selected" ).text();    
-    $off.html(offres);
-    ARRAY.save(offres, $arrayrow);
+        var onres = $( ".onselect option:selected" ).text();
+        $on.html(onres);
+        ARRAY.save(onres, $arrayrow);
 
-    $row.data('flag',false);
-    $button.val('Klicka för att ändra');
-    console.log($arrayrow);
-console.log('Efter: is: '  +$arrayrow[0] + ', home: ' +$arrayrow[1]  + ', max: ' +$arrayrow[2]  + ', min: ' + $arrayrow[3]  + ', away: ' +$arrayrow[4]  + ', rund: ' +$arrayrow[5] + ', id: ' + $arrayrow[6] + 'room: '  +$arrayrow[7] );
+        var offres = $( ".offselect option:selected" ).text();    
+        $off.html(offres);
+        ARRAY.save(offres, $arrayrow);
 
-  function makeajax($arrayrow){
-        $.ajax({
-            type: 'post',
-            url: 'tableservice',
-            data: { is: $arrayrow[0],
+        $row.data('flag',false);
+        $button.val('Klicka för att ändra');
+        console.log($arrayrow);
+        console.log('Efter: is: '  +$arrayrow[0] + ', home: ' +$arrayrow[1]  + ', max: ' +$arrayrow[2]  + ', min: ' + $arrayrow[3]  + ', away: ' +$arrayrow[4]  + ', rund: ' +$arrayrow[5] + ', id: ' + $arrayrow[6] + 'room: '  +$arrayrow[7] );
+
+        function makeajax($arrayrow){
+            $.ajax({
+                type: 'post',
+                url: 'tableservice',
+                data: { 
+                    is: $arrayrow[0],
                     id: $arrayrow[1],
                     home: $arrayrow[2],
                     max: $arrayrow[3],
@@ -88,82 +88,81 @@ console.log('Efter: is: '  +$arrayrow[0] + ', home: ' +$arrayrow[1]  + ', max: '
                     room: $arrayrow[7],
                     on: $arrayrow[8],
                     off: $arrayrow[9],
-                  },
+                },
+                //dataType: Json,
+                success: function(data){
+                    console.log(data + ': Ajax förfrågan uppfylldes.'); 
+                    window.location.href = './temperatures';   
+                },
+                error: function(jqXHR, textStatus, errorThrown){
+                    console.log('Ajax förfrågan misslyckades: ' + textStatus + ', ' + errorThrown); 
+                    console.log(data) ;  
+                },
+            });
+            console.log('Klickade för att spara: ' + $arrayrow);
+        }
 
-            //dataType: Json,
-            success: function(data){
-                console.log(data + ': Ajax förfrågan uppfylldes.'); 
-                window.location.href = '/acp/temperatures';   
-            },
-            error: function(jqXHR, textStatus, errorThrown){
-                console.log('Ajax förfrågan misslyckades: ' + textStatus + ', ' + errorThrown); 
-                console.log(data) ;  
-            },
+        makeajax($arrayrow);
+
+    } else { // in table mode, move to edit mode 
+        // cell methods
+        ARRAY.save($is,$arrayrow);
+        console.log('$id: ' + $id);
+
+        $on.data('text', $on.html()).html('');
+            var $input = $('<select class="onselect" name="on"><option value="0">0</option><option value="01">01</option><option value="02">02</option><option value="03">03</option><option value="04">04</option><option value="05">05</option><option value="06">06</option><option value="07">07</option><option value="08">08</option><option value="09">09</option><option value="10">10</option><option value="11">11</option><option value="12">12</option><option value="13">13</option><option value="14">14</option><option value="15">15</option><option value="16">16</option><option value="17">17</option><option value="18">18</option><option value="19">19</option><option value="20">20</option><option value="21">21</option><option value="22">22</option><option value="23">23</option><option value="24">24</option></select>')
+            .val($on.data('text'))
+            .width($on.width()-$on.width()+60);
+            console.log($on.data('text'));
+            console.log("$on", $on);
+            $on.append($input);
+            ARRAY.save($on.data('text'),$arrayrow);
+
+        $off.data('text', $off.html()).html('');
+            var $input = $('<select class="offselect" name="off"><option value="0">0</option><option value="01">01</option><option value="02">02</option><option value="03">03</option><option value="04">04</option><option value="05">05</option><option value="06">06</option><option value="07">07</option><option value="08">08</option><option value="09">09</option><option value="10">10</option><option value="11">11</option><option value="12">12</option><option value="13">13</option><option value="14">14</option><option value="15">15</option><option value="16">16</option><option value="17">17</option><option value="18">18</option><option value="19">19</option><option value="20">20</option><option value="21">21</option><option value="22">22</option><option value="23">23</option><option value="24">24</option></select>')
+            .val($off.data('text'))
+            .width($off.width()-$off.width()+60);
+            console.log($off.data('text'));
+            $off.append($input);
+            ARRAY.save($off.data('text'),$arrayrow);
+
+        $cells.each(function() {
+            var _cell = $(this);
+            //console.log('före: ' + _cell.html());
+            _cell.data('text', _cell.html()).html('');
+         
+            var $input = $('<input type="text" class="replaceme" />')
+            .val(_cell.data('text'))
+            .width(_cell.width()-_cell.width()+30);  
+            if(isNaN(_cell.data('text'))){
+                console.log('is not a number');
+                $input = $('<input type="text" class="replaceme" />')
+                    .val(_cell.data('1.0'))
+                    .width(_cell.width()-_cell.width()+30);
+                _cell.append($input);
+                ARRAY.save('1.0',$arrayrow);
+            } else {
+                _cell.append($input);
+                ARRAY.save(_cell.data('text'),$arrayrow);
+            }
         });
-        console.log('Klickade för att spara: ' + $arrayrow);}
-makeajax($arrayrow);
 
-  } 
-  else { // in table mode, move to edit mode 
-    // cell methods
-    ARRAY.save($is,$arrayrow);
-console.log('$id: ' + $id);
+        console.log('före: ' +  $room.html());
 
-    $on.data('text', $on.html()).html('');
-        var $input = $('<select class="onselect" name="on"><option value="0">0</option><option value="01">01</option><option value="02">02</option><option value="03">03</option><option value="04">04</option><option value="05">05</option><option value="06">06</option><option value="07">07</option><option value="08">08</option><option value="09">09</option><option value="10">10</option><option value="11">11</option><option value="12">12</option><option value="13">13</option><option value="14">14</option><option value="15">15</option><option value="16">16</option><option value="17">17</option><option value="18">18</option><option value="19">19</option><option value="20">20</option><option value="21">21</option><option value="22">22</option><option value="23">23</option><option value="24">24</option></select>')
-        .val($on.data('text'))
-        .width($on.width()-$on.width()+60);
-        console.log($on.data('text'));
-        console.log("$on", $on);
-        $on.append($input);
-        ARRAY.save($on.data('text'),$arrayrow);
+        $room.data('text', $room.html()).html('');
+        var $input = $('<input type="text" class="replaceroom" />')
+            .val($room.data('text'))
+            .width($room.width()-$room.width()+100); 
+        $room.append($input);
+        ARRAY.save($room.data('text'), $arrayrow);
 
-    $off.data('text', $off.html()).html('');
-        var $input = $('<select class="offselect" name="off"><option value="0">0</option><option value="01">01</option><option value="02">02</option><option value="03">03</option><option value="04">04</option><option value="05">05</option><option value="06">06</option><option value="07">07</option><option value="08">08</option><option value="09">09</option><option value="10">10</option><option value="11">11</option><option value="12">12</option><option value="13">13</option><option value="14">14</option><option value="15">15</option><option value="16">16</option><option value="17">17</option><option value="18">18</option><option value="19">19</option><option value="20">20</option><option value="21">21</option><option value="22">22</option><option value="23">23</option><option value="24">24</option></select>')
-        .val($off.data('text'))
-        .width($off.width()-$off.width()+60);
-        console.log($off.data('text'));
-        $off.append($input);
-        ARRAY.save($off.data('text'),$arrayrow);
+        $( "select.onselect" ).selectmenu();
+        $( "select.offselect" ).selectmenu();
 
-    $cells.each(function() {
-      var _cell = $(this);
-//console.log('före: ' + _cell.html());
-      _cell.data('text', _cell.html()).html('');
-     
-      var $input = $('<input type="text" class="replaceme" />')
-        .val(_cell.data('text'))
-        .width(_cell.width()-_cell.width()+30);  
-          if(isNaN(_cell.data('text'))){
-            console.log('is not a number');
-            $input = $('<input type="text" class="replaceme" />')
-              .val(_cell.data('1.0'))
-              .width(_cell.width()-_cell.width()+30);
-            _cell.append($input);
-            ARRAY.save('1.0',$arrayrow);
-          }else{
-            _cell.append($input);
-            ARRAY.save(_cell.data('text'),$arrayrow);
-          }
-    });
-
-    console.log('före: ' +  $room.html());
-
-    $room.data('text', $room.html()).html('');
-    var $input = $('<input type="text" class="replaceroom" />')
-        .val($room.data('text'))
-        .width($room.width()-$room.width()+100); 
-    $room.append($input);
-    ARRAY.save($room.data('text'), $arrayrow);
-
-    $( "select.onselect" ).selectmenu();
-    $( "select.offselect" ).selectmenu();
-
-console.log('Före: ' + $arrayrow);
-    $row.data('flag', true);
-    $button.val('Spara');
-
-  }
+        console.log('Före: ' + $arrayrow);
+        $row.data('flag', true);
+        $button.val('Spara');
+    }
 }
 
 //////////////////////////////////////////////////////////////////////////////////////
@@ -272,7 +271,7 @@ console.log('Efter: area: ' + $acpArray[0]  + ', nrofrooms: ' + $acpArray[1] + '
             //dataType: Json,
             success: function(data){
                 console.log(data + ': Ajax förfrågan uppfylldes.'); 
-                window.location = 'acp';   
+                window.location = '.';   
             },
             error: function(jqXHR, textStatus, errorThrown){
                 console.log('Ajax förfrågan misslyckades: ' + textStatus + ', ' + errorThrown); 
@@ -446,7 +445,7 @@ console.log('Efter: akronym: '  +$arrayrow[0] + ', pass1: ' +$arrayrow[1]  + ', 
             //dataType: Json,
             success: function(data){
                 console.log(data + ': Ajax förfrågan uppfylldes.'); 
-                window.location = 'acp';   
+                window.location = '.';   
             },
             error: function(jqXHR, textStatus, errorThrown){
                 console.log('Ajax förfrågan misslyckades: ' + textStatus + ', ' + errorThrown); 
