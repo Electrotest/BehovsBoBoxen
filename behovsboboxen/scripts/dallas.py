@@ -173,9 +173,9 @@ def updateSensors(relay):
     roomhandle.close()
     """end get setpoint"""
     if actualTemp[relay] > setpoints[relay]:
-        GPIO.output(pins[relay], False)
-    if actualTemp[relay] < setpoints[relay]:
         GPIO.output(pins[relay], True)
+    if actualTemp[relay] < setpoints[relay]:
+        GPIO.output(pins[relay], False)
 
 
 def turnSensorOff(item):

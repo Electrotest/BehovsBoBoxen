@@ -271,7 +271,7 @@ console.log('Efter: area: ' + $acpArray[0]  + ', nrofrooms: ' + $acpArray[1] + '
             //dataType: Json,
             success: function(data){
                 console.log(data + ': Ajax förfrågan uppfylldes.'); 
-                window.location = '.';   
+                window.location.href = '/acp';   
             },
             error: function(jqXHR, textStatus, errorThrown){
                 console.log('Ajax förfrågan misslyckades: ' + textStatus + ', ' + errorThrown); 
@@ -445,7 +445,7 @@ console.log('Efter: akronym: '  +$arrayrow[0] + ', pass1: ' +$arrayrow[1]  + ', 
             //dataType: Json,
             success: function(data){
                 console.log(data + ': Ajax förfrågan uppfylldes.'); 
-                window.location = '.';   
+                window.location = '/acp';   
             },
             error: function(jqXHR, textStatus, errorThrown){
                 console.log('Ajax förfrågan misslyckades: ' + textStatus + ', ' + errorThrown); 
@@ -532,7 +532,7 @@ console.log('Efter: id: '  +$arrayrow[0] + ', swe: ' +$arrayrow[1]  + ', eng: ' 
             //dataType: Json,
             success: function(data){
                 console.log(data + ': Ajax förfrågan uppfylldes.'); 
-                window.location = 'acp';   
+                window.location = '/acp';   
             },
             error: function(jqXHR, textStatus, errorThrown){
                 console.log('Ajax förfrågan misslyckades: ' + textStatus + ', ' + errorThrown); 
