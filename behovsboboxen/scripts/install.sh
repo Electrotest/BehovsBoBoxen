@@ -61,14 +61,12 @@ sudo crontab -l -u root |  cat /home/pi/behovsboboxen/scripts/cron.txt | sudo cr
 
 grep -q -F "dtoverlay=w1-gpio,gpiopin=4" /boot/config.txt || sudo bash -c "echo 'dtoverlay=w1-gpio,gpiopin=4' >> /boot/config.txt"
 
-sudo sed -i '/<Directory \/var\/www/>\/,/<\/Directory>/ s/AllowOverride None/AllowOverride All/' /etc/apache2/apache2.conf
+sudo sed -i '/<Directory \/var\/www\/>/,/<\/Directory>/ s/AllowOverride None/AllowOverride All/' /etc/apache2/apache2.conf
 
 sudo a2enmod ssl
 #install mod_ssl and Listen 443 in /etc/apache2/ports.conf
 sudo a2ensite default-ssl
 # activate
-sudo service apache2 reload
-#restart
 
 sudo chmod -R 755 /etc/apache2
 sudo chmod -R 755 /home/pi/behovsboboxen
@@ -77,7 +75,7 @@ sudo chmod -R 777 /home/pi/behovsboboxen/html/application/textfile
 #restores file permissions
 
 sudo systemctl restart apache2
-#enable mod_ssl and restart apache
+#restart apache
 
 #https://www.modmypi.com/blog/how-to-give-your-raspberry-pi-a-static-ip-address-update
 
