@@ -12,7 +12,7 @@ sudo apt-get install vsftpd -y
 
 sudo apt-get install mysql-server mysql-client -y
 
-sudo apt-get install php libapache2-mod-php apache2 phpmyadmin -y
+sudo apt-get install php libapache2-mod-php apache2 -y
 #installs webserver and php library
 
 sudo apt-get install php7.0-sqlite3
@@ -43,6 +43,8 @@ sudo chmod 755 /etc/rc.local
 sudo rm -rf /var/www/html
 sudo rm -rf /home/pi/BehovsBoBoxen
 
+sudo chmod -R 777 /etc/apache2
+
 sudo cp /home/pi/behovsboboxen/scripts/behovsboboxen.conf /etc/apache2/sites-available/behovsboboxen.conf
 
 sudo a2ensite behovsboboxen
@@ -51,22 +53,22 @@ sudo bash -c "echo -e 127.0.1.1'\t'behovsboboxen >> /etc/hosts"
 sudo systemctl reload apache2
 #enable our site behovsboboxen
 
-sudo rm -R /var/www/html
-
 sudo ln -s  /home/pi/behovsboboxen/html /var/www/html
 #symlink from our source-code to the html-directory
 
 sudo crontab -l -u root |  cat /home/pi/behovsboboxen/scripts/cron.txt | sudo crontab -u root -
 #we get the new spotpricefile after 16:00 and recalculate the temperatures after 00:00
 
-grep -q -F "dtoverlay=w1-gpio,gpiopin=4" /boot/config.txt || sudo bash -c "echo 'dtoverlay=w1-gpio,gpiopin=4' >> /boot.config.txt"
+grep -q -F "dtoverlay=w1-gpio,gpiopin=4" /boot/config.txt || sudo bash -c "echo 'dtoverlay=w1-gpio,gpiopin=4' >> /boot/config.txt"
 
-sudo chmod 777 /etc/apache2 -R
-
-sed -i '/<Directory \/var\/www/>/,/<\/Directory>/ s/AllowOverride None/AllowOverride All/' etc/apache2/apache2.conf
+sudo sed -i '/<Directory \/var\/www/>\/,/<\/Directory>/ s/AllowOverride None/AllowOverride All/' /etc/apache2/apache2.conf
 
 sudo a2enmod ssl
 #install mod_ssl and Listen 443 in /etc/apache2/ports.conf
+sudo a2ensite default-ssl
+# activate
+sudo service apache2 reload
+#restart
 
 sudo chmod -R 755 /etc/apache2
 sudo chmod -R 755 /home/pi/behovsboboxen

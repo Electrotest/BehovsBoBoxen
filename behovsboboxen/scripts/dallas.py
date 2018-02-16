@@ -111,7 +111,7 @@ def setPoints(setp):
         row[2] returns setvalue.
         """
         setp[i] = row[2]
-        print "row[0], row[1], row[2]", row[0], row[1], row[2]
+        # print "row[0], row[1], row[2]", row[0], row[1], row[2]
         i = i + 1
 
     db.close()

@@ -1,5 +1,0 @@
-05 16 * * * /usr/bin/python3 /home/pi/behovsboboxen/scripts/getspotprice.py 2> /var/log/mylog.log
-05 00 * * * /usr/bin/wget -q -O --no-check-certificate --ca-directory=/etc/apache2/ssl https://localhost/spotprices/recalculateforcron 2> /var/log/mylog.log
-05 * * * * /usr/bin/python /home/pi/behovsboboxen/scripts/templog.py 2> /var/log/mylog.log
-08 * * * * /usr/bin/php /home/pi/behovsboboxen/scripts/templog.php > /home/pi/temp.log 2>&1 /var/log/mylog.log
-50 23 * * * /usr/bin/php /home/pi/behovsboboxen/scripts/movetemplog.php 2> /var/log/mylog.log
