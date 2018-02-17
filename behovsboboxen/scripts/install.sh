@@ -24,7 +24,6 @@ sudo systemctl start ssh
 sudo a2enmod rewrite
 #activates mod_rewrite
 
-#sudo service apache2 restart
 sudo systemctl restart apache2
 #restarts apache2
 

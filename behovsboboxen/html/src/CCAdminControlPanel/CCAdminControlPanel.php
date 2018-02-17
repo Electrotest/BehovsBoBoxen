@@ -90,7 +90,6 @@ class CCAdminControlPanel extends CObject implements IController {
         }else{
             $this->various[0]['percent']= 'NEJ';
         }
-//var_dump($this->various);
 
         $this->nrOfActiveRooms = $this->various[0]['nrofrooms'];
         $this->getActiveRooms();
@@ -121,8 +120,6 @@ class CCAdminControlPanel extends CObject implements IController {
     public function Temperatures() {
         $if = new CInterceptionFilter();
         $access = $if->AdminOrForbidden();
-//var_dump($this->theActiveRooms);
-//var_dump($this->roomsInfo[1]);
         $this->views->SetTitle(t('Temperatures: Edit'))
                 ->AddInclude(__DIR__ . '/temperatures.tpl.php', array(
                     'temperatures' => $this->theActiveRooms,
@@ -179,6 +176,7 @@ class CCAdminControlPanel extends CObject implements IController {
         $spotprices = $this->textfiles->getCurrentCleanValues();
         $nrOfHours = count($spotprices) - 1;
         $average = $this->textfiles->getCurrentAveragePrice();
+        $this->various = $this->temperatures->ListVarious();
         $nrOf = $this->nrOfActiveRooms;
         $room = "";
         $rooms = array();
@@ -266,7 +264,8 @@ class CCAdminControlPanel extends CObject implements IController {
             echo 'no post<br />';
         }
 
-        $this->temperatures->UpdateVarious($area, $nrofrooms, $load, $percent, $percentlevel, $awayfrom, $awayto); 
+        $this->temperatures->UpdateVarious($area, $nrofrooms, $load, $percent, $percentlevel, $awayfrom, $awayto);
+        $this->calculateSetpoints();
      
     }
 
@@ -291,6 +290,6 @@ class CCAdminControlPanel extends CObject implements IController {
             echo 'no post<br />';
         }
 
-        $this->user->UpdateMember($acronym, $pass1, $pass2, $name, $email, $id);      
+        $this->user->UpdateMember($acronym, $pass1, $pass2, $name, $email, $id);
     }
 }
