@@ -316,7 +316,7 @@ console.log("$load.data('text'): " + $load.data('text'));
         ARRAY.save($percent.data('text'),$acpArray);
 
         $percentlevel.data('text', $percentlevel.html()).html('');
-        var $input = $('<select class="levelselect" name="level"><option value="1">1</option><option value="2">2</option><option value="3">3</option><option value="4">4</option><option value="5">5</option><option value="6">6</option><option value="7">7</option><option value="8">8</option><option value="9">9</option><option value="10">10</option></select>')
+        var $input = $('<select class="levelselect" name="level"><option value="0">0</option><option value="1">1</option><option value="2">2</option><option value="3">3</option><option value="4">4</option><option value="5">5</option><option value="6">6</option><option value="7">7</option><option value="8">8</option><option value="9">9</option><option value="10">10</option></select>')
         .val($percentlevel.data('text'))
         .width($percentlevel.width()-$percentlevel.width()+100);
         $percentlevel.append($input); 

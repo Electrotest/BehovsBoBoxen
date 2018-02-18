@@ -99,6 +99,7 @@ def setPoints():
     Opens sqlite3 file, extracts the various room's setpointvalues
     and then fills the list 'setpoints'
     """
+    global setpoints
     db = sqlite3.connect('/var/www/html/application/data/.ht.sqlite3')
     cursor = db.cursor()
     cursor.execute("SELECT * FROM roomsettings")
@@ -110,7 +111,7 @@ def setPoints():
         row[0] returns the first column in the query (rowid),
         row[2] returns setvalue.
         """
-        setp[i] = row[2]
+        setpoints[i] = row[2]
         # print "row[0], row[1], row[2]", row[0], row[1], row[2]
         i = i + 1
 
