@@ -116,7 +116,6 @@ def setPoints():
         i = i + 1
 
     db.close()
-    return setp
 
 
 def actualTemps(actualT, sens):
