@@ -219,7 +219,7 @@ class CCAdminControlPanel extends CObject implements IController {
             if (($this->toDate && $this->fromDate)  &&  (strtotime($this->toDate)  >= strtotime($this->fromDate)) && (strtotime($this->toDate) >= strtotime($this->todaysDate)) && (strtotime($this->fromDate) <= strtotime($this->todaysDate))) {                
                         $this->setpoints[$room] = $this->rooms[$room]['away'];
                         $textRoom[$i][$q] = $this->setpoints[$room] . ",";
-            } elseif ($havePercentValue == 'JA') {
+            } elseif ($havePercentValue == '1') {
                 if($spotprices[$q] > ($percentValue * $average)){
                     $this->setpoints[$room] = $this->rooms[$room]['min'];
                     $textRoom[$i][$q] = $this->setpoints[$room] . ",";

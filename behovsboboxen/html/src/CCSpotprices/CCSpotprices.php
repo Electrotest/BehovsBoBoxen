@@ -164,7 +164,7 @@ class CCSpotprices extends CObject implements IController {
             }
         }
         $textRoom[$i][$nrOfHours] = '[ ' . $this->todaysDate . ' ]';
-        $nr = (string)$i;
+        $nr = (string)$i + 1;
         $roomtextfile = 'room' . $nr . '.txt';
         $this->textfiles->writeText($roomtextfile, $textRoom[$i]);
 

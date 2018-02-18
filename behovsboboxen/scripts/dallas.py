@@ -41,7 +41,7 @@ setpoints = [None] * 16
 actualTemp = [None] * 16
 
 """array of onoff values"""
-OnOff = [(None, None)] * 16
+OnOff = [(0, 0)] * 16
 
 """may be programmed for input or output"""
 pins = [11, 13, 15, 29, 31, 33, 35, 37, 12, 16, 18, 22, 32, 36, 38, 40]
@@ -81,11 +81,11 @@ def getNrOfRooms():
     return nrOfRooms
 
 
-def initiate(setp, actualT, sens, OnOff):
+def initiate(actualT, sens, OnOff):
     """
     Initiate readings by starting some functions
     """
-    setPoints(setp)
+    setPoints()
     actualTemps(actualT, sens)
     updateTempFile(actualT)
     getHand(OnOff)
@@ -94,7 +94,7 @@ def initiate(setp, actualT, sens, OnOff):
     #print "OnOff:", OnOff
 
 
-def setPoints(setp):
+def setPoints():
     """
     Opens sqlite3 file, extracts the various room's setpointvalues
     and then fills the list 'setpoints'
@@ -128,6 +128,7 @@ def actualTemps(actualT, sens):
     nr = getNrOfRooms()
 
     c = 0
+    #print "ActualTemps"
     while c < nr:
         string = str(sens[c])
         searchPath = basePath + string + tailPath
@@ -165,17 +166,18 @@ def updateTempFile(actualT):
 
 def updateSensors(relay):
     """"""
+    global setpoints;
     actualtime = datetime.datetime.now()
     actualhour = actualtime.hour
     room = "room" + str(relay + 1)
     roomfile = "/var/www/html/application/textfile/" + room + ".txt"
     roomhandle = open(roomfile, "r")
-    setpoints[relay] = float(roomhandle.read().split(',')[actualhour])
+    setpoints[relay + 1] = float(roomhandle.read().split(',')[actualhour])
     roomhandle.close()
     """end get setpoint"""
-    if actualTemp[relay + 1] > setpoints[relay]:
+    if actualTemp[relay + 1] > setpoints[relay + 1]:
         GPIO.output(pins[relay], True)
-    if actualTemp[relay + 1] < setpoints[relay]:
+    if actualTemp[relay + 1] < setpoints[relay + 1]:
         GPIO.output(pins[relay], False)
 
 
@@ -219,7 +221,7 @@ def main():
     readSlaves()
 
     while 1 > 0:
-        initiate(setpoints, actualTemp, sensors, OnOff)
+        initiate(actualTemp, sensors, OnOff)
 
         """
         turn sensor on or off
