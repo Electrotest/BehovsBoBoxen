@@ -239,7 +239,8 @@ class CCAdminControlPanel extends CObject implements IController {
         $nr = (string)$i + 1;
         $roomtextfile = 'room' . $nr . '.txt';
         $this->textfiles->writeText($roomtextfile, $textRoom[$i]);
-        }       
+        }
+        $this->views->SetTitle(t('CalculateSetpoints'));
     }
 
 /*****************************************************************************************************
