@@ -186,7 +186,7 @@ class CCAdminControlPanel extends CObject implements IController {
         $havePercentValue = $this->various[0]['percent'];
 
         for ($i = 0; $i < $nrOf; $i++) {
-            $room = $this->roomsInfo['room'];
+            $room = $this->roomsInfo[$i]['room'];
             $this->rooms[$room]['rum'] = $this->roomsInfo[$i]['room'];
             $this->rooms[$room]['home'] = $this->roomsInfo[$i]['home'];
             $this->rooms[$room]['min'] = $this->roomsInfo[$i]['min'];
