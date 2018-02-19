@@ -2,17 +2,17 @@
 
 ![detta behöver du](http://www.behovsbo.se/themes/images/bbbmaterial.jpg)
 
-Bom | Materiallista
---- | -------------
-1 | 1 Raspberry pi 2 eller 3 modell B
-2 | 9 ds18b20 (1-wire eller dallas)
-3 | 1 micro SD kort 8GB
-4 | 1 reläkort med 8 relän
-5 | 1 5V 2,1A USB laddare
-6 | 1 kopplingsdeck
-7 | 1 knippe kopplingssladdar hane-hane
-8 | 1 knippe kopplingssladdar hona-hona
-9 | 1 Ethernetsladd
+Bom | Antal | Materiallista
+--- | ------|--------------
+1 | 1 | Raspberry pi 2 eller 3 modell B
+2 | 9 | ds18b20 (1-wire eller dallas)
+3 | 1 | micro SD kort 8GB
+4 | 1 | reläkort med 8 relän
+5 | 1 | 5V 2,1A USB laddare
+6 | 1 | kopplingsdeck
+7 | 1 | knippe kopplingssladdar hane-hane
+8 | 1 | knippe kopplingssladdar hona-hona
+9 | 1 | Ethernetsladd
 
 
 1. Koppla in temperaturgivarna (ds18b20) med plus, minus och signal på GPIO4. Systemet är byggt för upp till 15 rum samt en utegivare. Om fler än 8 golvvärmeslingor ska styras krävs 2 reläkort.
@@ -25,9 +25,11 @@ Bom | Materiallista
 
 5. Du har laddat ner och installerat Raspian från `https://www.raspberrypi.org/downloads/noobs/` och konfigurerat till svenska förhållanden.
 
-6. Ladda nu ner den senaste versionen från vår katalog (repository) med git klienten `git clone https://github.com/Electrotest/BehovsBoBoxen`
+6. Ladda nu ner den senaste versionen från vår katalog (repository) med git klienten 
+  `git clone https://github.com/Electrotest/BehovsBoBoxen`
 
-7. Kör installationsskriptet och följ de givna instruktionerna `sudo sh /home/pi/BehovsBoBoxen/behovsboboxen/scripts/install.sh`
+7. Kör installationsskriptet och följ de givna instruktionerna 
+  `sudo sh /home/pi/BehovsBoBoxen/behovsboboxen/scripts/install.sh`
 
 8. Nu kan du gå in på `https://your.ip.n.r` Logga in med root:root. Första gången kan du få en varning och få klicka för att du litar på certifikatet. Det är ju bara signerat av dig och inte någon professionell Certificate Authority, CA.
 Boxen kan även hittas med adressen `https://behovsboboxen`. Vill du inte använda certifikatet utelämnar du s och skriver http.
