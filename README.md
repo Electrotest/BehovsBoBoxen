@@ -9,7 +9,7 @@ Bom | Antal | Materiallista
 3 | 1 | micro SD kort 8GB
 4 | 1 | reläkort med 8 relän
 5 | 1 | 5V 2,1A USB laddare
-6 | 1 | kopplingsdeck
+6 | 1 | kopplingsdäck
 7 | 1 | knippe kopplingssladdar hane-hane
 8 | 1 | knippe kopplingssladdar hona-hona
 9 | 1 | Ethernetsladd
@@ -18,13 +18,14 @@ Bom | Antal | Materiallista
 1. Koppla in temperaturgivarna (ds18b20) med plus, minus och signal på GPIO4. Systemet är byggt för upp till 15 rum samt en utegivare. Om fler än 8 golvvärmeslingor ska styras krävs 2 reläkort.
 
 2. Reläkortet kopplas med sina 8 relän från GPIO pinnarna som är angivet i samma ordning som anges i början av filen 
-    `/home/pi/behovsboboxen/scripts/dallas.py`.
+    `/home/pi/behovsboboxen/scripts/dallas.py`.    
+    Om du har 2 kort, fortsätt koppla pinnarna enligt förlaga.
 
 3. Normal läge för IP adress är DHCP. Man kan, om så önskas, låsa sin ip-adress via routern.
 
 4. Om du vill kunna nå BehovsBoBoxen från Internet måste du göra en portvidarebefodran i er router, se manualen hur det görs. Ett exempel från nätet på hur man gör (april 2016) hittar du [här](https://www.modmypi.com/blog/how-to-give-your-raspberry-pi-a-static-ip-address-update).
 
-5. Du har laddat ner och installerat Raspian från 
+5. Du har laddat ner och installerat Raspian från    
     `https://www.raspberrypi.org/downloads/noobs/`     
     och konfigurerat till svenska förhållanden.
 
