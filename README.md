@@ -21,34 +21,37 @@ Bom | Antal | Materiallista
     `/home/pi/behovsboboxen/scripts/dallas.py`.    
     Om du har 2 kort, fortsätt koppla pinnarna enligt förlaga.
 
-3. Normal läge för IP adress är DHCP. Man kan, om så önskas, låsa sin ip-adress via routern.
+3. Tyvärr fungerar relä-korten lite olika. Det kan hända att du behöver ändra i `dallas.py`. Det märker du genom att allting fungerar tvärtom. I så fall ändra följande på rad 179 och 181:    
+    True och False byter plats.
 
-4. Om du vill kunna nå BehovsBoBoxen från Internet måste du göra en portvidarebefodran i er router, se manualen hur det görs. Ett exempel från nätet på hur man gör (april 2016) hittar du [här](https://www.modmypi.com/blog/how-to-give-your-raspberry-pi-a-static-ip-address-update).
+4. Normal läge för IP adress är DHCP. Man kan, om så önskas, låsa sin ip-adress via routern.
 
-5. Du har laddat ner och installerat Raspian från    
+5. Om du vill kunna nå BehovsBoBoxen från Internet måste du göra en portvidarebefodran i er router, se manualen hur det görs. Ett exempel från nätet på hur man gör (april 2016) hittar du [här](https://www.modmypi.com/blog/how-to-give-your-raspberry-pi-a-static-ip-address-update).
+
+6. Du har laddat ner och installerat Raspian från    
     `https://www.raspberrypi.org/downloads/noobs/`     
     och konfigurerat till svenska förhållanden.
 
-6. Ladda nu ner den senaste versionen från vår katalog (repository) med git klienten     
+7. Ladda nu ner den senaste versionen från vår katalog (repository) med git klienten     
     `git clone https://github.com/Electrotest/BehovsBoBoxen`
 
-7. Kör installationsskriptet och följ de givna instruktionerna    
+8. Kör installationsskriptet och följ de givna instruktionerna    
     `sudo sh /home/pi/BehovsBoBoxen/behovsboboxen/scripts/install.sh`
 
-8. Nu kan du gå in på `https://your.ip.n.r` Logga in med root:root. Första gången kan du få en varning och få klicka för att du litar på certifikatet. Det är ju bara signerat av dig och inte någon professionell Certificate Authority, CA.
+9. Nu kan du gå in på `https://your.ip.n.r` Logga in med root:root. Första gången kan du få en varning och få klicka för att du litar på certifikatet. Det är ju bara signerat av dig och inte någon professionell Certificate Authority, CA.
 Boxen kan även hittas med adressen `https://behovsboboxen`. Vill du inte använda certifikatet utelämnar du s och skriver http.
 
-9. Du byter namn och lösenord på administrationssidan. Om du glömmer inloggningsuppgifterna kan du installera om Boxen – ingen större skada skedd.
+10. Du byter namn och lösenord på administrationssidan. Om du glömmer inloggningsuppgifterna kan du installera om Boxen – ingen större skada skedd.
 
-10. Om 1-wire sensorer är inkopplade enligt anvisningen, skall det med sökvägen `/sys/bus/w1/devices` finnas mappar där varje sensor anger sin temperatur. Öppna respektive mapp och öppna filen w1_slave. Där finns temperaturen, t.ex. t=21062. Dividera med 1000 så får du temperaturen i grader celcius.
+11. Om 1-wire sensorer är inkopplade enligt anvisningen, skall det med sökvägen `/sys/bus/w1/devices` finnas mappar där varje sensor anger sin temperatur. Öppna respektive mapp och öppna filen w1_slave. Där finns temperaturen, t.ex. t=21062. Dividera med 1000 så får du temperaturen i grader celcius.
 
-11. Koppla upp givarna på kopplingsdäcket. Identifiera givarna genom att koppla dem till varje rum. Observera att den givare som har lägst id-nummer __skall__ sitta ute.
+12. Koppla upp givarna på kopplingsdäcket. Identifiera givarna genom att koppla dem till varje rum. Observera att den givare som har lägst id-nummer __skall__ sitta ute.
 
-12. Reläna skall kopplas med dupontsladdar enligt pin-konfigurationen i    
+13. Reläna skall kopplas med dupontsladdar enligt pin-konfigurationen i    
     `/home/pi/behovsboboxen/scripts/dallas.py`.    
     Kom också ihåg att koppla 5 volt plus och gnd.
 
-13. Rundstyrning (DSM) kan användas om man gör ett avtal med sitt elnätsbolag om att styra laster för att förhindra störningar på det lokala elnätet.
+14. Rundstyrning (DSM) kan användas om man gör ett avtal med sitt elnätsbolag om att styra laster för att förhindra störningar på det lokala elnätet.
 
 
 #### License
